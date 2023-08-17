@@ -1,0 +1,6 @@
+{
+	"C_Cpp.intelliSenseEngineFallback": "disabled",
+	"files.associations": {
+		"minirt.h": "c"
+	}
+}

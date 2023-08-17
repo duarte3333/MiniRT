@@ -5,7 +5,11 @@ CC = cc
 CFLAGS = -O3 -Wall -Wextra -fsanitize=address -g#-Werror -fsanitize=address -g
 
 SRCS = main.c \
-	   draw.c	
+	   draw.c \
+	   object.c \
+	   plane.c \
+	   sphere.c \
+	   hook.c
 
 OBJS	= ${SRCS:.c=.o}
 
