@@ -2,17 +2,17 @@
 
 static int	render(t_sphere *this, t_vars *vars)
 {
-	t_vector O;
+	// t_vector O;
 
-	O = vector(0, 0, 0);
-	while ()
-	{
-		
-	}
-	my_mlx_pixel_put(&vars->img, x + x1, y + y1, this->color);
-	angle += 0.1;
+	// O = vector(0, 0, 0);
+	// while ()
+	// {
 
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	// }
+	// my_mlx_pixel_put(&vars->img, x + x1, y + y1, this->color);
+	// angle += 0.1;
+
+	// mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 	return (0);
 }
 

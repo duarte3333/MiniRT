@@ -9,7 +9,9 @@ SRCS = main.c \
 	   object.c \
 	   plane.c \
 	   sphere.c \
-	   hook.c
+	   hook.c \
+	   vector.c \
+	   raytracer.c
 
 OBJS	= ${SRCS:.c=.o}
 

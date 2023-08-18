@@ -12,7 +12,8 @@ void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
 
 int	ft_render(t_vars *vars)
 {
-	vars->objects[0]->render(vars->objects[0], vars);
-	vars->objects[1]->render(vars->objects[1], vars);
+	// vars->objects[0]->render(vars->objects[0], vars);
+	// vars->objects[1]->render(vars->objects[1], vars);
+	raytracer(vars);
 	return (0);
 }

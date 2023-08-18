@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/17 17:52:15 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:18:16 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <math.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include "minilibx/mlx.h"
 # include "X11/X.h"
 # include "X11/keysym.h"
+# include "limits.h"
+# include "raytracer.h"
+
+# define WHITE 0xFFFFFF
 
 typedef enum 	e_shape  t_shape;
 typedef struct  s_data	 t_data;
 typedef struct	s_vars	 t_vars;
-typedef struct  s_vector t_vector;
 typedef struct 	s_object t_object;
 typedef struct 	s_plane  t_plane;
 typedef struct 	s_sphere t_sphere;
@@ -49,16 +53,8 @@ struct	s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	 img;
-	t_object *objects[2];
+	t_object *objects[4];
 };
-
-struct s_vector
-{
-	float x;
-	float y;
-	float z;
-};
-
 
 struct 	s_object {
 	t_vector vector;
@@ -101,5 +97,12 @@ int			ft_render(t_vars *vars);
 void* 		new_object(int size);
 t_object*	new_plane(t_vector coord, t_vector v, int color);
 t_object* 	new_sphere(t_vector coord, float diameter, int color);
+t_vector 	vector(int x, int y, int z);
+t_vector 	vector_operation(t_vector vec, char operation, float nb);
+float 		dot(t_vector va, t_vector vb);
+
+
+void raytracer(t_vars *vars);
+
 
 #endif

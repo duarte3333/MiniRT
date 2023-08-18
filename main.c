@@ -1,16 +1,13 @@
 #include "minirt.h"
 
-t_vector vector(int x, int y, int z){
-	return ((t_vector){x, y, z});
-}
 int	main(void)
 {
 	static t_vars vars;
-	t_vector vecSphere;
 
-	vecSphere = vector(100, 110.0, 20.6);
-	vars.objects[0] = new_object(sizeof(t_object));
-	vars.objects[1] = new_sphere(vecSphere, 5, 0xff5c0a);
+	//vars.objects[0] = new_object(sizeof(t_object));
+	vars.objects[0] = new_sphere(vector( 0,-1, 3), 1, 0xFF0000);
+	vars.objects[1] = new_sphere(vector( 2, 0, 4), 1, 0x00FF00);
+	vars.objects[2] = new_sphere(vector(-2, 0, 4), 1, 0x0000FF);
 
 	vars.mlx = mlx_init();
 	vars.img.img = mlx_new_image(vars.mlx, 500, 500);
