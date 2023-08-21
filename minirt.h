@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/18 18:18:16 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:35:24 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "X11/keysym.h"
 # include "limits.h"
 # include "raytracer.h"
+# include <sys/time.h>
 
 # define WHITE 0xFFFFFF
 
@@ -97,8 +98,8 @@ int			ft_render(t_vars *vars);
 void* 		new_object(int size);
 t_object*	new_plane(t_vector coord, t_vector v, int color);
 t_object* 	new_sphere(t_vector coord, float diameter, int color);
-t_vector 	vector(int x, int y, int z);
-t_vector 	vector_operation(t_vector vec, char operation, float nb);
+t_vector 	vector(float x, float y, float z);
+t_vector 	vector_operation(t_vector vec, t_vector center);
 float 		dot(t_vector va, t_vector vb);
 
 

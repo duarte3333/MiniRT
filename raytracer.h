@@ -23,8 +23,6 @@ struct s_raytracer{
 	float b;
 	float c;
 	float discriminant;
-	float t1;
-	float t2;
 	t_vector CO;
 	t_vector O;
 	t_vector D;

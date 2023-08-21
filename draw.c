@@ -14,6 +14,7 @@ int	ft_render(t_vars *vars)
 {
 	// vars->objects[0]->render(vars->objects[0], vars);
 	// vars->objects[1]->render(vars->objects[1], vars);
+	// vars->objects[2]->render(vars->objects[2], vars);
 	raytracer(vars);
 	return (0);
 }

@@ -1,37 +1,14 @@
 #include "minirt.h"
 
-t_vector vector(int x, int y, int z){
+t_vector vector(float x, float y, float z){
 	return ((t_vector){x, y, z});
 }
 
-t_vector vector_operation(t_vector vec, char operation, float nb)
+t_vector vector_operation(t_vector vec, t_vector center)
 {
-	switch(operation)
-    {
-        case '+':
-			vec.x += nb;
-			vec.y += nb;
-			vec.z += nb;
-            break;
-
-        case '-':
-			vec.x -= nb;
-			vec.y -= nb;
-			vec.z -= nb;
-            break;
-
-        case '*':
-			vec.x *= nb;
-			vec.y *= nb;
-			vec.z *= nb;
-            break;
-
-        case '/':
-			vec.x /= nb;
-			vec.y /= nb;
-			vec.z /= nb;
-            break;
-	}
+	vec.x -= center.x;
+	vec.y -= center.y;
+	vec.z -= center.z;
 	return (vec);
 }
 

@@ -1,7 +1,14 @@
 {
 	"C_Cpp.intelliSenseEngineFallback": "enabled",
 	"files.associations": {
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"array": "c",
+		"*.tcc": "c",
+		"memory": "c",
+		"istream": "c",
+		"functional": "c",
+		"tuple": "c",
+		"utility": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }
