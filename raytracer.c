@@ -7,67 +7,36 @@ bool inside(float t, float t_min, float t_max)
 	return false;
 }
 
-/* Esta funcao recebe uma esfera e um raio retorna 
-os pixels onde intersetam.
-Ray equation: P = O + t(V - O)*/
-t_values intersect_ray_sphere(t_raytracer *rt, t_sphere *this)
-{
-	t_values local;
-	rt->CO = vector_operation(rt->O, this->vector);
-	rt->a  = dot(rt->D, rt->D);
-	rt->b = 2.0f*dot(rt->CO, rt->D);
-	rt->c = dot(rt->CO, rt->CO) - (this->diameter/2.0f)*(this->diameter/2.0f);
-	rt->discriminant = rt->b*rt->b - 4.0f*(rt->a)*(rt->c);
-	//if (rt->discriminant < 0.0f)
-	//printf("a:%f b:%f c:%f\n", rt->a, rt->b, rt->c);
-	//printf("res: %f \n", ((-(rt->b) + sqrt(rt->discriminant)) / (2.0f*rt->a)));
-	if (rt->discriminant < 0.0f) //sem solucao
-	{
-		local.t1 = INT_MAX;
-		local.t2 = INT_MAX;
-		return local;
-	}
-	//printf("t1 %i, t2 %i\n", rt->t.t1, rt->t.t2);
-	local.t1 = ((-(rt->b) + sqrt(rt->discriminant)) / (2.0f*rt->a));
-	local.t2 = ((-(rt->b) - sqrt(rt->discriminant)) / (2.0f*rt->a));
-	return local;
 
-}
-
-void trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
+t_object *trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
 {
 	float closest_t = INT_MAX;
-	t_sphere *closest_sphere = NULL;
+	t_object *closest_obj = NULL;
 	int i = 0;
-	while (vars->objects[i] && vars->objects[i]->shape == SPHERE)
+	while (vars->objects[i])
 	{	
-        rt->t = intersect_ray_sphere(rt, vars->objects[i]); //get t1 and t2
-		//printf("t1 %f, t2 %f\n", rt->t.t1, rt->t.t2);
+        rt->t = vars->objects[i]->intersect(rt, vars->objects[i]); //get t1 and t2
 		if (inside(rt->t.t1, t_min, t_max) && rt->t.t1 < closest_t ) 
 		{
             closest_t = rt->t.t1;
-            closest_sphere = vars->objects[i];
+            closest_obj = vars->objects[i];
         }
         if (inside(rt->t.t2, t_min, t_max) && rt->t.t2 < closest_t) 
 		{
             closest_t = rt->t.t2;
-            closest_sphere = vars->objects[i];
+            closest_obj = vars->objects[i];
         }
 		i++;
     }
-    if (!closest_sphere)
-       rt->color = (WHITE);
-	else
-	{
-    	rt->color = closest_sphere->color;	
-	}
+    if (!closest_obj)
+       return NULL;
+	return (closest_obj);
 }
 
 void canvas_to_viewport(t_raytracer *rt, float x, float y)
 {
 	float d = 1;
-	rt->D = vector(x*(1.0f/500.0f) , y*(1.0f/500.0f), d);
-	//printf("D.x %f, D.y %f, D.z %f\n", rt->D.x, rt->D.y, rt->D.z);
+	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
 }
 
 time_t	get_time(void)
@@ -80,28 +49,36 @@ time_t	get_time(void)
 
 void raytracer(t_vars *vars)
 {
+
+	t_object 	*obj;
 	t_raytracer rt;
 	int			x;
 	int			y;
 	unsigned long start;
 	start = get_time();
 
-	x = -250;
+	x = -WIDTH_2;
 	rt.O = vector(0, 0, 0);
-	while (x < 250)
+	while (x < WIDTH_2)
 	{
-		y = -250;
-		while (y < 250)
+		y = -HEIGHT_2;
+
+		while (y < HEIGHT_2)
 		{
+			
 			canvas_to_viewport(&rt, x, y); //get D
-			//printf("x: %i, y: %i\n", x, y);
-			//printf("D.x %f, D.y %f, D.z %f\n", rt.D.x, rt.D.y, rt.D.z);
-			trace_ray(vars, &rt, 1.0f, INT_MAX); //get color
-			my_mlx_pixel_put(&vars->img, x + 250, y + 250, rt.color); //draw
+			obj = trace_ray(vars, &rt, 1.0f, INT_MAX); //get color
+			compute_light(vars);
+			if (!obj)
+				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, WHITE);
+			else
+			{
+				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, obj->color); //draw
+			}
 			y++;
 		}
 	 	x++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
-	printf("duration: %lu\n", get_time() - start);
+	//printf("duration: %lu\n", get_time() - start);
 }

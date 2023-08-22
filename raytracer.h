@@ -26,8 +26,8 @@ struct s_raytracer{
 	t_vector CO;
 	t_vector O;
 	t_vector D;
-	int color;
 	t_values t;
+	//
 };
 
 

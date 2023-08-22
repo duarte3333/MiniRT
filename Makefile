@@ -11,7 +11,8 @@ SRCS = main.c \
 	   sphere.c \
 	   hook.c \
 	   vector.c \
-	   raytracer.c
+	   raytracer.c \
+	   light.c
 
 OBJS	= ${SRCS:.c=.o}
 
