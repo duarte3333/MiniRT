@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "includes/minirt.h"
 
 /* Esta funcao recebe uma esfera e um raio retorna 
 os pixels onde intersetam.
@@ -6,12 +6,12 @@ Ray equation: P = O + t(V - O)*/
 static t_values intersect(t_raytracer *rt, t_sphere *this)
 {
 	t_values local;
-	rt->CO = vector_operation(rt->O, this->vector);
+	rt->CO = vector_subtract(rt->O, this->vector);
 	rt->a  = dot(rt->D, rt->D);
 	rt->b = 2.0f*dot(rt->CO, rt->D);
 	rt->c = dot(rt->CO, rt->CO) - (this->diameter/2.0f)*(this->diameter/2.0f);
 	rt->discriminant = rt->b*rt->b - 4.0f*(rt->a)*(rt->c);
-	if (rt->discriminant < 0.0f) //sem solucao
+	if (rt->discriminant < 0.0001f) //sem solucao
 	{
 		local.t1 = INT_MAX;
 		local.t2 = INT_MAX;

@@ -4,15 +4,21 @@ CC = cc
 
 CFLAGS = -O3 -Wall -Wextra -fsanitize=address -g#-Werror -fsanitize=address -g
 
-SRCS = main.c \
-	   draw.c \
+SRCS = Aux/pixel_put.c \
+	   Aux/vector.c \
+	   Aux/ft_calloc.c \
+	   Aux/ft_strlen.c \
+	   Aux/ft_strcmp.c \
+	   Aux/ft_substr.c \
+	   Aux/get_next_line.c \
+	   main.c \
 	   object.c \
 	   plane.c \
 	   sphere.c \
 	   hook.c \
-	   vector.c \
 	   raytracer.c \
-	   light.c
+	   light.c \
+	   parse.c
 
 OBJS	= ${SRCS:.c=.o}
 

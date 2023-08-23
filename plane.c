@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "includes/minirt.h"
 
 
 /* Esta funcao recebe uma esfera e um raio retorna 
@@ -12,7 +12,7 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 	d = -dot(this->direction, this->vector);
 	rt->b = dot(this->direction, rt->D);
 	rt->c = (-1)*dot(this->direction, rt->O) + d;
-	if (rt->b == 0.0f) //sem solucao
+	if (rt->b < 0.0001f) //sem solucao
 	{
 		local.t1 = INT_MAX;
 		local.t2 = INT_MAX;

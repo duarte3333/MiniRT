@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "includes/minirt.h"
 
 void* new_object(int size)
 {
