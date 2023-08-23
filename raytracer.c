@@ -68,8 +68,11 @@ void raytracer(t_vars *vars)
 			if (!obj)
 				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, WHITE);
 			else
-				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-				 	obj->color* compute_light(vars, obj, &rt.rl)); //draw
+			{
+				rt.rl.final_rgb = ft_multiply_color(obj->color, compute_light(vars, obj, &rt.rl));
+				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, create_trgb(0, rt.rl.final_rgb)); //draw
+				//my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, create_trgb(0, obj->color)); //draw
+			}
 			y++;
 		}
 	 	x++;

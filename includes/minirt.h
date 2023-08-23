@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/23 12:01:51 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:45:24 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "vector.h"
+# include "color.h"
 # include "raytracer.h"
 # include "get_next_line.h"
 
@@ -23,7 +24,6 @@
 # define HEIGHT_2 500.0f
 # define WIDTH_2 500.0f
 
-typedef enum 	e_shape  t_shape;
 typedef struct  s_data	 t_data;
 typedef struct	s_vars	 t_vars;
 typedef struct 	s_object t_object;
@@ -32,17 +32,15 @@ typedef struct 	s_sphere t_sphere;
 typedef enum 	e_type t_type;
 typedef struct 	s_light t_light;
 
-
-enum e_shape{
+enum e_type{
 	PLANE,
 	SPHERE,
-	CYLINDER
-};
-
-enum e_type{
+	CYLINDER,
 	AMBIENT,
 	POINT,
-	DIRECTIONAL
+	DIRECTIONAL,
+	ERROR,
+	EMPTY_LINE
 };
 
 struct s_data{
@@ -67,25 +65,30 @@ struct	s_vars {
 	int 	 nb_lights;
 };
 
-struct	s_light {
-	t_type type;
-	float  intensity;
-	t_vector position;
-};
-
 struct 	s_object {
 	t_vector vector;
-	t_shape shape;
-	unsigned int	color;
+	t_type type;
+	t_color	color;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
 	void (*resize)(int ratio);	
 };
 
+struct 	s_light {
+	t_vector position;
+	t_type type;
+	t_color	color;
+	t_values (*intersect)();
+	void (*move)(int x, int y);
+	void (*resize)(int ratio);	
+	//
+	float  intensity;
+};
+
 struct 	s_plane {
 	t_vector direction;
-	t_shape shape;
-	unsigned int	color;
+	t_type type;
+	t_color	color;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
 	void (*resize)(int ratio);
@@ -95,8 +98,8 @@ struct 	s_plane {
 
 struct 	s_sphere {
 	t_vector vector;
-	t_shape shape;
-	unsigned int	color;
+	t_type type;
+	t_color	color;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
 	void (*resize)(int ratio);	
@@ -114,8 +117,8 @@ int			ft_close(t_vars *vars);
 //Draw
 void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 void* 		new_object(int size);
-t_object*	new_plane(t_vector coord, t_vector v, int color);
-t_object* 	new_sphere(t_vector coord, float diameter, int color);
+t_object*	new_plane(t_vector coord, t_vector v, t_color color);
+t_object* 	new_sphere(t_vector coord, float diameter, t_color color);
 
 void 		raytracer(t_vars *vars);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
@@ -135,6 +138,8 @@ void	*ft_calloc(size_t nelem, size_t elsize);
 size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_isdigit(int i);
+char	*ft_strchr(const char *s, int c);
 
 #endif

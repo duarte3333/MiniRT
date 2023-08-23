@@ -7,4 +7,4 @@ void* new_object(int size)
 	object = (t_object *)calloc(size, 1);
 	return (object);
 }
-	
+

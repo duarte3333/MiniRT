@@ -12,11 +12,13 @@ struct s_values
 };
 
 struct s_raylight{
-	t_vector P;
+	t_vector 	P;
 	t_vector 	N;
 	t_vector 	L;
 	float 		n_dot_l;
 	float 		i;
+	int			after_color;
+	t_color		final_rgb;
 };
 
 struct s_raytracer{

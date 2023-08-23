@@ -23,13 +23,13 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 	return local;
 }
 
-t_object* new_plane(t_vector coord, t_vector direction, int color)
+t_object* new_plane(t_vector coord, t_vector direction, t_color color)
 {
 	t_plane *plane;
 
 	plane = new_object(sizeof(t_plane));
 	plane->intersect = intersect;
-	plane->shape = PLANE;
+	plane->type = PLANE;
 	plane->vector = coord;
 	plane->color = color;
 	plane->direction = direction;

@@ -15,28 +15,47 @@
 // 	return (t);
 // }
 
+// t_type ft_get_type(char* line)
+// {
+// 	if (line[0] == 'A')
+// 		return AMBIENT;
+// 	if (line[0] == 'L')
+// 		return POINT;
+// 	if (line[0] == 's' && line[1] == 'p') 
+// 		return SPHERE;
+// 	if (line[0] == 'p' && line[1] == 'l') 
+// 		return PLANE;
+// 	if (line[0] == 'c' && line[1] == 'y') 
+// 		return CYLINDER;
+// 	if (line[0] == '\n')
+// 		return EMPTY_LINE;
+// 	return ERROR;
+// }
+
+// t_type ft_check_line(char *line)
+// {
+// 	int 	i;
+// 	t_type type;
+
+// 	i = 0;
+// 	type = ft_get_type(line);
+// 	if (type >= 0 && type <= 2)
+// 		i++;
+// 	while (line && line[++i])
+// 	{
+// 		if (!line[i] && !ft_isdigit(line[i]) && line[i] != '.' && line[i] != ',')
+// 			return ERROR;
+// 	}
+// 	return type;
+// }
 // void	map_loading(t_vars *vars, int fd, int index)
 // {
 // 	char	*line;
-
+// 	t_object *obj;
+// 	t_t
+// // 	line = get_next_line(fd);
 // 	line = get_next_line(fd);
-// 	if (line[0] == 'A' || line[0] == 'L')
-// 		vars->nb_lights++;
-// 	else if ( (line[0] == 's' && line[1] == 'p') || \
-// 			  (line[0] == 'p' && line[1] == 'l') || \
-// 			  (line[0] == 'c' && line[1] == 'y'))
-// 		vars->nb_objs++;
-// 	if (line)
-// 		map_loading(vars, fd, index + 1);
-// 	else
-// 	{
-// 		vars->objects = (t_object **)ft_calloc(sizeof(t_object*) * vars->nb_objs, 1);
-// 		vars->lights = (t_object **)ft_calloc(sizeof(t_object*) * vars->nb_lights, 1);
-// 	}
-// 	if (line)
-// 		vars->objects[index] = split_array(vars, line);
-// 	else
-// 		vars->objects[index] = NULL;
+// 	ft_check_line(line, obj)
 // 	free(line);
 // }
 

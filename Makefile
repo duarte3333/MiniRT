@@ -11,6 +11,8 @@ SRCS = Aux/pixel_put.c \
 	   Aux/ft_strcmp.c \
 	   Aux/ft_substr.c \
 	   Aux/get_next_line.c \
+	   Aux/ft_isdigit.c \
+	   Aux/ft_strchr.c \
 	   main.c \
 	   object.c \
 	   plane.c \
@@ -18,7 +20,8 @@ SRCS = Aux/pixel_put.c \
 	   hook.c \
 	   raytracer.c \
 	   light.c \
-	   parse.c
+	   parse.c \
+	   color.c
 
 OBJS	= ${SRCS:.c=.o}
 
