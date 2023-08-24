@@ -33,11 +33,29 @@ t_color ft_multiply_color(t_color color, float i)
 	new.r *= i;
 	new.g *= i;
 	new.b *= i;
+
 	if (new.r > 255)
 		new.r = 255;
 	if (new.g > 255)
 		new.g = 255;
 	if (new.b > 255)
-		new.b = 255;
-	return new;
+		new.b = 255;	
+	return (new);
+}
+
+int	get_rgb(int r, int g, int b)
+{
+	return (r << 16 | g << 8 | b);
+}
+
+double	multiply_component(int color, int shift, double brightness)
+{
+	return ((color >> shift & 255) * brightness);
+}
+
+int	multiply_color(int color, float brightness)
+{
+	return (get_rgb(multiply_component(color, 16, brightness), \
+			multiply_component(color, 8, brightness), \
+			multiply_component(color, 0, brightness)));
 }

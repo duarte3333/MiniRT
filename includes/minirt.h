@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/23 14:45:24 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:03:20 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ struct	s_vars {
 	t_light  *lights[4];
 	t_object *select;
 	char 	 *map_file;
-	int		 nb_objs;
-	int 	 nb_lights;
+	// int		 nb_objs;
+	// int 	 nb_lights;
 };
 
 struct 	s_object {
@@ -126,7 +126,7 @@ t_object 	*trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
 
 //Light
 t_light 	*new_light(float intensity, t_vector pos, t_type type);
-float 		compute_light(t_vars *vars, t_object *this, t_raylight *rl);
+float 		compute_light(t_vars *vars, t_light *this, t_raylight *rl);
 
 //Parse
 void	map_loading(t_vars *vars, int fd, int index);

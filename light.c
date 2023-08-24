@@ -1,6 +1,6 @@
 #include "includes/minirt.h"
 
-float compute_light(t_vars *vars, t_object *this, t_raylight *rl)
+float compute_light(t_vars *vars, t_light *this, t_raylight *rl)
 {
 	int j;
 
@@ -17,7 +17,7 @@ float compute_light(t_vars *vars, t_object *this, t_raylight *rl)
 			else if(vars->lights[j]->type == DIRECTIONAL)
 				rl->L = vars->lights[j]->position;
 			rl->n_dot_l = dot(rl->N, rl->L);
-			if (rl->n_dot_l > 0.0001)
+			if (rl->n_dot_l > 0.001f)
 				rl->i += (vars->lights[j]->intensity * rl->n_dot_l)/(module(rl->N)*module(rl->L));
 		}
 	}
