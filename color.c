@@ -11,51 +11,22 @@ int	create_trgb(int t, t_color color)
 	return (color.r << 16 | color.g << 8 | color.b);
 }
 
-t_color int_to_rgb(int crr_color)
-{
-	t_color new;
-	new.r  = (crr_color & 0x00ff0000) >> 16;
-	new.g  = (crr_color & 0x0000ff00) >> 8;
-	new.b  = (crr_color & 0x000000ff);
-	if (new.r > 255)
-		new.r = 255;
-	if (new.g > 255)
-		new.g = 255;
-	if (new.b > 255)
-		new.b = 255;
-	return new;
-}
-
-t_color ft_multiply_color(t_color color, float i)
-{
-	t_color new;
-
-	new.r *= i;
-	new.g *= i;
-	new.b *= i;
-
-	if (new.r > 255)
-		new.r = 255;
-	if (new.g > 255)
-		new.g = 255;
-	if (new.b > 255)
-		new.b = 255;	
-	return (new);
-}
-
 int	get_rgb(int r, int g, int b)
 {
 	return (r << 16 | g << 8 | b);
 }
 
-double	multiply_component(int color, int shift, double brightness)
+/* Recebe o inteiro e depois da right shift para
+levar os ter 8 bits do r, g ou b para o mais a 
+direita possivel. O &255 assegura que nao existe 
+overflow de cores.*/
+int	color_multiply(t_color color, float brightness)
 {
-	return ((color >> shift & 255) * brightness);
-}
-
-int	multiply_color(int color, float brightness)
-{
-	return (get_rgb(multiply_component(color, 16, brightness), \
-			multiply_component(color, 8, brightness), \
-			multiply_component(color, 0, brightness)));
+	int fcolor;
+	
+	fcolor = get_rgb(color.r, color.g, color.b);
+	color.r = (fcolor >> 16 & 255) * brightness;
+	color.g = (fcolor >> 8 & 255) * brightness;
+	color.b = (fcolor & 255) * brightness;
+	return (get_rgb(color.r , color.g, color.b));
 }

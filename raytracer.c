@@ -12,6 +12,8 @@ void light_prepare(t_object obj, t_raytracer* rt, float_t closest_t)
 	rt->rl.P = vector_add(rt->O, vector_multiply(rt->D, vector(closest_t, closest_t, closest_t)));
 	rt->rl.N = vector_subtract(rt->rl.P, obj.vector);
 	rt->rl.N = vector_divide(rt->rl.N, vector(module(rt->rl.N), module(rt->rl.N), module(rt->rl.N)));
+	rt->rl.s = obj.specular;
+	rt->rl.V = vector_multiply((rt->D), vector(-1, -1, -1));
 }
 
 t_object *trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
@@ -69,9 +71,11 @@ void raytracer(t_vars *vars)
 				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, WHITE);
 			else
 			{
+				// my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
+				// 	multiply_color(create_trgb(0, obj->color), \
+				// 					compute_light(vars, obj, &rt.rl))); //draw w/ light
 				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-					multiply_color(create_trgb(0, obj->color), \
-									compute_light(vars, obj, &rt.rl))); //draw w/ light
+					color_multiply(obj->color, compute_light(vars, obj, &rt.rl))); //draw w/ light
 				//my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, create_trgb(0, obj->color)); //draw
 			}
 			y++;

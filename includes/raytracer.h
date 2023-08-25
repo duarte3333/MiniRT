@@ -12,13 +12,19 @@ struct s_values
 };
 
 struct s_raylight{
+	//Diffuse
 	t_vector 	P;
 	t_vector 	N;
 	t_vector 	L;
 	float 		n_dot_l;
+	//Specular
+	t_vector 	R;
+	t_vector 	V;
+	t_vector	aux;
+	float		s;
+	float		r_dot_v;
+	//Intensity
 	float 		i;
-	int			after_color;
-	t_color		final_rgb;
 };
 
 struct s_raytracer{
