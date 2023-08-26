@@ -1,39 +1,96 @@
 #include "includes/minirt.h"
 
-float compute_light(t_vars *vars, t_light *this, t_raylight *rl)
+static t_values intersect(t_vector O, t_vector D, t_sphere *this)
+{
+	t_values local;
+	t_vector CO = vector_subtract(O, this->vector);
+	float a  = dot(D, D);
+	float b = 2.0f*dot(CO, D);
+	float c = dot(CO, CO) - (this->diameter/2.0f)*(this->diameter/2.0f);
+	float discriminant = b*b - 4.0f*(a)*(c);
+	if (discriminant < 0.0001f) //sem solucao
+	{
+		local.t1 = INT_MAX;
+		local.t2 = INT_MAX;
+		return local;
+	}
+	local.t1 = ((-(b) + sqrt(discriminant)) / (2.0f*a));
+	local.t2 = ((-(b) - sqrt(discriminant)) / (2.0f*a));
+	return local;
+}
+
+int in_shadow(t_vars* vars ,t_vector O, t_vector D){
+	int i;
+	i = 0;
+
+	t_values t;
+	while (vars->objects[i])
+	{	
+        t = intersect(O, D, vars->objects[i]); //get t1 and t2
+		if (t.t1 > 0.01f && t.t1 < 1.0f)
+			return 1;
+        if (t.t2 > 0.01f && t.t2 < 1.0f)
+			return 1;
+		i++;
+    }
+	return 0;
+}
+
+float compute_light(t_vars *vars, t_object *this, t_raytracer *rt)
 {
 	int j;
+	(void)this;
+	t_object *shadow_object;
+	t_vector tempO;
+	t_vector tempD;
 
-	rl->i = 0.0f;
+	rt->rl.i = 0.0f;
 	j = -1;
+
+	tempO = rt->O;
+	tempD = rt->D;
  	while(vars->lights[++j])
-	{
+	{	
 		if (vars->lights[j]->type == AMBIENT)
-			rl->i += vars->lights[j]->intensity;
+			rt->rl.i += vars->lights[j]->intensity;
 		else
 		{
 			if (vars->lights[j]->type == POINT)
-				rl->L = vector_subtract(vars->lights[j]->position, rl->P);
+				rt->rl.L = vector_subtract(vars->lights[j]->position, rt->rl.P);
 			else if(vars->lights[j]->type == DIRECTIONAL)
-				rl->L = vars->lights[j]->position;
+				rt->rl.L = vars->lights[j]->position;
 
+			//Shadow Check
+			//printf("O antes x: %f, y: %f, z: %f\n", rt->O.x, rt->O.y, rt->O.z);
+			//printf("P antes x: %f, y: %f, z: %f\n", rt->rl.P.x, rt->rl.P.y, rt->rl.P.z);
+			// if(in_shadow(vars, rt->rl.P, rt->rl.L))
+			// 	continue;
+			rt->O = rt->rl.P;
+			rt->D = rt->rl.L;
+			shadow_object = closest_intersection(vars, rt, 0.01f, INT_MAX);
+			rt->O = tempO;
+			rt->D = tempD;
+			if (shadow_object)
+				continue;
+			
 			//Diffuse
-			rl->n_dot_l = dot(rl->N, rl->L);
-			if (rl->n_dot_l > 0.001f)
-				rl->i += (vars->lights[j]->intensity * rl->n_dot_l)/(module(rl->N)*module(rl->L));
+			rt->rl.n_dot_l = dot(rt->rl.N, rt->rl.L);
+			if (rt->rl.n_dot_l > 0.001f)
+				rt->rl.i += (vars->lights[j]->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L));
 			
 			//Specular
-			if (rl->s)
+			if (rt->rl.s)
 			{
-				rl->aux = vector(2*dot(rl->N, rl->L), 2*dot(rl->N, rl->L), 2*dot(rl->N, rl->L));
-				rl->R = vector_subtract(vector_multiply(rl->N, rl->aux), rl->L);
-				rl->r_dot_v = dot(rl->R, rl->V);
-				if(rl->r_dot_v > 0.001f) 
-					rl->i += vars->lights[j]->intensity * pow(rl->r_dot_v / (module(rl->R)*module(rl->V)), rl->s);
+				rt->rl.aux = vector(2*dot(rt->rl.N, rt->rl.L), 2*dot(rt->rl.N, rt->rl.L), 2*dot(rt->rl.N, rt->rl.L));
+				rt->rl.R = vector_subtract(vector_multiply(rt->rl.N, rt->rl.aux), rt->rl.L);
+				rt->rl.r_dot_v = dot(rt->rl.R, rt->rl.V);
+				if(rt->rl.r_dot_v > 0.001f) 
+					rt->rl.i += vars->lights[j]->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s);
 			}
+
 		}
 	}
-	return rl->i;
+	return rt->rl.i;
 }
 
 

@@ -37,6 +37,8 @@ struct s_raytracer{
 	t_vector 	D;
 	t_values 	t;
 	t_raylight 	rl;
+	t_object	*closest_obj;
+	float		closest_t;
 };
 
 

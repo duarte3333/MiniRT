@@ -16,31 +16,37 @@ void light_prepare(t_object obj, t_raytracer* rt, float_t closest_t)
 	rt->rl.V = vector_multiply((rt->D), vector(-1, -1, -1));
 }
 
-t_object *trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
-{
-	float closest_t = INT_MAX;
-	t_object *closest_obj = NULL;
-	int i = 0;
+t_object *closest_intersection(t_vars* vars ,t_raytracer *rt, float t_min, float t_max){
+	int i;
+	i = 0;
+	rt->closest_t = INT_MAX;
+	rt->closest_obj = NULL;
 	while (vars->objects[i])
 	{	
         rt->t = vars->objects[i]->intersect(rt, vars->objects[i]); //get t1 and t2
-		if (inside(rt->t.t1, t_min, t_max) && rt->t.t1 < closest_t ) 
+		if (inside(rt->t.t1, t_min, t_max) && rt->t.t1 < rt->closest_t ) 
 		{
-            closest_t = rt->t.t1;
-            closest_obj = vars->objects[i];
+            rt->closest_t = rt->t.t1;
+            rt->closest_obj = vars->objects[i];
         }
-        if (inside(rt->t.t2, t_min, t_max) && rt->t.t2 < closest_t) 
+        if (inside(rt->t.t2, t_min, t_max) && rt->t.t2 < rt->closest_t) 
 		{
-            closest_t = rt->t.t2;
-            closest_obj = vars->objects[i];
+            rt->closest_t = rt->t.t2;
+            rt->closest_obj = vars->objects[i];
         }
 		i++;
     }
-	if (closest_obj)
-		light_prepare(*closest_obj, rt, closest_t);
-    if (!closest_obj)
+	return rt->closest_obj;
+}
+
+t_object *trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
+{
+	rt->closest_obj = closest_intersection(vars, rt, 1, INT_MAX);
+	if (rt->closest_obj)
+		light_prepare(*(rt->closest_obj), rt, rt->closest_t);
+    if (!(rt->closest_obj))
        return NULL;
-	return (closest_obj);
+	return (rt->closest_obj);
 }
 
 void canvas_to_viewport(t_raytracer *rt, float x, float y)
@@ -66,16 +72,13 @@ void raytracer(t_vars *vars)
 		{
 			
 			canvas_to_viewport(&rt, x, y); //get D
-			obj = trace_ray(vars, &rt, 1.0f, INT_MAX); //get color
+			obj = trace_ray(vars, &rt, 0.001f, INT_MAX); //get color
 			if (!obj)
 				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, WHITE);
 			else
 			{
-				// my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-				// 	multiply_color(create_trgb(0, obj->color), \
-				// 					compute_light(vars, obj, &rt.rl))); //draw w/ light
 				my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-					color_multiply(obj->color, compute_light(vars, obj, &rt.rl))); //draw w/ light
+					color_multiply(obj->color, compute_light(vars, obj, &rt))); //draw w/ light
 				//my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, create_trgb(0, obj->color)); //draw
 			}
 			y++;

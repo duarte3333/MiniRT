@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/24 20:33:15 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:21:35 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "vector.h"
 # include "color.h"
-# include "raytracer.h"
 # include "get_next_line.h"
 
 # define WHITE 0xFFFFFF
@@ -31,6 +30,8 @@ typedef struct 	s_plane  t_plane;
 typedef struct 	s_sphere t_sphere;
 typedef enum 	e_type t_type;
 typedef struct 	s_light t_light;
+
+# include "raytracer.h"
 
 enum e_type{
 	PLANE,
@@ -124,13 +125,16 @@ void* 		new_object(int size);
 t_object*	new_plane(t_vector coord, t_vector v, t_color color, int specular);
 t_object* 	new_sphere(t_vector coord, float diameter, t_color color, int specular);
 
+//Raytracer
 void 		raytracer(t_vars *vars);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
 t_object 	*trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
+t_object 	*closest_intersection(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
+bool 		inside(float t, float t_min, float t_max);
 
 //Light
 t_light 	*new_light(float intensity, t_vector pos, t_type type);
-float 		compute_light(t_vars *vars, t_light *this, t_raylight *rl);
+float 		compute_light(t_vars *vars, t_object *this, t_raytracer *rt);
 
 //Parse
 void	map_loading(t_vars *vars, int fd, int index);
