@@ -25,6 +25,8 @@ struct s_raylight{
 	float		r_dot_v;
 	//Intensity
 	float 		i;
+	//Reflection
+	float 		r;
 };
 
 struct s_raytracer{
@@ -39,6 +41,7 @@ struct s_raytracer{
 	t_raylight 	rl;
 	t_object	*closest_obj;
 	float		closest_t;
+	int			final_color;
 };
 
 

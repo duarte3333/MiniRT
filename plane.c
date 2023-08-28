@@ -23,7 +23,7 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 	return local;
 }
 
-t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specular)
+t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specular, float reflective)
 {
 	t_plane *plane;
 
@@ -34,6 +34,7 @@ t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specu
 	plane->color = color;
 	plane->direction = direction;
 	plane->specular = specular;
+	plane->refletive = reflective;
 	return ((t_object *)plane);
 }
 	

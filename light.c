@@ -36,17 +36,18 @@ int in_shadow(t_vars* vars ,t_vector O, t_vector D){
 	return 0;
 }
 
-float compute_light(t_vars *vars, t_object *this, t_raytracer *rt)
+float compute_light(t_vars *vars, t_raytracer *rt)
 {
 	int j;
-	(void)this;
 	t_object *shadow_object;
+	t_object *tempClosest;
 	t_vector tempO;
 	t_vector tempD;
 
 	rt->rl.i = 0.0f;
 	j = -1;
 
+	tempClosest = rt->closest_obj;
 	tempO = rt->O;
 	tempD = rt->D;
  	while(vars->lights[++j])
@@ -61,10 +62,6 @@ float compute_light(t_vars *vars, t_object *this, t_raytracer *rt)
 				rt->rl.L = vars->lights[j]->position;
 
 			//Shadow Check
-			//printf("O antes x: %f, y: %f, z: %f\n", rt->O.x, rt->O.y, rt->O.z);
-			//printf("P antes x: %f, y: %f, z: %f\n", rt->rl.P.x, rt->rl.P.y, rt->rl.P.z);
-			// if(in_shadow(vars, rt->rl.P, rt->rl.L))
-			// 	continue;
 			rt->O = rt->rl.P;
 			rt->D = rt->rl.L;
 			shadow_object = closest_intersection(vars, rt, 0.01f, INT_MAX);
@@ -90,6 +87,7 @@ float compute_light(t_vars *vars, t_object *this, t_raytracer *rt)
 
 		}
 	}
+	rt->closest_obj = tempClosest;
 	return rt->rl.i;
 }
 

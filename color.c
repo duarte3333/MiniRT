@@ -30,3 +30,40 @@ int	color_multiply(t_color color, float brightness)
 	color.b = (fcolor & 255) * brightness;
 	return (get_rgb(color.r , color.g, color.b));
 }
+
+int	color_mult_int(int color, float brightness)
+{
+	float r;
+	float g;
+	float b;
+	
+	r = (color >> 16 & 255) * brightness;
+	g = (color >> 8 & 255) * brightness;
+	b = (color & 255) * brightness;
+	return (get_rgb(r , g, b));
+}
+
+int	color_sum_int(int color, float brightness)
+{
+	float r;
+	float g;
+	float b;
+	
+	r = (color >> 16 & 255) + brightness;
+	g = (color >> 8 & 255) + brightness;
+	b = (color & 255) + brightness;
+	return (get_rgb(r , g, b));
+}
+
+
+
+int	color_sum(t_color color, float brightness)
+{
+	int fcolor;
+	
+	fcolor = get_rgb(color.r, color.g, color.b);
+	color.r = (fcolor >> 16 & 255) + brightness;
+	color.g = (fcolor >> 8 & 255) + brightness;
+	color.b = (fcolor & 255) + brightness;
+	return (get_rgb(color.r , color.g, color.b));
+}

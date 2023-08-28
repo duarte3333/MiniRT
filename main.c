@@ -30,10 +30,10 @@ int	main(int ac, char **av)
 		//objects
 		//vars.objects[] = new_plane(vector(2, 0, 4), vector(-2.64, 20.6, 2.58), 0x00FFFF);
 		//vars->objects[3] = new_plane(vector(2, 0, 4), vector(0, 18.15, 2.88), color(255, 255, 0));
-		vars->objects[0] = new_sphere(vector( 0, -1, 3), 2.0f, color(255, 0, 0), 500);
-		vars->objects[1] = new_sphere(vector( 2, 0, 4), 2.0f, color(0, 0, 255), 500);
-		vars->objects[2] = new_sphere(vector(-2, 0, 4), 2.0f, color(0, 255, 0), 500);
-		vars->objects[3] = new_sphere(vector(0, -5001, 0), 10000.0f, color(255, 255, 0), 1000);
+		vars->objects[0] = new_sphere(vector( 0, -1, 3), 2.0f, color(255, 0, 0), 500, 0.2);
+		vars->objects[1] = new_sphere(vector( 2, 0, 4), 2.0f, color(0, 0, 255), 500, 0.3);
+		vars->objects[2] = new_sphere(vector(-2, 0, 4), 2.0f, color(0, 255, 0), 500, 0.4);
+		vars->objects[3] = new_sphere(vector(0, -5001, 0), 10000.0f, color(255, 255, 0), 1000, 0.5);
 		//light
 		vars->lights[0] = new_light(0.3, vector(0, 0, 0), AMBIENT);
 		vars->lights[1] = new_light(0.35, vector(2, 1, 0), POINT);

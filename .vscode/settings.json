@@ -1,5 +1,5 @@
 {
-	"C_Cpp.intelliSenseEngineFallback": "disabled",
+	"C_Cpp.intelliSenseEngineFallback": "enabled",
 	"files.associations": {
 		"minirt.h": "c",
 		"array": "c",
@@ -8,7 +8,8 @@
 		"istream": "c",
 		"functional": "c",
 		"tuple": "c",
-		"utility": "c"
+		"utility": "c",
+		"vector": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }

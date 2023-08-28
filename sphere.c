@@ -22,7 +22,7 @@ static t_values intersect(t_raytracer *rt, t_sphere *this)
 	return local;
 }
 
-t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular)
+t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular, float reflective)
 {
 	t_sphere *sphere;
 
@@ -33,6 +33,7 @@ t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular
 	sphere->color = color;
 	sphere->diameter = diameter;
 	sphere->specular = specular;
+	sphere->refletive = reflective;
 	return ((t_object *)sphere);
 }
 	
