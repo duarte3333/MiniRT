@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/28 12:27:52 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:05:06 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "color.h"
 # include "get_next_line.h"
 
-# define WHITE 0xFFFFFF
+# define WHITE 0x000000
 # define HEIGHT 1000.0f
 # define WIDTH 1000.0f
 # define HEIGHT_2 500.0f
@@ -132,7 +132,7 @@ t_object* 	new_sphere(t_vector coord, float diameter, t_color color, int specula
 //Raytracer
 void 		raytracer(t_vars *vars);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
-t_object 	*trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max, int recursion_depth);
+t_object 	*trace_ray(t_vector O, t_vector D, t_vars* vars ,t_raytracer* rt, float t_min, float t_max, int recursion_depth);
 t_object 	*closest_intersection(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
 bool 		inside(float t, float t_min, float t_max);
 

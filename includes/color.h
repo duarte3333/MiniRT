@@ -16,7 +16,7 @@ int		multiply_color(int color, float brightness);
 int		color_multiply(t_color color, float brightness);
 int		color_mult_int(int color, float brightness);
 int		color_sum(t_color color, float brightness);
-int		color_sum_int(int color, float brightness);
+int		color_sum_int(int color, int color2);
 
 
 #endif

@@ -58,7 +58,7 @@ int ft_mouse_down(int button, int x, int y, t_vars *vars)
 	}
 	rt.O = vector(0, 0, 0);	
 	canvas_to_viewport(&rt, x, y); //get D
-	vars->select = trace_ray(vars, &rt, 1.0f, INT_MAX, 0); //get color
+	vars->select = trace_ray(rt.O, rt.D, vars, &rt, 1.0f, INT_MAX, 0); //get color
 	return 0;
 }
 
