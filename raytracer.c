@@ -84,7 +84,6 @@ int new_trace_ray(t_vector O, t_vector D, t_vars *vars ,t_raytracer *rt, float t
 	obj = NULL;
 	rt->O = O;
 	rt->D = D;
-
 	obj = closest_intersection(vars, rt, 1, INT_MAX);
     if (!(obj))
        return WHITE;
@@ -93,8 +92,8 @@ int new_trace_ray(t_vector O, t_vector D, t_vars *vars ,t_raytracer *rt, float t
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0)
 		return local_color;
-	R = reflected_ray(vector_multiply(rt->D, vector(-1, -1, -1)), rt->rl.N);
-	reflected_color = new_trace_ray(rt->rl.P, R, vars, rt, 0.001f, INT_MAX, recursion_depth - 1);
+	rt->rl.R = reflected_ray(vector_multiply(rt->D, vector(-1, -1, -1)), rt->rl.N);
+	reflected_color = new_trace_ray(rt->rl.P, rt->rl.R, vars, rt, 0.001f, INT_MAX, recursion_depth - 1);
 	return (color_sum_int(color_mult_int(local_color, 1.0f - r),color_mult_int(reflected_color, r)));
 	//return (color_mult_int(rt->local_color, (r)));
 	//return (color_mult_int(rt->reflected_color, 0.2f));
@@ -123,7 +122,7 @@ void raytracer(t_vars *vars)
 			rt.closest_obj = NULL;
 			canvas_to_viewport(&rt, x, y); //get D
 			my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-				new_trace_ray(rt.O, rt.D, vars, &rt, 0.001f, INT_MAX, 1));
+				new_trace_ray(rt.O, rt.D, vars, &rt, 0.001f, INT_MAX, 0));
 			y++;
 		}
 	 	x++;

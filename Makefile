@@ -17,6 +17,7 @@ SRCS = Aux/pixel_put.c \
 	   object.c \
 	   plane.c \
 	   sphere.c \
+	   cylinder.c \
 	   hook.c \
 	   raytracer.c \
 	   light.c \

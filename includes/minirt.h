@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/29 15:05:06 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/30 00:39:39 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@
 # define HEIGHT_2 500.0f
 # define WIDTH_2 500.0f
 
-typedef struct  s_data	 t_data;
-typedef struct	s_vars	 t_vars;
-typedef struct 	s_object t_object;
-typedef struct 	s_plane  t_plane;
-typedef struct 	s_sphere t_sphere;
-typedef enum 	e_type t_type;
-typedef struct 	s_light t_light;
+typedef struct  s_data		t_data;
+typedef struct	s_vars		t_vars;
+typedef struct 	s_object	t_object;
+typedef struct 	s_plane 	t_plane;
+typedef struct 	s_sphere	t_sphere;
+typedef struct 	s_cylinder	t_cylinder;
+typedef enum 	e_type		t_type;
+typedef struct 	s_light		t_light;
 
 # include "raytracer.h"
 
@@ -74,7 +75,7 @@ struct 	s_object {
 	float refletive;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
-	void (*resize)(int ratio);	
+	void (*resize)(int ratio);
 };
 
 struct 	s_light {
@@ -111,9 +112,25 @@ struct 	s_sphere {
 	float refletive;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
-	void (*resize)(int ratio);	
+	void (*resize)(int ratio);
 	//
 	float diameter;
+};
+
+struct 	s_cylinder{
+	t_vector vector;
+	t_type type;
+	t_color	color;
+	int specular;
+	float refletive;
+	t_values (*intersect)();
+	void (*move)(int x, int y);
+	void (*resize)(int ratio);	
+	//
+	t_vector axis;
+	float diameter;
+	float height;
+
 };
 
 //Hook's
@@ -128,6 +145,7 @@ void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 void* 		new_object(int size);
 t_object*	new_plane(t_vector coord, t_vector v, t_color color, int specular, float reflective);
 t_object* 	new_sphere(t_vector coord, float diameter, t_color color, int specular, float reflective);
+t_object* 	new_cylinder(t_vector axis, t_vector coord, float diameter, float height, t_color color, int specular, float reflective);
 
 //Raytracer
 void 		raytracer(t_vars *vars);
