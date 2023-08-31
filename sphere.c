@@ -22,18 +22,23 @@ static t_values intersect(t_raytracer *rt, t_sphere *this)
 	return local;
 }
 
-t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular, float reflective)
+t_object* new_sphere(char *line)
 {
 	t_sphere *sphere;
 
 	sphere = new_object(sizeof(t_sphere));
 	sphere->intersect = intersect;
 	sphere->type = SPHERE;
-	sphere->vector = coord;
-	sphere->color = color;
-	sphere->diameter = diameter;
-	sphere->specular = specular;
-	sphere->refletive = reflective;
+	sphere->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->diameter = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    sphere->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    sphere->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->specular = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->refletive = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->next = NULL;
 	return ((t_object *)sphere);
 }
 	

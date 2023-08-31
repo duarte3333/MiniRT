@@ -1,78 +1,77 @@
 #include "includes/minirt.h"
 
-// int	*split_array(t_vars *vars, char *line)
-// {
-// 	int		*t;
-// 	char	**temp;
-// 	char	**property;
-// 	int		size;
-// 	int		i;
-
-// 	i = 0;
-// 	temp = ft_split(line, ' ');
-// 	property = ft_split(temp, ',');
-// 	vars->objects[i] = ft_calloc(sizeof(t_object), 1);
-// 	return (t);
-// }
-
-// t_type ft_get_type(char* line)
-// {
-// 	if (line[0] == 'A')
-// 		return AMBIENT;
-// 	if (line[0] == 'L')
-// 		return POINT;
-// 	if (line[0] == 's' && line[1] == 'p') 
-// 		return SPHERE;
-// 	if (line[0] == 'p' && line[1] == 'l') 
-// 		return PLANE;
-// 	if (line[0] == 'c' && line[1] == 'y') 
-// 		return CYLINDER;
-// 	if (line[0] == '\n')
-// 		return EMPTY_LINE;
-// 	return ERROR;
-// }
-
-// t_type ft_check_line(char *line)
-// {
-// 	int 	i;
-// 	t_type type;
-
-// 	i = 0;
-// 	type = ft_get_type(line);
-// 	if (type >= 0 && type <= 2)
-// 		i++;
-// 	while (line && line[++i])
-// 	{
-// 		if (!line[i] && !ft_isdigit(line[i]) && line[i] != '.' && line[i] != ',')
-// 			return ERROR;
-// 	}
-// 	return type;
-// }
-// void	map_loading(t_vars *vars, int fd, int index)
-// {
-// 	char	*line;
-// 	t_object *obj;
-// 	t_t
-// // 	line = get_next_line(fd);
-// 	line = get_next_line(fd);
-// 	ft_check_line(line, obj)
-// 	free(line);
-// }
-
-int	strcmp_rt(char *a, char *extension)
+t_object    *parse_next(t_type type, char *line)
 {
-	int		size;
-	int		j;
+    if (type == PLANE)
+        return (new_plane(line));
+    if (type == SPHERE)
+        return (new_sphere(line));
+/*     if (type == CYLINDER)
+        return (new_cylinder(line)); */
+    if (type == AMBIENT)
+        return (new_light(line, type));
+    if (type == DIRECTIONAL)
+        return (new_light(line, type));
+	if (type == POINT)
+        return (new_light(line, type));
+	else
+		return (NULL);
+}
 
-	j = -1;
-	size = ft_strlen(a) - (ft_strlen(extension) + 1);
-	if (size < 0)
-		return 0;
-	while (a[++size])
+t_type ft_get_type(char *line)
+{
+	if (line)
+    {
+        if (line[0] == '\n')
+            return EMPTY_LINE;
+        if (line[0] == 'A')
+            return AMBIENT;
+        if (line[0] == 'P')
+            return POINT;   
+		if (line[0] == 'D')
+            return DIRECTIONAL; 
+        if ((line)[0] == 's' && (line)[1] == 'p') 
+            return SPHERE;
+        if ((line)[0] == 'p' && (line)[1] == 'l') 
+            return PLANE;
+        if ((line)[0] == 'c' && (line)[1] == 'y') 
+            return CYLINDER;
+    }
+	return ERROR;
+}
+
+void ft_check_line(t_vars *vars, char *line)
+{
+	int 	i;
+	t_type type;
+
+	i = 0;
+	type = ft_get_type(line);
+	if (type >= 0 && type <= 2)
+		i++;
+	while (line && line[++i])
 	{
-		if (a[size] != extension[++j])
-			return (0);
+		if (!line[i] && !ft_isdigit(line[i]) && line[i] != '.' && line[i] != ',')
+			return ;
 	}
+    i = 0;
+    while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
+        i++;
+	if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
+		lst_add_back(vars, type, (line + i));
+	else
+		light_add_back(vars, type, (line + i));
+}
+
+int	map_loading(t_vars *vars, int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	if (line == NULL)
+		return (0);	
+	ft_check_line(vars, line);
+	free(line);
 	return (1);
 }
 
@@ -101,13 +100,16 @@ int	check_map(t_vars *vars)
 	else
 	{
 		fd = open(vars->map_file, O_RDONLY);
+		//printf("fd1: %d\n", fd);
 		if (fd == -1)
 		{
 			write(1, "That file is not in the repository.\n", 37);
 			ft_close (vars);
 		}
-		check_empty(vars, get_next_line(fd));
+		//check_empty(vars, get_next_line(fd));
 		return (fd);
 	}
 	return (0);
 }
+
+

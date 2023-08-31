@@ -22,19 +22,25 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 	local.t2 = rt->c / rt->b; 
 	return local;
 }
-
-t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specular, float reflective)
+	
+t_object* new_plane(char *line)
 {
 	t_plane *plane;
 
 	plane = new_object(sizeof(t_plane));
 	plane->intersect = intersect;
 	plane->type = PLANE;
-	plane->vector = coord;
-	plane->color = color;
-	plane->direction = direction;
-	plane->specular = specular;
-	plane->refletive = reflective;
+	plane->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->direction.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    plane->direction.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    plane->direction.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+	plane->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    plane->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    plane->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->specular = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->refletive = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 	return ((t_object *)plane);
 }
-	

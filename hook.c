@@ -19,9 +19,6 @@ int	ft_key(int keycode, t_vars *vars)
 		free(vars->mlx);
 		exit(0);
 	}
-	//vars->lights[0]->intensity += ((keycode == 'q')- (keycode == 'w'))*0.05;
-	vars->lights[1]->position.x += ((keycode == 'q')- (keycode == 'w'))*0.05;
-
 	if (vars->select)
 	{
 		vars->select->vector.y +=  ((keycode == XK_Up) - (keycode == XK_Down)) * 0.05;
