@@ -100,7 +100,6 @@ int	check_map(t_vars *vars)
 	else
 	{
 		fd = open(vars->map_file, O_RDONLY);
-		//printf("fd1: %d\n", fd);
 		if (fd == -1)
 		{
 			write(1, "That file is not in the repository.\n", 37);

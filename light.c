@@ -14,7 +14,6 @@ int shadow_light(t_vars *vars, t_raytracer *rt)
 
 void specular_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
 {
-	//printf("here\n");
 	if (rt->rl.s)
 	{
 		rt->rl.aux = vector(2*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L));
@@ -27,12 +26,9 @@ void specular_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
 
 void diffuse_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
 {
-	//printf("iiiiiii: %f\n", tmp->intensity);
 	rt->rl.n_dot_l = dot(rt->rl.N, rt->rl.L);
-	//printf("ANTES rt-i: %f\n", rt->rl.i);
 	if (rt->rl.n_dot_l > 0.001f)
 		rt->rl.i += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L));
-	//printf("rt-i: %f\n", rt->rl.i);
 }
 
 float compute_light(t_vars *vars, t_raytracer *rt)
@@ -41,7 +37,6 @@ float compute_light(t_vars *vars, t_raytracer *rt)
 
 	rt->rl.i = 0.0f;
 	tmp = vars->light;
-	//printf("intensity %f\n", tmp->intensity);
  	while(tmp)
 	{	
 		if (tmp->type == AMBIENT)
@@ -74,12 +69,10 @@ t_object *new_light(char *line, t_type type)
 	if (new_light->type != AMBIENT)
 	{
 		new_light->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-		//printf("x: %f\n", new_light->vector.x);
 	    new_light->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 	    new_light->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 	}
 	new_light->intensity = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	//printf("inten: %f\n", new_light->intensity);
     new_light->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
     new_light->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
     new_light->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);

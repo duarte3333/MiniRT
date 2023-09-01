@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/31 12:31:40 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:00:04 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef enum 	e_type		t_type;
 typedef struct 	s_light		t_light;
 
 # include "raytracer.h"
+# include "parse.h"
 
 enum e_type{
 	PLANE,
@@ -165,7 +166,6 @@ struct 	s_cylinder{
 
 //Hook's
 int			ft_key(int keycode, t_vars *vars);
-int 		ft_mouse_scroll(int button, int x, int y, t_vars *vars);
 int 		ft_mouse_up(int button, int x, int y, t_vars *vars);
 int 		ft_mouse_down(int button, int x, int y, t_vars *vars);
 int			ft_close(t_vars *vars);
@@ -182,20 +182,20 @@ t_object* 	new_camera(t_vector vector, float theta, float phi, float  qsi);
 void 		raytracer(t_vars *vars);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
 
-t_object 	*trace_ray(t_vector O, t_vector D, t_vars* vars ,t_raytracer* rt, float t_min, float t_max, int recursion_depth);
+int 		new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_vars *vars ,t_raytracer *rt, int recursion_depth);
 t_object 	*closest_intersection(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
 bool 		inside(float t, float t_min, float t_max);
+
+//Parse
+int			strcmp_rt(char *a, char *extension);
+int			check_map(t_vars *vars);
+t_object    *parse_next(t_type type, char *line);
+t_type		ft_get_type(char *line);
+int			map_loading(t_vars *vars, int fd);
 
 //Ligh
 t_object 	*new_light(char *line, t_type type);
 float 		compute_light(t_vars *vars, t_raytracer *rt);
-
-//Parse
-int		strcmp_rt(char *a, char *extension);
-int		check_map(t_vars *vars);
-t_object    *parse_next(t_type type, char *line);
-t_type	ft_get_type(char *line);
-int		map_loading(t_vars *vars, int fd);
 
 //Aux
 void	*ft_calloc(size_t nelem, size_t elsize);
@@ -209,7 +209,6 @@ int		ft_isspace(char c);
 double  ft_atof(char **line, double sig, double tmp, double frac);
 void    lst_add_back(t_vars *vars, t_type type, char *line);
 void    light_add_back(t_vars *vars, t_type type, char *line);
-
 
 
 t_vector	rotation_x(t_camera *this);

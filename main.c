@@ -11,9 +11,7 @@ void init_window(t_vars *vars)
 	mlx_hook(vars->win, 17, 0, ft_close, vars);
 	mlx_hook(vars->win, 2, 1L<<0, ft_key, vars);
 	mlx_hook(vars->win, 4, 1L<<2, ft_mouse_down, vars);
-	mlx_hook(vars->win, 5, 1L<<3, ft_mouse_up, vars);
-
-	//mlx_hook(vars.win, 2, 1L<<0, ft_select, &vars);
+	//mlx_hook(vars->win, 5, 1L<<3, ft_mouse_up, vars);
 }
 
 int	main(int ac, char **av)
@@ -29,22 +27,6 @@ int	main(int ac, char **av)
 		while (map_loading(&vars, fd))
 			;
 		close(fd);
-		//objects
-		//vars.objects[] = new_plane(vector(2, 0, 4), vector(-2.64, 20.6, 2.58), 0x00FFFF);
-		//vars->objects[3] = new_plane(vector(2, 0, 4), vector(0, 18.15, 2.88), color(255, 255, 0));
-		//vars->objects[0] = new_cylinder(vector(0, 1, 0), vector( 0, -1, 3), 1.0f, 1.5f, color(255, 0, 0), 500, 0);
-		// vars->objects[0] = new_sphere(vector( 0, -1, 3), 2.0f, color(255, 0, 0), 500, 0.2f);
-		// vars->objects[1] = new_sphere(vector( 2, 0, 4), 2.0f, color(0, 0, 255), 500, 0.3f);
-		// vars->objects[2] = new_sphere(vector(-2, 0, 4), 2.0f, color(0, 255, 0), 10, 0.4f);
-		// vars->objects[3] = new_sphere(vector(0, -5001, 0), 10000.0f, color(255, 255, 0), 1000, 0.5f);
-		// vars->objects[4] = new_camera(vector(0,0,-5), 0.0f, 0.0f, 0.0f);
-		// //vars->objects[4] = new_plane(vector(0, 0, 2), vector(0, 0, 1), color(255, 255, 0), 0, 0);
-		
-		//light
-		// vars->lights[0] = new_light(0.2, vector(0, 0, 0), AMBIENT);
-		// vars->lights[1] = new_light(0.3, vector(2, 1, 0), POINT);
-		// vars->lights[2] = new_light(0.2, vector(1, 4, 4), DIRECTIONAL);
-
 		init_window(&vars);
 		mlx_loop_hook(vars.mlx, raytracer, &vars);	
 		//raytracer(&vars);
