@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/01 13:00:04 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:32:29 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct 	s_cylinder	t_cylinder;
 typedef struct 	s_camera	t_camera;
 typedef enum 	e_type		t_type;
 typedef struct 	s_light		t_light;
+typedef struct 	s_scene		t_scene;
+
 
 # include "raytracer.h"
 # include "parse.h"
@@ -57,13 +59,21 @@ struct s_data{
 	int		endian;
 };
 
+struct s_scene{
+	t_object *object;
+	t_object *light;
+	t_object *select;
+    t_object *end;
+    t_object *end_light;
+	t_scene  *next;
+	t_scene  *prev;
+};
+
 struct	s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	 img;
-	t_object *object;
-	t_object *light;
-	t_object *select;
+	t_scene	 *scene;
 	char 	 *map_file;
 };
 
@@ -164,10 +174,12 @@ struct 	s_cylinder{
 
 };
 
+t_vars *vars();
+
 //Hook's
-int			ft_key(int keycode, t_vars *vars);
-int 		ft_mouse_up(int button, int x, int y, t_vars *vars);
-int 		ft_mouse_down(int button, int x, int y, t_vars *vars);
+int			ft_key(int keycode);
+int 		ft_mouse_up(int button, int x, int y);
+int 		ft_mouse_down(int button, int x, int y);
 int			ft_close(t_vars *vars);
 
 //Draw
@@ -179,23 +191,25 @@ t_object* 	new_cylinder(t_vector axis, t_vector coord, float diameter, float hei
 t_object* 	new_camera(t_vector vector, float theta, float phi, float  qsi);
 
 //Raytracer
-void 		raytracer(t_vars *vars);
+void		raytracer(t_scene *scene);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
 
-int 		new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_vars *vars ,t_raytracer *rt, int recursion_depth);
-t_object 	*closest_intersection(t_vars* vars ,t_raytracer* rt, float t_min, float t_max);
+int 		new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *vars ,t_raytracer *rt, int recursion_depth);
+t_object 	*closest_intersection(t_raytracer *rt, float t_min, float t_max);
 bool 		inside(float t, float t_min, float t_max);
 
 //Parse
 int			strcmp_rt(char *a, char *extension);
-int			check_map(t_vars *vars);
+int			check_map();
 t_object    *parse_next(t_type type, char *line);
 t_type		ft_get_type(char *line);
-int			map_loading(t_vars *vars, int fd);
+int			map_loading(t_scene *scene, int fd);
 
 //Ligh
 t_object 	*new_light(char *line, t_type type);
-float 		compute_light(t_vars *vars, t_raytracer *rt);
+float 		compute_light(t_raytracer *rt);
+void 		light_prepare(t_raytracer* rt, t_object *obj);
+
 
 //Aux
 void	*ft_calloc(size_t nelem, size_t elsize);
@@ -207,8 +221,8 @@ int		ft_isdigit(int i);
 char	*ft_strchr(const char *s, int c);
 int		ft_isspace(char c);
 double  ft_atof(char **line, double sig, double tmp, double frac);
-void    lst_add_back(t_vars *vars, t_type type, char *line);
-void    light_add_back(t_vars *vars, t_type type, char *line);
+void    lst_add_back(t_scene *scene, t_type type, char *line);
+void    light_add_back(t_scene *scene, t_type type, char *line);
 
 
 t_vector	rotation_x(t_camera *this);

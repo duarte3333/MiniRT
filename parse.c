@@ -40,7 +40,7 @@ t_type ft_get_type(char *line)
 	return ERROR;
 }
 
-void ft_check_line(t_vars *vars, char *line)
+void ft_check_line(t_scene *scene, char *line)
 {
 	int 	i;
 	t_type type;
@@ -58,19 +58,19 @@ void ft_check_line(t_vars *vars, char *line)
     while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
         i++;
 	if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
-		lst_add_back(vars, type, (line + i));
+		lst_add_back(scene, type, (line + i));
 	else
-		light_add_back(vars, type, (line + i));
+		light_add_back(scene, type, (line + i));
 }
 
-int	map_loading(t_vars *vars, int fd)
+int	map_loading(t_scene *scene, int fd)
 {
 	char	*line;
 
 	line = get_next_line(fd);
 	if (line == NULL)
 		return (0);	
-	ft_check_line(vars, line);
+	ft_check_line(scene, line);
 	free(line);
 	return (1);
 }
@@ -86,20 +86,20 @@ int	check_empty(t_vars *vars, char *line)
 }
 
 /* Verifica todas as possibilidades para que o mapa pode falhar */
-int	check_map(t_vars *vars)
+int	check_map()
 {
 	int	fd;
 	int i;
 
 	i = 0;
-	if (!strcmp_rt(vars->map_file, "rt"))
+	if (!strcmp_rt(vars()->map_file, "rt"))
 	{
 		write(1, "That file is not a .rt file\n", 29);
-		ft_close(vars);
+		ft_close(vars());
 	}
 	else
 	{
-		fd = open(vars->map_file, O_RDONLY);
+		fd = open(vars()->map_file, O_RDONLY);
 		if (fd == -1)
 		{
 			write(1, "That file is not in the repository.\n", 37);

@@ -21,12 +21,12 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 	rt->rl.V = vector_multiply((rt->D), vector(-1, -1, -1));
 }
 
-t_object *closest_intersection(t_vars* vars ,t_raytracer *rt, float t_min, float t_max)
+t_object *closest_intersection(t_raytracer *rt, float t_min, float t_max)
 {
 	t_object *obj;
 	t_object *tmp;
 
-	tmp = vars->object;
+	tmp = vars()->scene->object;
 	obj = NULL;
 	rt->closest_t = INT_MAX;
 	while (tmp)
@@ -47,7 +47,7 @@ t_object *closest_intersection(t_vars* vars ,t_raytracer *rt, float t_min, float
 	return obj;
 }
 
-t_vector reflected_ray(t_vector R, t_vector N)
+static t_vector reflected_ray(t_vector R, t_vector N)
 {
 	double 	 dotN_R;
 	t_vector Rfinal;
@@ -57,7 +57,7 @@ t_vector reflected_ray(t_vector R, t_vector N)
 	return Rfinal;
 }
 
-int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_vars *vars ,t_raytracer *rt, int recursion_depth)
+int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_raytracer *rt, int recursion_depth)
 {
 	float	 r;
 	t_object *obj;
@@ -67,16 +67,16 @@ int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_vars *vars ,t_ra
 	obj = NULL;
 	newRT.O = O;
 	newRT.D = D;
-	obj = closest_intersection(vars, &newRT, 0.001f, INT_MAX);
+	obj = closest_intersection(&newRT, 0.001f, INT_MAX);
     if (!(obj) || (last_obj && obj == last_obj))
        return BLACK;
 	light_prepare(&newRT, obj);
-	newRT.local_color = color_multiply(obj->color, compute_light(vars, &newRT));
+	newRT.local_color = color_multiply(obj->color, compute_light(&newRT));
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0.001f)
 		return newRT.local_color;
 	newRT.rl.R = reflected_ray(vector_multiply(newRT.D, vector(-1, -1, -1)), newRT.rl.N);
-	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, vector_multiply(newRT.rl.R, vector(0.001f, 0.001f, 0.001f))), newRT.rl.R, vars, \
+	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, vector_multiply(newRT.rl.R, vector(0.001f, 0.001f, 0.001f))), newRT.rl.R, scene, \
 		rt, recursion_depth - 1);
 	return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
@@ -87,15 +87,16 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
 }
 
-void raytracer(t_vars *vars)
+void raytracer(t_scene *scene)
 {
 	t_raytracer rt;
 	int			x;
 	int			y;
 
+	scene = vars()->scene;
 	x = -WIDTH_2;
 	bzero(&rt, sizeof(t_raytracer));
-	rt.O = vector(0, 0, -5);
+	rt.O = vector(0, 0, 0);
 	while (x < WIDTH_2)
 	{
 		y = -HEIGHT_2;
@@ -103,13 +104,13 @@ void raytracer(t_vars *vars)
 		{
 			rt.closest_obj = NULL;
 			canvas_to_viewport(&rt, x, y); //get D
-			my_mlx_pixel_put(&vars->img, x + WIDTH_2, y + HEIGHT_2, \
-				new_trace_ray(NULL, rt.O, rt.D, vars, &rt, 1));
+			my_mlx_pixel_put(&vars()->img, x + WIDTH_2, y + HEIGHT_2, \
+				new_trace_ray(NULL, rt.O, rt.D, scene, &rt, 1));
 			y++;
 		}
 		x++;
 	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
+	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
 }
 
 	// if (obj->type == CYLINDER)

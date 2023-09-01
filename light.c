@@ -1,6 +1,6 @@
 #include "includes/minirt.h"
 
-int shadow_light(t_vars *vars, t_raytracer *rt)
+int shadow_light(t_scene *scene, t_raytracer *rt)
 {
 	t_object *obj;
 	t_raytracer newRT;
@@ -8,11 +8,11 @@ int shadow_light(t_vars *vars, t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->rl.P;
 	newRT.D = rt->rl.L;
-	obj = closest_intersection(vars, &newRT, 0.001f, INT_MAX);
+	obj = closest_intersection(&newRT, 0.001f, INT_MAX);
 	return (obj != NULL);
 }
 
-void specular_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
+void specular_light(t_object *tmp, t_scene *scene, t_raytracer *rt)
 {
 	if (rt->rl.s)
 	{
@@ -24,19 +24,19 @@ void specular_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
 	}
 }
 
-void diffuse_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
+void diffuse_light(t_object *tmp, t_scene *scene, t_raytracer *rt)
 {
 	rt->rl.n_dot_l = dot(rt->rl.N, rt->rl.L);
 	if (rt->rl.n_dot_l > 0.001f)
 		rt->rl.i += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L));
 }
 
-float compute_light(t_vars *vars, t_raytracer *rt)
+float compute_light(t_raytracer *rt)
 {
 	t_object *tmp;
 
 	rt->rl.i = 0.0f;
-	tmp = vars->light;
+	tmp = vars()->scene->light;
  	while(tmp)
 	{	
 		if (tmp->type == AMBIENT)
@@ -47,13 +47,13 @@ float compute_light(t_vars *vars, t_raytracer *rt)
 				rt->rl.L = vector_subtract(tmp->vector, rt->rl.P);
 			else if(tmp->type == DIRECTIONAL)
 				rt->rl.L = tmp->vector;
-			if (shadow_light(vars, rt))
+			if (shadow_light(vars()->scene, rt))
 			{
 				tmp = tmp->next;
 			 	continue;
 			}
-			diffuse_light(tmp, vars, rt);
-			specular_light(tmp, vars, rt);
+			diffuse_light(tmp, vars()->scene, rt);
+			specular_light(tmp, vars()->scene, rt);
 		}
 		tmp = tmp->next;
 	}
