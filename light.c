@@ -8,7 +8,7 @@ int shadow_light(t_scene *scene, t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->rl.P;
 	newRT.D = rt->rl.L;
-	obj = closest_intersection(&newRT, 0.001f, INT_MAX);
+	obj = closest_intersection(&newRT);
 	return (obj != NULL);
 }
 
@@ -68,13 +68,13 @@ t_object *new_light(char *line, t_type type)
 	new_light->type = type;
 	if (new_light->type != AMBIENT)
 	{
-		new_light->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	    new_light->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	    new_light->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+		new_light->vector.x = ft_atof(&line);
+	    new_light->vector.y = ft_atof(&line);
+	    new_light->vector.z = ft_atof(&line);
 	}
-	new_light->intensity = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    new_light->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    new_light->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    new_light->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	new_light->intensity = ft_atof(&line);
+    new_light->color.r = (int)ft_atof(&line);
+    new_light->color.g = (int)ft_atof(&line);
+    new_light->color.b = (int)ft_atof(&line);
 	return ((t_object *)new_light);
 }

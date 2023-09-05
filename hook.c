@@ -9,7 +9,7 @@ static t_object *mouse_trace_ray(t_vars *vars ,t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->O;
 	newRT.D = rt->D;
-	newRT.closest_obj = closest_intersection(&newRT, 0.001f, INT_MAX);
+	newRT.closest_obj = closest_intersection(&newRT);
     if (!(newRT.closest_obj))
        return NULL;
 	light_prepare(&newRT, newRT.closest_obj);

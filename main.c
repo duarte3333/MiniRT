@@ -52,6 +52,7 @@ int	main(int ac, char **av)
 	i = 0;
 	if (ac == 2)
 	{
+		//vars()->scene->camera = new_camera(vector(0,0,0), 0.0f, 0.0f, 0.0f);
 		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
 		while (av[++i])
 			create_scene(av[i]);

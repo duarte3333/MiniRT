@@ -9,7 +9,8 @@
 		"functional": "c",
 		"tuple": "c",
 		"utility": "c",
-		"vector": "c"
+		"vector": "c",
+		"parse.h": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }

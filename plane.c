@@ -11,8 +11,8 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 
 	d = -dot(this->direction, this->vector);
 	rt->b = dot(this->direction, rt->D);
-	rt->c = (-1)*dot(this->direction, rt->O) + d;
-	if (rt->b < 0.0001f) //sem solucao
+	rt->c = (-1)*dot(this->direction, rt->O) - d;
+	if (rt->b < 0.0001f && rt->b > -0.0001f) //sem solucao
 	{
 		local.t1 = INT_MAX;
 		local.t2 = INT_MAX;
@@ -30,17 +30,16 @@ t_object* new_plane(char *line)
 	plane = new_object(sizeof(t_plane));
 	plane->intersect = intersect;
 	plane->type = PLANE;
-	plane->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	plane->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	plane->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	plane->direction.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    plane->direction.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    plane->direction.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-	plane->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    plane->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    plane->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	plane->specular = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	plane->refletive = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	plane->vector.x = ft_atof(&line);
+	plane->vector.y = ft_atof(&line);
+	plane->vector.z = ft_atof(&line);
+	plane->direction.x = ft_atof(&line);
+    plane->direction.y = ft_atof(&line);
+    plane->direction.z = ft_atof(&line);
+	plane->color.r = (int)ft_atof(&line);
+    plane->color.g = (int)ft_atof(&line);
+    plane->color.b = (int)ft_atof(&line);
+	plane->specular = (int)ft_atof(&line);
+	plane->refletive = ft_atof(&line);
 	return ((t_object *)plane);
 }

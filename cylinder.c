@@ -7,10 +7,15 @@ static t_values intersect(t_raytracer *rt, t_cylinder *this)
 {
 	t_values local;
 	float close;
+	t_vector CO;
 
-	rt->a = rt->D.x*rt->D.x + rt->D.y*rt->D.y;
-	rt->b = 2.0f*rt->D.x*rt->O.x + 2.0f*rt->D.y*rt->O.y;
-	rt->c = rt->O.x*rt->O.x + rt->O.y*rt->O.y - this->diameter/2;
+	CO = vector_subtract(rt->O, this->vector);
+
+	rt->a = pow(dot(rt->D, this->axis), 2) - pow(module(rt->D), 2) * pow(module(this->axis),2);
+	rt->b = 2.0f*dot(CO, this->axis)*dot(rt->D, this->axis) - \
+		2.0f*module(CO)*module(rt->D)*pow(module(this->axis),2);
+	rt->c = pow(dot(CO, this->axis), 2) - pow(module(this->axis),2)*pow(module(CO),2) \
+		- pow(module(this->axis),2)*pow((this->diameter/2), 2);
 	rt->discriminant = rt->b*rt->b - 4.0f*(rt->a)*(rt->c);
 	if (rt->discriminant < 0.0001f) //sem solucao
 	{
@@ -41,20 +46,26 @@ static t_values intersect(t_raytracer *rt, t_cylinder *this)
 	//}
 }
 
-t_object* new_cylinder(t_vector axis, t_vector coord, float diameter, float height, t_color color, int specular, float reflective)
+t_object* new_cylinder(char* line)
 {
 	t_cylinder *cylinder;
 
 	cylinder = new_object(sizeof(t_cylinder));
 	cylinder->intersect = intersect;
 	cylinder->type = CYLINDER;
-	cylinder->vector = coord;
-	cylinder->color = color;
-	cylinder->diameter = diameter;
-	cylinder->height = reflective;
-	cylinder->specular = specular;
-	cylinder->refletive = reflective;
-	cylinder->axis = axis;
+	cylinder->vector.x = ft_atof(&line);
+	cylinder->vector.y = ft_atof(&line);
+	cylinder->vector.z = ft_atof(&line);
+	cylinder->axis.x = ft_atof(&line);
+	cylinder->axis.y = ft_atof(&line);
+	cylinder->axis.z = ft_atof(&line);
+	cylinder->diameter = ft_atof(&line);
+	cylinder->height = ft_atof(&line);
+	cylinder->color.r = (int)ft_atof(&line);
+    cylinder->color.g = (int)ft_atof(&line);
+    cylinder->color.b = (int)ft_atof(&line);
+	cylinder->specular = (int)ft_atof(&line);
+	cylinder->refletive = ft_atof(&line);
 	return ((t_object *)cylinder);
 }
 	
