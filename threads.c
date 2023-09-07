@@ -78,7 +78,7 @@ int ft_init_threads()
     int i;
     t_ray_thread *threads;
 
-    threads = calloc(sizeof(t_ray_thread), vars()->n_threads);
+    threads = ft_calloc(sizeof(t_ray_thread), vars()->n_threads);
     vars()->threads = threads;
     vars()->count = 0;
     pthread_mutex_init(&vars()->mut, NULL);

@@ -32,7 +32,7 @@ int create_scene(char *arg)
 	if (fd == -1)
 	{
 		printf("Error openning the file!");
-		return 3;
+		return -1;
 	}
 	while (map_loading(head, fd))
 		;
@@ -104,3 +104,13 @@ int	main(int ac, char **av)
 	else
 		write(1, "Not enough arguments\n", 22);
 }
+
+//Verificar calloc e bzero
+//Fazer camara mexer
+//Fazer cilindro
+
+//BONUS
+//Fazer cone
+//Fazer checkboard
+//Fazer texturas
+//Fazer luzes com varias cores
