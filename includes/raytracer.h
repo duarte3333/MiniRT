@@ -4,11 +4,33 @@
 typedef struct  s_values 	 t_values;
 typedef struct 	s_raytracer  t_raytracer;
 typedef struct  s_raylight 	 t_raylight;
+typedef struct	s_ray_thread t_ray_thread;
+typedef struct	s_chunk 	 t_chunk;
 
 struct s_values
 {
 	float t1;
 	float t2;
+};
+
+struct s_chunk
+{
+	int x;
+	int y;
+	int sx;
+	int sy;
+};
+
+struct s_ray_thread
+{
+	pthread_t	*thread;
+	pthread_mutex_t th_mut;
+	int	index;
+	int	x_i;
+	int	x_f;
+	int	delta;
+	int	*color;
+	int check_paint;
 };
 
 struct s_raylight{

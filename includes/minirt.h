@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/05 13:49:46 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/07 00:44:40 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ struct	s_vars {
 	t_data	 img;
 	t_scene	 *scene;
 	char 	 *map_file;
+	//
+	int		n_threads;
+	t_ray_thread *threads;
+	pthread_mutex_t mut;
+	int		**color;
+	int		count;
+	
 };
 
 struct 	s_object {
@@ -217,6 +224,7 @@ double  ft_atof(char **line);
 void    lst_add_back(t_scene *scene, t_type type, char *line);
 void    light_add_back(t_scene *scene, t_type type, char *line);
 
+int ft_init_threads();
 
 t_vector	rotation_x(t_camera *this);
 t_vector	rotation_y(t_camera *this);

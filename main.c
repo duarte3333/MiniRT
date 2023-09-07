@@ -45,22 +45,61 @@ int create_scene(char *arg)
 	return 0;
 }
 
+void paint_chunk(t_ray_thread *thread)
+{
+	t_chunk s;
+
+	s.sx = 0;
+    s.x = thread->x_i - 1;
+	pthread_mutex_lock(&thread->th_mut);
+	while (++s.x < thread->x_f)
+	{
+        s.sy = 0;
+        s.y = -HEIGHT_2 - 1;
+		while (++s.y < HEIGHT_2)
+			my_mlx_pixel_put(&vars()->img, s.x + WIDTH_2, \
+				s.y + HEIGHT_2, thread->color[s.sy++ * thread->delta + s.sx]);
+        s.sx++;
+	}
+	pthread_mutex_unlock(&thread->th_mut);
+}
+
+void paint()
+{
+	int	n;
+
+	pthread_mutex_lock(&vars()->mut);
+    if (vars()->count != vars()->n_threads)
+	{
+		pthread_mutex_unlock(&vars()->mut);
+		return ;
+	}
+	vars()->count = 0;
+	n = -1;
+	while (++n < vars()->n_threads)
+		paint_chunk(&vars()->threads[n]);
+	pthread_mutex_unlock(&vars()->mut);
+	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
+
+}
+
 int	main(int ac, char **av)
 {
+	int	i;
 
-	int i;
 	i = 0;
 	if (ac == 2)
 	{
-		//vars()->scene->camera = new_camera(vector(0,0,0), 0.0f, 0.0f, 0.0f);
-		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
 		while (av[++i])
 			create_scene(av[i]);
 		init_window(vars());
-		mlx_loop_hook(vars()->mlx, raytracer, NULL);	
-		//raytracer(&vars);
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN);
+		if(ft_init_threads() == -1)
+			return (-1);
+		mlx_loop_hook(vars()->mlx, paint, NULL);
 		mlx_loop(vars()->mlx);
-		//free(vars);
+		pthread_mutex_destroy(&vars()->mut);
+		free(vars()->threads);
 	}
 	else
 		write(1, "Not enough arguments\n", 22);

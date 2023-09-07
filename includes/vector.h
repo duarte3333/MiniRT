@@ -9,6 +9,8 @@
 # include <sys/time.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <pthread.h>
+
 
 # include "../minilibx/mlx.h"
 # include "X11/X.h"
