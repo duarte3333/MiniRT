@@ -106,8 +106,10 @@ int	main(int ac, char **av)
 }
 
 //Verificar calloc e bzero
-//Fazer camara mexer
+//Fazer camara mexer e rodar(criar camara)
 //Fazer cilindro
+//Meter check syntax
+//Corrigir SEGV no parsing
 
 //BONUS
 //Fazer cone
