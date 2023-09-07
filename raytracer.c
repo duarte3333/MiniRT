@@ -13,6 +13,8 @@ void choose_normal(t_raytracer* rt, t_object *obj)
 		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
 	else if (obj->type == PLANE)
 		rt->rl.N = obj->vector;
+	else if (obj->type == CYLINDER)
+		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
 }
 
 void light_prepare(t_raytracer* rt, t_object *obj)

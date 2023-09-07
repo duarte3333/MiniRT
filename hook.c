@@ -21,6 +21,8 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 {
 	if (scene->select)
 		scene->select->vector.z +=  ((button == 5) - (button == 4)) * 0.05;
+	else 
+		scene->camera->vector.z +=  ((button == 4) - (button == 5)) * 0.05;
 	return 0;
 }
 
@@ -60,9 +62,6 @@ int	ft_key(int keycode)
 	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
 	if (keycode == XK_3 || keycode == XK_4)
 	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
-
-
-
 	return (0);
 }
 

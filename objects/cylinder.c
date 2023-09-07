@@ -11,13 +11,15 @@ static t_values intersect(t_raytracer *rt, t_cylinder *this)
 
 	CO = vector_subtract(rt->O, this->vector);
 
-	rt->a = pow(dot(rt->D, this->axis), 2) - pow(module(rt->D), 2) * pow(module(this->axis),2);
-	rt->b = 2.0f*dot(CO, this->axis)*dot(rt->D, this->axis) - \
-		2.0f*module(CO)*module(rt->D)*pow(module(this->axis),2);
-	rt->c = pow(dot(CO, this->axis), 2) - pow(module(this->axis),2)*pow(module(CO),2) \
-		- pow(module(this->axis),2)*pow((this->diameter/2), 2);
+	rt->a = dot(rt->D, rt->D) * pow(module(this->axis),2) - \
+		pow(dot(rt->D, this->axis), 2);
+	rt->b = 2.0f*dot(CO, rt->D)*pow(module(this->axis), 2) - \
+		2.0f*dot(rt->D, this->axis)*dot(CO, this->axis);
+	rt->c = (dot(CO, CO) - pow(this->diameter/2, 2))*pow(module(this->axis), 2) - \
+		pow(dot(CO, this->axis), 2);
+
 	rt->discriminant = rt->b*rt->b - 4.0f*(rt->a)*(rt->c);
-	if (rt->discriminant < 0.0001f) //sem solucao
+	if (rt->discriminant < 0.001f) //sem solucao
 	{
 		local.t1 = INT_MAX;
 		local.t2 = INT_MAX;

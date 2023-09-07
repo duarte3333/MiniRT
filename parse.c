@@ -6,8 +6,8 @@ t_object    *parse_next(t_type type, char *line)
         return (new_plane(line));
     if (type == SPHERE)
         return (new_sphere(line));
-/*     if (type == CYLINDER)
-        return (new_cylinder(line)); */
+    if (type == CYLINDER)
+        return (new_cylinder(line));
     if (type == AMBIENT)
         return (new_light(line, type));
     if (type == DIRECTIONAL)
