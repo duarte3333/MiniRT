@@ -1,4 +1,4 @@
-#include "includes/minirt.h"
+#include "../includes/minirt.h"
 
 /* Esta funcao recebe uma esfera e um raio retorna 
 os pixels onde intersetam.

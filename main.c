@@ -93,7 +93,7 @@ int	main(int ac, char **av)
 		while (av[++i])
 			create_scene(av[i]);
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN);
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);

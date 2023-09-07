@@ -50,6 +50,19 @@ int	ft_key(int keycode)
 		vars()->scene->select->vector.z +=  ((keycode == 'z') - (keycode == 'x')) * 0.05;
 		//printf("y: %f, x: %f z: %f\n", vars->select->vector.y, vars->select->vector.x, vars->select->vector.z);
 	}
+	if (keycode == XK_w || keycode == XK_s)
+		vars()->scene->camera->vector.z += ((keycode == XK_w) - (keycode == XK_s)) * 0.05;
+	if (keycode == XK_a || keycode == XK_d)
+		vars()->scene->camera->vector.x += ((keycode == XK_d) - (keycode == XK_a)) * 0.05;
+	if (keycode == XK_1 || keycode == XK_2)
+		vars()->scene->camera->vector.y += ((keycode == XK_1) - (keycode == XK_2)) * 0.05;
+	if (keycode == XK_q || keycode == XK_e)
+	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
+	if (keycode == XK_3 || keycode == XK_4)
+	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
+
+
+
 	return (0);
 }
 
@@ -67,7 +80,7 @@ int ft_mouse_down(int button, int x, int y)
 		vars()->scene->select->vector.y = -((float)(y))*(1.5f/HEIGHT_2);
 		return (0);
 	}
-	rt.O = vector(0, 0, 0);	
+	rt.O = vars()->scene->camera->vector;	
 	canvas_to_viewport(&rt, x, y); //get D
 	vars()->scene->select = mouse_trace_ray(vars, &rt); //get color
 	return 0;

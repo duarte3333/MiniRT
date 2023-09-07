@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/07 00:44:40 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/07 03:11:14 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ struct s_data{
 };
 
 struct s_scene{
+	t_camera *camera;
 	t_object *object;
 	t_object *light;
 	t_object *select;
     t_object *end;
     t_object *end_light;
-    t_object *camera;
 	t_scene  *next;
 	t_scene  *prev;
 };
@@ -196,9 +196,10 @@ void* 		new_object(int size);
 t_object*	new_plane(char *line);
 t_object* 	new_sphere(char *line);
 t_object* 	new_cylinder(char* line);
-t_object* 	new_camera(t_vector vector, float theta, float phi, float  qsi);
+t_camera* 	new_camera(char *line);
 
 //Raytracer
+void    raytracer_threads(t_ray_thread *thread);
 void		raytracer(t_scene *scene);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
 int 		new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *vars ,t_raytracer *rt, int recursion_depth);
@@ -226,8 +227,9 @@ void    light_add_back(t_scene *scene, t_type type, char *line);
 
 int ft_init_threads();
 
-t_vector	rotation_x(t_camera *this);
-t_vector	rotation_y(t_camera *this);
-t_vector	rotation_z(t_camera *this);
+t_vector	rotation_x(t_raytracer *rt);
+t_vector	rotation_y(t_raytracer *rt);
+t_vector	rotation_z(t_raytracer *rt);
+
 
 #endif

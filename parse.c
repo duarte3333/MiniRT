@@ -30,6 +30,8 @@ t_type ft_get_type(char *line)
             return POINT;   
 		if (line[0] == 'D')
             return DIRECTIONAL; 
+		if (line[0] == 'C')
+            return CAMERA;
         if ((line)[0] == 's' && (line)[1] == 'p') 
             return SPHERE;
         if ((line)[0] == 'p' && (line)[1] == 'l') 
@@ -57,7 +59,9 @@ void ft_check_line(t_scene *scene, char *line)
     i = 0;
     while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
         i++;
-	if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
+	if (type == CAMERA)
+		scene->camera = new_camera(line);
+	else if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
 		lst_add_back(scene, type, (line + i));
 	else
 		light_add_back(scene, type, (line + i));

@@ -1,32 +1,5 @@
 #include "includes/minirt.h"
 
-void    raytracer_threads(t_ray_thread *thread)
-{
-	t_chunk     s;
-    t_raytracer rt;
-
-    pthread_mutex_lock(&thread->th_mut);
-    bzero(&rt, sizeof(t_raytracer));
-    rt.O = vector(0, 0, 0);
-    s.sx = 0;
-    s.x = thread->x_i - 1;
-	while (++s.x < thread->x_f)
-	{
-        s.sy = 0;
-        s.y = -HEIGHT_2 - 1;
-		while (++s.y < HEIGHT_2)
-		{
-            rt.closest_obj = NULL;
-			canvas_to_viewport(&rt, s.x, s.y); //get D
-			thread->color[s.sy++ * thread->delta + s.sx] = \
-                new_trace_ray(NULL, rt.O, rt.D, vars()->scene, &rt, 1);
-		}
-        usleep(50);
-        s.sx++;
-	}
-    pthread_mutex_unlock(&thread->th_mut);
-}
-
 void    *routine(void *arg)
 {
     t_ray_thread *thread;
@@ -38,7 +11,7 @@ void    *routine(void *arg)
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-        //usleep(100);
+        usleep(50);
     }
     //free(thread->color);
     if (pthread_join(thread->thread, NULL))

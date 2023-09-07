@@ -1,4 +1,4 @@
-#include "includes/minirt.h"
+#include "../includes/minirt.h"
 
 int shadow_light(t_scene *scene, t_raytracer *rt)
 {

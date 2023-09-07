@@ -18,16 +18,16 @@ SRCS = Aux/pixel_put.c \
 	   Aux/ft_isspace.c \
 	   Aux/ft_lists.c \
 	   main.c \
-	   object.c \
-	   plane.c \
-	   sphere.c \
-	   cylinder.c \
+	   objects/object.c \
+	   objects/plane.c \
+	   objects/sphere.c \
+	   objects/cylinder.c \
+	   objects/light.c \
+	   objects/camera.c \
 	   hook.c \
 	   raytracer.c \
-	   light.c \
 	   parse.c \
 	   color.c \
-	   camera.c \
 	   threads.c 
 
 OBJS	= ${SRCS:.c=.o}

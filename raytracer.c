@@ -95,31 +95,61 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 {
 	float d = 1;
 	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
+	rotation_x(rt);
+	rotation_y(rt);
+	rotation_z(rt);
 }
 
-void raytracer(t_scene *scene)
+
+void    raytracer_threads(t_ray_thread *threads)
 {
-	t_raytracer rt;
-	int			x;
-	int			y;
+	t_chunk     s;
+    t_raytracer rt;
 
-	scene = vars()->scene;
-	x = -WIDTH_2 - 1;
-	bzero(&rt, sizeof(t_raytracer));
-	rt.O = vector(0, 0, 0);
-	while (++x < WIDTH_2)
+    pthread_mutex_lock(&threads->th_mut);
+    bzero(&rt, sizeof(t_raytracer));
+    rt.O = vars()->scene->camera->vector;
+    s.sx = 0;
+    s.x = threads->x_i - 1;
+	while (++s.x < threads->x_f)
 	{
-		y = -HEIGHT_2 - 1;
-		while (++y < HEIGHT_2)
+        s.sy = 0;
+        s.y = -HEIGHT_2 - 1;
+		while (++s.y < HEIGHT_2)
 		{
-			rt.closest_obj = NULL;
-			canvas_to_viewport(&rt, x, y); //get D
-			my_mlx_pixel_put(&vars()->img, x + WIDTH_2, y + HEIGHT_2, \
-				new_trace_ray(NULL, rt.O, rt.D, scene, &rt, 1));
+            rt.closest_obj = NULL;
+			canvas_to_viewport(&rt, s.x, s.y); //get D
+			threads->color[s.sy++ * threads->delta + s.sx] = \
+                new_trace_ray(NULL, rt.O, rt.D, vars()->scene, &rt, 1);
 		}
+        //usleep(50);
+        s.sx++;
 	}
-	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
+    pthread_mutex_unlock(&threads->th_mut);
 }
+// void raytracer(t_scene *scene)
+// {
+// 	t_raytracer rt;
+// 	int			x;
+// 	int			y;
+
+// 	scene = vars()->scene;
+// 	x = -WIDTH_2 - 1;
+// 	bzero(&rt, sizeof(t_raytracer));
+// 	rt.O = vector(0, 0, 0);
+// 	while (++x < WIDTH_2)
+// 	{
+// 		y = -HEIGHT_2 - 1;
+// 		while (++y < HEIGHT_2)
+// 		{
+// 			rt.closest_obj = NULL;
+// 			canvas_to_viewport(&rt, x, y); //get D
+// 			my_mlx_pixel_put(&vars()->img, x + WIDTH_2, y + HEIGHT_2, \
+// 				new_trace_ray(NULL, rt.O, rt.D, scene, &rt, 1));
+// 		}
+// 	}
+// 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
+// }
 
 	// if (obj->type == CYLINDER)
 	// {
