@@ -1,4 +1,16 @@
-#include "includes/minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
+/*   Updated: 2023/09/10 18:39:31 by duarte33         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minirt.h"
 
 static t_object *mouse_trace_ray(t_vars *vars ,t_raytracer *rt)
 {
@@ -47,9 +59,12 @@ int	ft_key(int keycode)
 	}
 	if (vars()->scene->select)
 	{
+		printf("nb %d\n", vars()->scene->select->type);
 		vars()->scene->select->vector.y +=  ((keycode == XK_Up) - (keycode == XK_Down)) * 0.05;
 		vars()->scene->select->vector.x +=  ((keycode == XK_Right) - (keycode == XK_Left)) * 0.05;
 		vars()->scene->select->vector.z +=  ((keycode == 'z') - (keycode == 'x')) * 0.05;
+		// if (keycode == XK_6)
+		// 	vars()->scene->select->rotate(vars()->scene->select, X_theta_2);
 		//printf("y: %f, x: %f z: %f\n", vars->select->vector.y, vars->select->vector.x, vars->select->vector.z);
 	}
 	if (keycode == XK_w || keycode == XK_s)
@@ -62,6 +77,13 @@ int	ft_key(int keycode)
 	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
 	if (keycode == XK_3 || keycode == XK_4)
 	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
+	if (keycode == XK_8 && vars()->scene->next)
+	{
+		//printf("ola %d\n", vars()->scene->next);
+		vars()->scene = vars()->scene->next;
+	}
+	if (keycode == XK_9 && vars()->scene->prev)
+		vars()->scene = vars()->scene->prev;
 	return (0);
 }
 

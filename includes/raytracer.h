@@ -21,18 +21,6 @@ struct s_chunk
 	int sy;
 };
 
-struct s_ray_thread
-{
-	pthread_t	*thread;
-	pthread_mutex_t th_mut;
-	int	index;
-	int	x_i;
-	int	x_f;
-	int	delta;
-	int	*color;
-	int check_paint;
-};
-
 struct s_raylight{
 	//Diffuse
 	t_vector 	P;
@@ -64,6 +52,19 @@ struct s_raytracer{
 	int	 	 	local_color;
 	int			reflected_color;
 	int			final_color;
+};
+
+struct s_ray_thread
+{
+	pthread_t	*thread;
+	pthread_mutex_t th_mut;
+    t_raytracer rt;
+	int	index;
+	int	x_i;
+	int	x_f;
+	int	delta;
+	int	*color;
+	int check_paint;
 };
 
 

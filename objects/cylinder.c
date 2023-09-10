@@ -1,14 +1,47 @@
 #include "../includes/minirt.h"
 
-/* Esta funcao recebe uma esfera e um raio retorna 
+/* Esta funcao recebe uma cilindro e um raio retorna 
 os pixels onde intersetam.
 Ray equation: P = O + t(V - O)*/
+
+float	distance(t_vector v1, t_vector v2)
+{
+	return (sqrt(pow(v1.x - v2.x, 2) + pow(v1.y - v2.y, 2) \
+		+ pow(v1.z - v2.z, 2)));
+}
+
+static float check_height(t_raytracer *rt, t_cylinder *this, float t)
+{
+	t_vector P_local;
+	t_vector new_P;
+
+	P_local =vector_add(rt->O, vector_multiply(rt->D, vector(t, t, t)));
+	float k = dot(P_local, this->axis) - dot(this->vector, this->axis) / dot(this->axis, this->axis); 
+	new_P = vector_add(this->vector, vector_multiply(vector(k,k,k), this->axis));
+	if (distance(new_P, this->vector) > this->height / 2 )
+		return INT_MAX;
+	return t;
+}
+
+static void rotate(t_cylinder *this, t_rotation rotation)
+{
+	float increment;
+
+	increment = 0.05;
+	this->theta *= ((rotation == X_theta_1) - (rotation == X_theta_2))*increment;
+	rotation_x(&this->axis, this->theta);
+	this->phi *= ((rotation == Y_phi_1) - (rotation == Y_phi_2))*increment;
+	rotation_y(&this->axis, this->phi);
+	this->qsi *= ((rotation == Z_qsi_1) - (rotation == Z_qsi_2))*increment;
+	rotation_z(&this->axis, this->qsi);
+}
+
 static t_values intersect(t_raytracer *rt, t_cylinder *this)
 {
 	t_values local;
-	float close;
 	t_vector CO;
 
+	rotation_z(&this->axis, this->qsi);
 	CO = vector_subtract(rt->O, this->vector);
 
 	rt->a = dot(rt->D, rt->D) * pow(module(this->axis),2) - \
@@ -26,7 +59,9 @@ static t_values intersect(t_raytracer *rt, t_cylinder *this)
 		return local;
 	}
 	local.t1 = ((-(rt->b) + sqrt(rt->discriminant)) / (2.0f*rt->a));
+	local.t1 = check_height(rt, this, local.t1);
 	local.t2 = ((-(rt->b) - sqrt(rt->discriminant)) / (2.0f*rt->a));
+	local.t2 = check_height(rt, this, local.t2);
 	return local;
 	// float r = rt->D.y + close*1;
 	// if (r > this->vector.y && (r <= (this->vector.y + this->height)))
@@ -54,6 +89,7 @@ t_object* new_cylinder(char* line)
 
 	cylinder = new_object(sizeof(t_cylinder));
 	cylinder->intersect = intersect;
+	cylinder->rotate = rotate;
 	cylinder->type = CYLINDER;
 	cylinder->vector.x = ft_atof(&line);
 	cylinder->vector.y = ft_atof(&line);
@@ -68,6 +104,9 @@ t_object* new_cylinder(char* line)
     cylinder->color.b = (int)ft_atof(&line);
 	cylinder->specular = (int)ft_atof(&line);
 	cylinder->refletive = ft_atof(&line);
+	cylinder->theta = 0.0f;
+	cylinder->phi = 0.0f;
+	cylinder->qsi = 0.0f;
 	return ((t_object *)cylinder);
 }
 	

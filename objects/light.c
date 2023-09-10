@@ -63,7 +63,9 @@ float compute_light(t_raytracer *rt)
 t_object *new_light(char *line, t_type type)
 {
 	t_light *new_light;
-	
+
+	// if (!check_light())
+	//  	return NULL;
 	new_light = new_object(sizeof(t_light));
 	new_light->type = type;
 	if (new_light->type != AMBIENT)

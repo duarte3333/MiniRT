@@ -33,4 +33,6 @@ t_vector 	vector_multiply(t_vector vec, t_vector vec2);
 t_vector 	vector_divide(t_vector vec, t_vector vec2);	
 float 		dot(t_vector va, t_vector vb);
 float 		module(t_vector vec);
+t_vector 	vector_mult_const(t_vector vec, float value);
+t_vector 	vector_div_const(t_vector vec, float value);
 #endif

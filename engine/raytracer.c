@@ -1,21 +1,4 @@
-#include "includes/minirt.h"
-
-bool inside(float t, float t_min, float t_max)
-{
-	if (t >= t_min && t < t_max )
-		return true;
-	return false;
-}
-
-void choose_normal(t_raytracer* rt, t_object *obj)
-{
-	if (obj->type == SPHERE)
-		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
-	else if (obj->type == PLANE)
-		rt->rl.N = obj->vector;
-	else if (obj->type == CYLINDER)
-		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
-}
+#include "../includes/minirt.h"
 
 void light_prepare(t_raytracer* rt, t_object *obj)
 {
@@ -24,7 +7,6 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 
 	closest_t = rt->closest_t;
 	rt->rl.P = vector_add(rt->O, vector_multiply(rt->D, vector(closest_t, closest_t, closest_t)));
-	//rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
 	choose_normal(rt, obj);
 	module_N = module(rt->rl.N);
 	rt->rl.N = vector_divide(rt->rl.N, vector(module_N, module_N, module_N));
@@ -58,16 +40,6 @@ t_object *closest_intersection(t_raytracer *rt)
 	return obj;
 }
 
-static t_vector reflected_ray(t_vector R, t_vector N)
-{
-	double 	 dotN_R;
-	t_vector Rfinal;
-
-	dotN_R = 2.0f*dot(N, R);
-	Rfinal = vector_subtract(vector_multiply(N, vector(dotN_R, dotN_R, dotN_R)), R);
-	return Rfinal;
-}
-
 int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_raytracer *rt, int recursion_depth)
 {
 	float	 r;
@@ -95,22 +67,22 @@ int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_
 
 void canvas_to_viewport(t_raytracer *rt, float x, float y)
 {
+	t_camera *cam;
 	float d = 1;
-	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
-	rotation_x(rt);
-	rotation_y(rt);
-	rotation_z(rt);
-}
 
+	cam = vars()->scene->camera;
+	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
+	rotation_x(&rt->D, cam->theta);
+	rotation_y(&rt->D, cam->phi);
+	rotation_z(&rt->D, cam->qsi);
+}
 
 void    raytracer_threads(t_ray_thread *threads)
 {
 	t_chunk     s;
-    t_raytracer rt;
 
     pthread_mutex_lock(&threads->th_mut);
-    bzero(&rt, sizeof(t_raytracer));
-    rt.O = vars()->scene->camera->vector;
+    threads->rt.O = vars()->scene->camera->vector;
     s.sx = 0;
     s.x = threads->x_i - 1;
 	while (++s.x < threads->x_f)
@@ -119,45 +91,13 @@ void    raytracer_threads(t_ray_thread *threads)
         s.y = -HEIGHT_2 - 1;
 		while (++s.y < HEIGHT_2)
 		{
-            rt.closest_obj = NULL;
-			canvas_to_viewport(&rt, s.x, s.y); //get D
+            threads->rt.closest_obj = NULL;
+			canvas_to_viewport(&threads->rt, s.x, s.y);
 			threads->color[s.sy++ * threads->delta + s.sx] = \
-                new_trace_ray(NULL, rt.O, rt.D, vars()->scene, &rt, 1);
+                new_trace_ray(NULL, threads->rt.O, threads->rt.D, vars()->scene, &threads->rt, 1);
 		}
         //usleep(50);
         s.sx++;
 	}
     pthread_mutex_unlock(&threads->th_mut);
 }
-// void raytracer(t_scene *scene)
-// {
-// 	t_raytracer rt;
-// 	int			x;
-// 	int			y;
-
-// 	scene = vars()->scene;
-// 	x = -WIDTH_2 - 1;
-// 	bzero(&rt, sizeof(t_raytracer));
-// 	rt.O = vector(0, 0, 0);
-// 	while (++x < WIDTH_2)
-// 	{
-// 		y = -HEIGHT_2 - 1;
-// 		while (++y < HEIGHT_2)
-// 		{
-// 			rt.closest_obj = NULL;
-// 			canvas_to_viewport(&rt, x, y); //get D
-// 			my_mlx_pixel_put(&vars()->img, x + WIDTH_2, y + HEIGHT_2, \
-// 				new_trace_ray(NULL, rt.O, rt.D, scene, &rt, 1));
-// 		}
-// 	}
-// 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
-// }
-
-	// if (obj->type == CYLINDER)
-	// {
-	// 	float r = rt->D.z + rt->closest_t;
-	// 	if (r > obj->vector.z && (r <= (obj->vector.z + obj->height)))
-	// 		;
-	// 	else
-	// 		rt->closest_t = INT_MAX;
-	// }

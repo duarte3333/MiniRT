@@ -26,6 +26,8 @@ t_object* new_sphere(char *line)
 {
 	t_sphere *sphere;
 
+	// if (!check_sphere())
+	// 	return NULL;
 	sphere = new_object(sizeof(t_sphere));
 	sphere->intersect = intersect;
 	sphere->type = SPHERE;

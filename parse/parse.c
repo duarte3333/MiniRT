@@ -1,21 +1,10 @@
-#include "includes/minirt.h"
+#include "../includes/minirt.h"
 
 t_object    *parse_next(t_type type, char *line)
 {
-    if (type == PLANE)
-        return (new_plane(line));
-    if (type == SPHERE)
-        return (new_sphere(line));
-    if (type == CYLINDER)
-        return (new_cylinder(line));
-    if (type == AMBIENT)
-        return (new_light(line, type));
-    if (type == DIRECTIONAL)
-        return (new_light(line, type));
-	if (type == POINT)
-        return (new_light(line, type));
-	else
-		return (NULL);
+	if (vars()->new_objects[type] == NULL)
+		return NULL;
+	return (vars()->new_objects[type](line, type));
 }
 
 t_type ft_get_type(char *line)
@@ -38,6 +27,8 @@ t_type ft_get_type(char *line)
             return PLANE;
         if ((line)[0] == 'c' && (line)[1] == 'y') 
             return CYLINDER;
+		if ((line)[0] == 'c' && (line)[1] == 'n') 
+            return CONE;
     }
 	return ERROR;
 }
@@ -61,6 +52,8 @@ void ft_check_line(t_scene *scene, char *line)
         i++;
 	if (type == CAMERA)
 		scene->camera = new_camera(line);
+	else if (type == EMPTY_LINE)
+		return ;
 	else if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
 		lst_add_back(scene, type, (line + i));
 	else

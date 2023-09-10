@@ -6,9 +6,13 @@ t_vars *vars()
 	return (&my_vars);
 }
 
-void init_window(t_vars *vars)
+static void init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->img.img)
+		mlx_destroy_image(vars->mlx, vars->img.img);
 	vars->img.img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->img.addr = mlx_get_data_addr(vars->img.img, \
 		&vars->	//vars->objects[0] = new_object(sizeof(t_object));
@@ -20,7 +24,7 @@ void init_window(t_vars *vars)
 	//mlx_hook(vars->win, 5, 1L<<3, ft_mouse_up, vars);
 }
 
-int create_scene(char *arg)
+static int create_scene(char *arg)
 {
 	int fd;
 	static t_scene *end_scene;
@@ -32,7 +36,7 @@ int create_scene(char *arg)
 	if (fd == -1)
 	{
 		printf("Error openning the file!");
-		return -1;
+		return 1;
 	}
 	while (map_loading(head, fd))
 		;
@@ -42,62 +46,41 @@ int create_scene(char *arg)
 	else 
 		end_scene->next = head;
 	end_scene = head;
-	return 0;
+	return head->syntax;
 }
 
-void paint_chunk(t_ray_thread *thread)
+static void init_creations()
 {
-	t_chunk s;
-
-	s.sx = 0;
-    s.x = thread->x_i - 1;
-	pthread_mutex_lock(&thread->th_mut);
-	while (++s.x < thread->x_f)
-	{
-        s.sy = 0;
-        s.y = -HEIGHT_2 - 1;
-		while (++s.y < HEIGHT_2)
-			my_mlx_pixel_put(&vars()->img, s.x + WIDTH_2, \
-				s.y + HEIGHT_2, thread->color[s.sy++ * thread->delta + s.sx]);
-        s.sx++;
-	}
-	pthread_mutex_unlock(&thread->th_mut);
-}
-
-void paint()
-{
-	int	n;
-
-	pthread_mutex_lock(&vars()->mut);
-    if (vars()->count != vars()->n_threads)
-	{
-		pthread_mutex_unlock(&vars()->mut);
-		return ;
-	}
-	vars()->count = 0;
-	n = -1;
-	while (++n < vars()->n_threads)
-		paint_chunk(&vars()->threads[n]);
-	pthread_mutex_unlock(&vars()->mut);
-	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
-
+	vars()->new_objects[PLANE] = new_plane;
+	vars()->new_objects[SPHERE] = new_sphere;
+	vars()->new_objects[CYLINDER] = new_cylinder;
+	vars()->new_objects[CONE] = new_cone;
+	vars()->new_objects[AMBIENT] = new_light;
+	vars()->new_objects[POINT] = new_light;
+	vars()->new_objects[DIRECTIONAL] = new_light;
+	vars()->new_objects[CAMERA] = new_camera;
 }
 
 int	main(int ac, char **av)
 {
 	int	i;
 
-	i = 0;
-	if (ac == 2)
+	if (ac >= 2)
 	{
+		init_creations();
+		i = 0;
 		while (av[++i])
-			create_scene(av[i]);
+		{			
+			if (create_scene(av[i]) )
+				printf("Bad Map: %s\n", av[i]);
+		}
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
 		mlx_loop(vars()->mlx);
+		printf("s\n");
 		pthread_mutex_destroy(&vars()->mut);
 		free(vars()->threads);
 	}
@@ -105,12 +88,12 @@ int	main(int ac, char **av)
 		write(1, "Not enough arguments\n", 22);
 }
 
-//Verificar calloc e bzero
+//Verificar calloc e bzero DONE
 //Fazer camara mexer e rodar(criar camara) DONE
-//Fazer cilindro
+//Fazer cilindro CASA
 //Meter check syntax
 //Checker se existe camara
-//Corrigir SEGV no parsing
+//Corrigir SEGV no parsing DONE
 
 //BONUS
 //Fazer cone

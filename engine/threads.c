@@ -1,6 +1,6 @@
-#include "includes/minirt.h"
+#include "../includes/minirt.h"
 
-void    *routine(void *arg)
+static void    *routine(void *arg)
 {
     t_ray_thread *thread;
 
@@ -11,7 +11,7 @@ void    *routine(void *arg)
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-        usleep(50);
+        usleep(0);
     }
     //free(thread->color);
     if (pthread_join(thread->thread, NULL))
@@ -22,7 +22,7 @@ void    *routine(void *arg)
     return (NULL);
 }
 
-void create_chunks(t_ray_thread *thread, int i)
+static void create_chunks(t_ray_thread *thread, int i)
 {
    int rest;
 
@@ -34,7 +34,7 @@ void create_chunks(t_ray_thread *thread, int i)
        thread[i].delta = (int)WIDTH - (vars()->n_threads - 1)* \
             ((int)WIDTH/vars()->n_threads);
        thread[i].x_f =  thread[i].delta + thread[i].x_i;
-       thread[i].color = calloc(sizeof(int), (int)(HEIGHT) * thread[i].delta);
+       thread[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * thread[i].delta);
    }
    else
    {
@@ -42,7 +42,7 @@ void create_chunks(t_ray_thread *thread, int i)
         thread[i].x_i = -WIDTH_2 + i*thread[i].delta;
         if (i < vars()->n_threads)
             thread[i].x_f = -WIDTH_2 + (i+1)*thread[i].delta;
-        thread[i].color = calloc(sizeof(int), (int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
+        thread[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
    }
 }
 

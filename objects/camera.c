@@ -1,46 +1,51 @@
 #include "../includes/minirt.h"
 
-t_vector	rotation_x(t_raytracer *rt)
+void	rotation_x(t_vector *vec, float theta)
 {
 	float	temp_z;
 	float	temp_y;
-	t_camera *this;
 
-	this = vars()->scene->camera;
-	temp_z = rt->D.z;
-	temp_y = rt->D.y;
-	rt->D.y = temp_y * cos(this->theta) + temp_z * sin(this->theta);
-	rt->D.z = -temp_y * sin(this->theta) + temp_z * cos(this->theta);
-	return (this->vector);
+	temp_z = vec->z;
+	temp_y = vec->y;
+	vec->y = temp_y * cos(theta) + temp_z * sin(theta);
+	vec->z = -temp_y * sin(theta) + temp_z * cos(theta);
 }
 
-t_vector	rotation_y(t_raytracer *rt)
+void	rotation_y(t_vector *vec, float phi)
 {
 	float	temp_x;
 	float	temp_z;
-	t_camera *this;
 
-	this = vars()->scene->camera;
-	temp_x = rt->D.x;
-	temp_z = rt->D.z;
-	rt->D.x = temp_x * cos(this->phi) + temp_z * sin(this->phi);
-	rt->D.z = -temp_x * sin(this->phi) + temp_z * cos(this->phi);
-	return (this->vector);
+	temp_x = vec->x;
+	temp_z = vec->z;
+	vec->x = temp_x * cos(phi) + temp_z * sin(phi);
+	vec->z = -temp_x * sin(phi) + temp_z * cos(phi);
 }
 
-t_vector	rotation_z(t_raytracer *rt)
+void	rotation_z(t_vector *vec, float qsi)
 {
 	float	temp_x;
 	float	temp_y;
-	t_camera *this;
 
-	this = vars()->scene->camera;
-	temp_x = rt->D.x;
-	temp_y = rt->D.y;
-	rt->D.x = temp_x * cos(this->qsi) - temp_y * sin(this->qsi);
-	rt->D.y = temp_x * sin(this->qsi) + temp_y * cos(this->qsi);
-	return (this->vector);
+	temp_x = vec->x;
+	temp_y = vec->y;
+	vec->x = temp_x * cos(qsi) - temp_y * sin(qsi);
+	vec->y = temp_x * sin(qsi) + temp_y * cos(qsi);
 }
+
+static void rotate(t_raytracer *rt, t_camera *this, t_rotation rotation)
+{
+	float increment;
+
+	increment = 0.05;
+	this->theta *= ((rotation == X_theta_1) - (rotation == X_theta_2))*increment;
+	rotation_x(&rt->D, this->theta);
+	this->phi *= ((rotation == Y_phi_1) - (rotation == Y_phi_2))*increment;
+	rotation_y(&rt->D, this->phi);
+	this->qsi *= ((rotation == Z_qsi_1) - (rotation == Z_qsi_2))*increment;
+	rotation_z(&rt->D, this->qsi);
+}
+
 
 t_camera* new_camera(char *line)
 {
@@ -48,12 +53,17 @@ t_camera* new_camera(char *line)
 
 	cam = new_object(sizeof(t_camera));
 	cam->type = CAMERA;
+	cam->rotate = rotate;
 	cam->vector.x = ft_atof(&line);
 	cam->vector.y = ft_atof(&line);
 	cam->vector.z = ft_atof(&line);
-	cam->theta = ft_atof(&line);
-	cam->phi = ft_atof(&line);
-	cam->qsi = ft_atof(&line);
+	cam->direction.x= ft_atof(&line);
+	cam->direction.y = ft_atof(&line);
+	cam->direction.z = ft_atof(&line);
+	cam->fov = ft_atof(&line);
+	cam->theta = 0.0f;
+	cam->phi = 0.0f;
+	cam->qsi = 0.0f;
 	return (cam);
 }
 	

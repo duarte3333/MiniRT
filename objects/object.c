@@ -4,7 +4,7 @@ void* new_object(int size)
 {
 	t_object *object;
 
-	object = (t_object *)calloc(size, 1);
+	object = (t_object *)ft_calloc(size, 1);
 	return (object);
 }
 
