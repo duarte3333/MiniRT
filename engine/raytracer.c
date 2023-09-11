@@ -6,12 +6,12 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 	float_t closest_t;
 
 	closest_t = rt->closest_t;
-	rt->rl.P = vector_add(rt->O, vector_multiply(rt->D, vector(closest_t, closest_t, closest_t)));
+	rt->rl.P = vector_add(rt->O, vector_mult_const(rt->D, closest_t));
 	choose_normal(rt, obj);
 	module_N = module(rt->rl.N);
-	rt->rl.N = vector_divide(rt->rl.N, vector(module_N, module_N, module_N));
+	rt->rl.N = vector_div_const(rt->rl.N, module_N);
 	rt->rl.s = obj->specular;
-	rt->rl.V = vector_multiply((rt->D), vector(-1, -1, -1));
+	rt->rl.V = vector_mult_const((rt->D), -1);
 }
 
 t_object *closest_intersection(t_raytracer *rt)
@@ -59,9 +59,9 @@ int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0.001f)
 		return newRT.local_color;
-	newRT.rl.R = reflected_ray(vector_multiply(newRT.D, vector(-1, -1, -1)), newRT.rl.N);
-	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, vector_multiply(newRT.rl.R, \
-		vector(0.01f, 0.01f, 0.01f))), newRT.rl.R, scene, rt, recursion_depth - 1);
+	newRT.rl.R = reflected_ray(vector_mult_const(newRT.D, -1), newRT.rl.N);
+	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, \
+		vector_mult_const(newRT.rl.R, 0.01f)), newRT.rl.R, scene, rt, recursion_depth - 1);
 	return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
 

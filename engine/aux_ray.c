@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:14 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/10 18:41:15 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/11 00:20:17 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ t_vector reflected_ray(t_vector R, t_vector N)
 	t_vector Rfinal;
 
 	dotN_R = 2.0f*dot(N, R);
-	Rfinal = vector_subtract(vector_multiply(N, vector(dotN_R, dotN_R, dotN_R)), R);
+	Rfinal = vector_subtract(vector_mult_const(N, dotN_R), R);
 	return Rfinal;
 }

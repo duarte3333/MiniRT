@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/10 18:39:31 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/11 00:58:29 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ int	ft_close(t_vars *vars)
 	exit(0);
 }
 
+static void camera_move(int keycode)
+{
+	if (keycode == XK_w || keycode == XK_s)
+		vars()->scene->camera->vector.z += ((keycode == XK_w) - (keycode == XK_s))*0.05;
+	if (keycode == XK_a || keycode == XK_d)
+		vars()->scene->camera->vector.x += ((keycode == XK_d) - (keycode == XK_a))*0.05;
+	if (keycode == XK_1 || keycode == XK_2)
+		vars()->scene->camera->vector.y += ((keycode == XK_1) - (keycode == XK_2)) * 0.05;
+	if (keycode == XK_q || keycode == XK_e)
+	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
+	if (keycode == XK_3 || keycode == XK_4)
+	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
+}
+
 int	ft_key(int keycode)
 {
 	if (keycode == XK_Escape)
@@ -59,7 +73,6 @@ int	ft_key(int keycode)
 	}
 	if (vars()->scene->select)
 	{
-		printf("nb %d\n", vars()->scene->select->type);
 		vars()->scene->select->vector.y +=  ((keycode == XK_Up) - (keycode == XK_Down)) * 0.05;
 		vars()->scene->select->vector.x +=  ((keycode == XK_Right) - (keycode == XK_Left)) * 0.05;
 		vars()->scene->select->vector.z +=  ((keycode == 'z') - (keycode == 'x')) * 0.05;
@@ -67,16 +80,7 @@ int	ft_key(int keycode)
 		// 	vars()->scene->select->rotate(vars()->scene->select, X_theta_2);
 		//printf("y: %f, x: %f z: %f\n", vars->select->vector.y, vars->select->vector.x, vars->select->vector.z);
 	}
-	if (keycode == XK_w || keycode == XK_s)
-		vars()->scene->camera->vector.z += ((keycode == XK_w) - (keycode == XK_s)) * 0.05;
-	if (keycode == XK_a || keycode == XK_d)
-		vars()->scene->camera->vector.x += ((keycode == XK_d) - (keycode == XK_a)) * 0.05;
-	if (keycode == XK_1 || keycode == XK_2)
-		vars()->scene->camera->vector.y += ((keycode == XK_1) - (keycode == XK_2)) * 0.05;
-	if (keycode == XK_q || keycode == XK_e)
-	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
-	if (keycode == XK_3 || keycode == XK_4)
-	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
+	camera_move(keycode);
 	if (keycode == XK_8 && vars()->scene->next)
 	{
 		//printf("ola %d\n", vars()->scene->next);

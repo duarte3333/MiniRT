@@ -7,11 +7,11 @@ static void    *routine(void *arg)
     thread = (t_ray_thread*)arg;
     while (1)
     {  
+        usleep(20);
         raytracer_threads(thread);
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-        usleep(0);
     }
     //free(thread->color);
     if (pthread_join(thread->thread, NULL))

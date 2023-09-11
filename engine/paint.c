@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:42:49 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/10 18:42:50 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/11 00:33:10 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void paint_chunk(t_ray_thread *thread)
 				s.y + HEIGHT_2, thread->color[s.sy++ * thread->delta + s.sx]);
         s.sx++;
 	}
+	//usleep(50);
 	pthread_mutex_unlock(&thread->th_mut);
 }
 
@@ -46,6 +47,7 @@ void paint()
 	while (++n < vars()->n_threads)
 		paint_chunk(&vars()->threads[n]);
 	pthread_mutex_unlock(&vars()->mut);
+	//usleep(5);
 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
 
 }

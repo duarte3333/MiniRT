@@ -17,7 +17,7 @@ static void init_window(t_vars *vars)
 	vars->img.addr = mlx_get_data_addr(vars->img.img, \
 		&vars->	//vars->objects[0] = new_object(sizeof(t_object));
 	img.bits_per_pixel, &vars->img.line_length, &vars->img.endian);
-	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Hello world!");
+	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Dudu Raytracer :)");
 	mlx_hook(vars->win, 17, 0, ft_close, vars);
 	mlx_hook(vars->win, 2, 1L<<0, ft_key, NULL);
 	mlx_hook(vars->win, 4, 1L<<2, ft_mouse_down, NULL);
@@ -75,12 +75,11 @@ int	main(int ac, char **av)
 				printf("Bad Map: %s\n", av[i]);
 		}
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1;
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
 		mlx_loop(vars()->mlx);
-		printf("s\n");
 		pthread_mutex_destroy(&vars()->mut);
 		free(vars()->threads);
 	}
@@ -90,13 +89,16 @@ int	main(int ac, char **av)
 
 //Verificar calloc e bzero DONE
 //Fazer camara mexer e rodar(criar camara) DONE
-//Fazer cilindro CASA
-//Meter check syntax
-//Checker se existe camara
+//Checker se existe camara DONE
 //Corrigir SEGV no parsing DONE
+//Meter check syntax
+
+
+//Ver rotacoes camara AFONSO
+//Ver bases do cone e cilindro AFONSO
 
 //BONUS
-//Fazer cone
+//Fazer cone DONE
 //Fazer checkboard
 //Fazer texturas
 //Fazer luzes com varias cores
