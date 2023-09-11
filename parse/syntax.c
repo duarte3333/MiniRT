@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-static int	check_camera(char **line, int *f)
+static int	check_camera(char **line)
 {
 	(*line)++;
 	if (check_vector(line) == 0)
@@ -13,7 +13,6 @@ static int	check_camera(char **line, int *f)
 		(*line)++;
 	if (**line && **line != '\n')
 		return (0);
-	*f = 1;
 	return (1);
 }
 
@@ -23,18 +22,21 @@ static int	check_repeat(t_type type)
 	static int a;
 	static int c;
 
-	if (type == AMBIENT && a == 0)
-		a = 1;
-	else if (type == AMBIENT && a == 1)
+	//printf("ola %d\n", type);
+	//printf("f %d\n", vars()->last->f[0]);
+	if (type == AMBIENT && vars()->last->f[0] == 0)
+		vars()->last->f[0] = 1;
+	else if (type == AMBIENT && vars()->last->f[0] == 1)
 		return (0);
-	else if (type == POINT && l == 0)
-		l = 1;
-	else if (type == POINT && l == 1)
+	else if (type == POINT && vars()->last->f[1] == 0)
+		vars()->last->f[1] = 1;
+	else if (type == POINT && vars()->last->f[1] == 1)
 		return (0);
-	else if (type == CAMERA && c == 0)
-		c = 1;
-	else if (type == CAMERA && c == 1)
+	else if (type == CAMERA && vars()->last->f[2] == 0)
+		vars()->last->f[2] = 1;
+	else if (type == CAMERA && vars()->last->f[2] == 1)
 		return (0);
+	//printf("adeus\n");
 	return (1);
 }
 
@@ -53,11 +55,11 @@ static int	test_syntax2(char *line, char **head, t_type type, int fd)
 	f = 0;
 	while (line != NULL)
 	{
-		/* if (check_repeat(type) == 0)
+		if (check_repeat(type) == 0)
 		{
 			printf("repeat\n");
 			return (0);
-		} */
+		}
 		if (type == PLANE && !check_plane(&line))
 		{
 			printf("plane\n");
@@ -79,7 +81,7 @@ static int	test_syntax2(char *line, char **head, t_type type, int fd)
 			printf("cone\n");
 			return (0);
 		}
-		else if (type == CAMERA && !check_camera(&line, &f))
+		else if (type == CAMERA && !check_camera(&line))
 		{
 			printf("camera\n");
 			return (0);
@@ -92,8 +94,11 @@ static int	test_syntax2(char *line, char **head, t_type type, int fd)
 		test_syntax_helper(&line, head, &type, fd);
 	}
 	free(*head);
-	/* if (f == 0)
-		return (0); */
+	if (vars()->last->f[2] == 0)
+	{
+		printf("no camera\n");
+		return (0);
+	}		
 	return (1);
 }
 

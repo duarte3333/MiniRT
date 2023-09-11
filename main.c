@@ -36,17 +36,24 @@ static int create_scene(char *arg)
 	if (fd == -1)
 	{
 		printf("Error openning the file!");
-		return 1;
+		return 0;
 	}
+	vars()->last = head;
+	//printf("head f[0] %d\n", vars()->last->f[0]);
+	if (!test_syntax(arg))
+		return (0);
 	while (map_loading(head, fd))
 		;
 	close(fd);
 	if (!vars()->scene)
 		vars()->scene = head;
-	else 
+	else
+	{
 		end_scene->next = head;
+		head->prev = end_scene;
+	} 
 	end_scene = head;
-	return head->syntax;
+	return 1;
 }
 
 static void init_creations()
@@ -71,7 +78,7 @@ int	main(int ac, char **av)
 		i = 0;
 		while (av[++i])
 		{			
-			if (create_scene(av[i]) )
+			if (!create_scene(av[i]) )
 				printf("Bad Map: %s\n", av[i]);
 		}
 		init_window(vars());
@@ -91,14 +98,17 @@ int	main(int ac, char **av)
 //Fazer camara mexer e rodar(criar camara) DONE
 //Checker se existe camara DONE
 //Corrigir SEGV no parsing DONE
-//Meter check syntax
+//Otimizar last do vars
 
+//Meter check syntax
 
 //Ver rotacoes camara AFONSO
 //Ver bases do cone e cilindro AFONSO
+//Fazer luzes com varias cores AFONSO
+
+//Fazer menu
 
 //BONUS
 //Fazer cone DONE
 //Fazer checkboard
 //Fazer texturas
-//Fazer luzes com varias cores

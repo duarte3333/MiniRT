@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/10 18:45:25 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:58:06 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ struct s_scene{
     t_object *end_light;
 	t_scene  *next;
 	t_scene  *prev;
-	bool syntax;
+	int	 	 f[3];
+	bool 	 syntax;
 };
 
 struct	s_vars {
@@ -89,6 +90,7 @@ struct	s_vars {
 	void	*win;
 	t_data	 img;
 	t_scene	 *scene;
+	t_scene  *last;
 	char 	 *map_file;
 	//
 	int		n_threads;
