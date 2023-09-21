@@ -39,7 +39,6 @@ static int create_scene(char *arg)
 		return 0;
 	}
 	vars()->last = head;
-	//printf("head f[0] %d\n", vars()->last->f[0]);
 	if (!test_syntax(arg))
 		return (0);
 	while (map_loading(head, fd))
@@ -79,13 +78,12 @@ int	main(int ac, char **av)
 		while (av[++i])
 		{			
 			if (!create_scene(av[i]))
-			{
 				printf("Bad Map: %s\n", av[i]);
-				return (0);
-			}
 		}
+		if (vars()->scene == NULL)
+			return (0);
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN);
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);

@@ -51,8 +51,8 @@ float *compute_light(t_raytracer *rt)
 	{	
 		if (tmp->type == AMBIENT)
 		{
-			rt->rl.i[0] += tmp->intensity*(tmp->color.r / 255);
-			rt->rl.i[1] += tmp->intensity*(tmp->color.r / 255);
+			rt->rl.i[0] += tmp->intensity*(float)(tmp->color.r / 255);
+			rt->rl.i[1] += tmp->intensity*(float)(tmp->color.r / 255);
 			rt->rl.i[2] += tmp->intensity*(tmp->color.r / 255);
 		}
 		else
