@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/11 17:58:06 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:27:02 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ struct s_cone
 	t_vector tmp;
 	float 	 m;
 	float	 radius;
-	float	 theta;
 };
 
 t_vars *vars();
@@ -254,7 +253,7 @@ void	rotation_z(t_vector *vec, float theta);
 
 //Ligh
 t_object 	*new_light(char *line, t_type type);
-float 		compute_light(t_raytracer *rt);
+float 		*compute_light(t_raytracer *rt);
 void 		light_prepare(t_raytracer* rt, t_object *obj);
 
 //Raytracer

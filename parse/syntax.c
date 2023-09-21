@@ -145,6 +145,8 @@ int		check_cone(char **line)
 		return (0);
 	if (check_float(line, 1) == 0)
 		return (0);
+	if (check_float(line, 1) == 0)
+		return (0);
 	if (check_color(line) == 0)
 		return (0);
 	if (check_spec_ref(line) == 0)

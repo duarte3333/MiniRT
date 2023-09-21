@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:14 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/11 00:20:17 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:32:38 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void choose_normal(t_raytracer* rt, t_object *obj)
 	else if (obj->type == PLANE)
 		rt->rl.N = obj->vector;
 	else if (obj->type == CYLINDER)
+		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
+	else if (obj->type == CONE)
 		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
 }
 

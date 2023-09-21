@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:20 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/11 15:55:33 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:27:17 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int	get_rgb(int r, int g, int b)
 levar os ter 8 bits do r, g ou b para o mais a 
 direita possivel. O &255 assegura que nao existe 
 overflow de cores.*/
-int	color_multiply(t_color color, float brightness)
+int	color_multiply(t_color color, float *brightness)
 {
 	int fcolor;
 	
 	fcolor = get_rgb(color.r, color.g, color.b);
-	color.r = (fcolor >> 16 & 255) * brightness;
-	color.g = (fcolor >> 8 & 255) * brightness;
-	color.b = (fcolor & 255) * brightness;
+	color.r = (fcolor >> 16 & 255) * brightness[0];
+	color.g = (fcolor >> 8 & 255) * brightness[1];
+	color.b = (fcolor & 255) * brightness[2];
 	return (get_rgb(color.r , color.g, color.b));
 }
 

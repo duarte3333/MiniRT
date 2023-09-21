@@ -34,7 +34,7 @@ struct s_raylight{
 	float		s;
 	float		r_dot_v;
 	//Intensity
-	float 		i;
+	float 		i[3];
 };
 
 struct s_raytracer{

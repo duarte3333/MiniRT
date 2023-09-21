@@ -77,6 +77,7 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 	rotation_z(&rt->D, cam->qsi);
 }
 
+
 void    raytracer_threads(t_ray_thread *threads)
 {
 	t_chunk     s;
