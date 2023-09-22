@@ -104,22 +104,23 @@ int	main(int ac, char **av)
 
 //Meter check syntax
 
-//Problema do planes
-//Como meter FOV
-//Resolver problema plano
-//Ver rotacoes camara 
-//Ver bases do cone e cilindro 
+//Problema do planes -
+//Como meter FOV -
+//Resolver problema plano -
+//Ver rotacoes camara -
+//Ver bases do cone e cilindro -
+//Rotacoes cilindro e do cone -
 
 //BONUS
 //Fazer cone DONE
 //Fazer phong model DONE
 //Fazer luzes com varias cores DONE
-//Fazer checkboard 
-//Fazer texturas
+//Fazer checkboard - 
+//Fazer texturas -
 //
 //Reflections
 //Mudar mapa em tempo real DONE
-//Fazer menu
+//Fazer menu -
 
 //Tester mapas falhados
 //Leaks
