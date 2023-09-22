@@ -21,9 +21,9 @@ void specular_light(t_object *tmp, t_scene *scene, t_raytracer *rt)
 		rt->rl.r_dot_v = dot(rt->rl.R, rt->rl.V);
 		if(rt->rl.r_dot_v > 0.001f) 
 		{
-			rt->rl.i[0] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * (tmp->color.r/255);
-			rt->rl.i[1] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * (tmp->color.g/255);
-			rt->rl.i[2] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * (tmp->color.b/255);
+			rt->rl.i[0] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * ((float)tmp->color.r/255.0f);
+			rt->rl.i[1] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * ((float)tmp->color.g/255.0f);
+			rt->rl.i[2] += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s) * ((float)tmp->color.b/255.0f);
 		}
 	}
 }
@@ -33,9 +33,9 @@ void diffuse_light(t_object *tmp, t_scene *scene, t_raytracer *rt)
 	rt->rl.n_dot_l = dot(rt->rl.N, rt->rl.L);
 	if (rt->rl.n_dot_l > 0.001f)
 	{
-		rt->rl.i[0] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * (tmp->color.r/255);
-		rt->rl.i[1] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * (tmp->color.g/255);
-		rt->rl.i[2] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * (tmp->color.b/255);
+		rt->rl.i[0] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * ((float)tmp->color.r/255.0f);
+		rt->rl.i[1] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * ((float)tmp->color.g/255.0f);
+		rt->rl.i[2] += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L)) * ((float)tmp->color.b/255.0f);
 	}
 }
 
@@ -51,9 +51,9 @@ float *compute_light(t_raytracer *rt)
 	{	
 		if (tmp->type == AMBIENT)
 		{
-			rt->rl.i[0] += tmp->intensity*(float)(tmp->color.r / 255);
-			rt->rl.i[1] += tmp->intensity*(float)(tmp->color.r / 255);
-			rt->rl.i[2] += tmp->intensity*(tmp->color.r / 255);
+			rt->rl.i[0] += tmp->intensity*((float)tmp->color.r / 255.0f);
+			rt->rl.i[1] += tmp->intensity*((float)tmp->color.g / 255.0f);
+			rt->rl.i[2] += tmp->intensity*((float)tmp->color.b / 255.0f);
 		}
 		else
 		{
@@ -70,6 +70,12 @@ float *compute_light(t_raytracer *rt)
 			specular_light(tmp, vars()->scene, rt);
 		}
 		tmp = tmp->next;
+	}
+	int i = -1;
+	while (rt->rl.i[++i])
+	{
+		if (rt->rl.i[i] > 0.99f)
+			rt->rl.i[i] = 1;
 	}
 	return rt->rl.i;
 }

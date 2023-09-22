@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/21 14:27:02 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/21 22:41:32 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ struct s_cone
 	float height;
 	float  intensity;
 	//
+	float theta;
 	t_vector base;
 	t_vector direction;
 	t_vector tmp;

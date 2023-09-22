@@ -1,5 +1,5 @@
 {
-	"C_Cpp.intelliSenseEngineFallback": "disabled",
+	"C_Cpp.intelliSenseEngineFallback": "enabled",
 	"files.associations": {
 		"minirt.h": "c",
 		"array": "c",
@@ -10,7 +10,12 @@
 		"tuple": "c",
 		"utility": "c",
 		"vector": "c",
-		"parse.h": "c"
+		"parse.h": "c",
+		"optional": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"type_traits": "c",
+		"variant": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }

@@ -62,7 +62,8 @@ int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_
 	newRT.rl.R = reflected_ray(vector_mult_const(newRT.D, -1), newRT.rl.N);
 	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, \
 		vector_mult_const(newRT.rl.R, 0.01f)), newRT.rl.R, scene, rt, recursion_depth - 1);
-	return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
+	return(color_sum_int(color_mult_int(newRT.local_color, (1 - r)), color_mult_int(newRT.reflected_color, r)));
+	//return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
 
 void canvas_to_viewport(t_raytracer *rt, float x, float y)

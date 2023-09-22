@@ -39,8 +39,8 @@ static int create_scene(char *arg)
 		return 0;
 	}
 	vars()->last = head;
-	if (!test_syntax(arg))
-		return (0);
+	//if (!test_syntax(arg))
+	//	return (0);
 	while (map_loading(head, fd))
 		;
 	close(fd);
@@ -99,17 +99,28 @@ int	main(int ac, char **av)
 //Fazer camara mexer e rodar(criar camara) DONE
 //Checker se existe camara DONE
 //Corrigir SEGV no parsing DONE
+//Problem de overflow das cores DONE
 //Otimizar last do vars
 
 //Meter check syntax
 
-//Ver rotacoes camara AFONSO
-//Ver bases do cone e cilindro AFONSO
-//Fazer luzes com varias cores AFONSO
-
-//Fazer menu
+//Problema do planes
+//Como meter FOV
+//Resolver problema plano
+//Ver rotacoes camara 
+//Ver bases do cone e cilindro 
 
 //BONUS
 //Fazer cone DONE
-//Fazer checkboard
+//Fazer phong model DONE
+//Fazer luzes com varias cores DONE
+//Fazer checkboard 
 //Fazer texturas
+//
+//Reflections
+//Mudar mapa em tempo real DONE
+//Fazer menu
+
+//Tester mapas falhados
+//Leaks
+//Folha de avaliacao
