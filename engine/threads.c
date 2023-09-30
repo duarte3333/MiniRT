@@ -1,26 +1,36 @@
 #include "../includes/minirt.h"
 
-static void    *routine(void *arg)
+void    *routine(void *arg)
 {
     t_ray_thread *thread;
+    bool n;
 
     thread = (t_ray_thread*)arg;
+    thread->running = true;
+
     while (1)
-    {  
+    {
         usleep(20);
+        pthread_mutex_lock(&thread->th_mut);
+        n = thread->running;
+        pthread_mutex_unlock(&thread->th_mut);
+        if (!n)
+            break ;
+        pthread_mutex_unlock(&thread->th_mut);
         raytracer_threads(thread);
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-    }
-    //free(thread->color);
-    if (pthread_join(thread->thread, NULL))
-    {
-        printf("Error joining threads\n");
-        return (-1);
+     
+        /* if (pthread_join(thread->thread, NULL))
+        {
+            printf("Error joining threads\n");
+            return (-1);
+        } */
     }
     return (NULL);
 }
+
 
 static void create_chunks(t_ray_thread *thread, int i)
 {
@@ -44,6 +54,25 @@ static void create_chunks(t_ray_thread *thread, int i)
             thread[i].x_f = -WIDTH_2 + (i+1)*thread[i].delta;
         thread[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
    }
+}
+
+int	ft_join_threads(t_vars *vars)
+{
+	int	i;
+
+	i = -1;
+	while (++i < vars->n_threads)
+	{
+        pthread_mutex_lock(&vars->threads[i].th_mut);
+        vars->threads[i].running = false;
+        pthread_mutex_unlock(&vars->threads[i].th_mut);
+		if (pthread_join(vars->threads[i].thread, NULL))
+		{
+			printf("Error joining thread\n");
+			return (-1);
+		}
+	}
+	return (0);
 }
 
 int ft_init_threads()

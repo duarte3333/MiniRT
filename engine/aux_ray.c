@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:14 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/21 14:32:38 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/29 00:57:56 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void choose_normal(t_raytracer* rt, t_object *obj)
 		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
 	else if (obj->type == CONE)
 		rt->rl.N = vector_subtract(rt->rl.P, obj->vector);
+	if (dot(rt->D, rt->rl.N) > 0)
+		rt->rl.N = vector_mult_const(rt->rl.N, -1);
 }
 
 t_vector reflected_ray(t_vector R, t_vector N)

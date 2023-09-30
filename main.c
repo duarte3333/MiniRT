@@ -39,8 +39,12 @@ static int create_scene(char *arg)
 		return 0;
 	}
 	vars()->last = head;
-	//if (!test_syntax(arg))
-	//	return (0);
+	if (!test_syntax(arg))
+	{
+		free(head);
+		close(fd);
+		return (0);
+	}
 	while (map_loading(head, fd))
 		;
 	close(fd);
@@ -100,7 +104,7 @@ int	main(int ac, char **av)
 //Checker se existe camara DONE
 //Corrigir SEGV no parsing DONE
 //Problem de overflow das cores DONE
-//Otimizar last do vars
+//Otimizar last do vars -
 
 //Meter check syntax
 
@@ -120,7 +124,7 @@ int	main(int ac, char **av)
 //
 //Reflections
 //Mudar mapa em tempo real DONE
-//Fazer menu -
+//Fazer menu - 
 
 //Tester mapas falhados
 //Leaks

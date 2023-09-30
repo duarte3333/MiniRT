@@ -9,9 +9,13 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 	t_values local;
 	float d;
 
-	d = -dot(this->direction, this->vector);
-	rt->b = dot(this->direction, rt->D);
-	rt->c = (-1)*dot(this->direction, rt->O) - d;
+	//vector - coord(ponto) ; direction - vector ; 
+	//D - viewport (ray); O - origin
+	// d = -dot(this->direction, this->vector);
+	//rt->b = dot(this->direction, rt->D);
+	//rt->c = (-1)*dot(this->direction, rt->O) - d;
+	rt->c = -dot(this->direction, vector_subtract(rt->O, this->vector));
+	rt->b = dot(rt->D, this->direction);
 	if (rt->b < 0.0001f && rt->b > -0.0001f) //sem solucao
 	{
 		local.t1 = INT_MAX;
@@ -19,7 +23,7 @@ static t_values intersect(t_raytracer *rt, t_plane *this)
 		return local;
 	}
 	local.t1 = rt->c / rt->b; 
-	local.t2 = rt->c / rt->b; 
+	local.t2 = INT_MAX; 
 	return local;
 }
 	
@@ -41,5 +45,8 @@ t_object* new_plane(char *line)
     plane->color.b = (int)ft_atof(&line);
 	plane->specular = (int)ft_atof(&line);
 	plane->refletive = ft_atof(&line);
+	printf("x :%f\n",plane->vector.x);
+	printf("y: %f\n",plane->vector.y);
+
 	return ((t_object *)plane);
 }

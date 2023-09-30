@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/21 22:41:32 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:46:18 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ enum e_type{
 	CAMERA,
 	ERROR,
 	EMPTY_LINE,
+	COMMENT,
 };
 
 struct s_data{
@@ -81,7 +82,7 @@ struct s_scene{
     t_object *end_light;
 	t_scene  *next;
 	t_scene  *prev;
-	int	 	 f[3];
+	int	 	 f;
 	bool 	 syntax;
 };
 
@@ -270,7 +271,8 @@ t_vector 	reflected_ray(t_vector R, t_vector N);
 
 //Threads
 int 	ft_init_threads();
-
+int		ft_join_threads(t_vars *vars);
+void    *routine(void *arg);
 //Paint
 void 	paint();
 
@@ -283,5 +285,11 @@ int		ft_isspace(char c);
 double  ft_atof(char **line);
 void    lst_add_back(t_scene *scene, t_type type, char *line);
 void    light_add_back(t_scene *scene, t_type type, char *line);
+
+//Free
+void 	free_objects(t_scene *head);
+void	free_array(char **arr);
+
+
 
 #endif

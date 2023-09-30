@@ -25,12 +25,12 @@ t_object *closest_intersection(t_raytracer *rt)
 	while (tmp)
 	{	
         rt->t = tmp->intersect(rt, tmp); //get t1 and t2
-		if (inside(rt->t.t1, 0.001f, INT_MAX) && rt->t.t1 < rt->closest_t ) 
+		if ((rt->t.t1 >= 0.001f && rt->t.t1 <= INT_MAX) && rt->t.t1 < rt->closest_t) 
 		{
             rt->closest_t = rt->t.t1;
             obj = tmp;
         }
-        if (inside(rt->t.t2, 0.001f, INT_MAX) && rt->t.t2 < rt->closest_t) 
+        if ((rt->t.t2 >=  0.001f && rt->t.t2 <= INT_MAX) && rt->t.t2 < rt->closest_t) 
 		{
             rt->closest_t = rt->t.t2;
             obj = tmp;
@@ -72,7 +72,8 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 	float d = 1;
 
 	cam = vars()->scene->camera;
-	rt->D = vector(x*(1.0f/WIDTH) , -y*(1.0f/HEIGHT), d);
+	rt->D = vector(x*(1.0f/WIDTH)*(HEIGHT/WIDTH) , -y*(1.0f/HEIGHT)*(2.0f*tan(cam->fov / 2.0f)), d);
+	rt->D = vector(x*(1.0f/WIDTH), -y*(1.0f/HEIGHT), d);
 	rotation_x(&rt->D, cam->theta);
 	rotation_y(&rt->D, cam->phi);
 	rotation_z(&rt->D, cam->qsi);

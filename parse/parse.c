@@ -29,6 +29,8 @@ t_type ft_get_type(char *line)
             return CYLINDER;
 		if ((line)[0] == 'c' && (line)[1] == 'n') 
             return CONE;
+		if (line[0] == '#')
+			return COMMENT;
     }
 	return ERROR;
 }
@@ -51,7 +53,7 @@ void ft_check_line(t_scene *scene, char *line)
     while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
         i++;
 	if (type == CAMERA)
-		scene->camera = new_camera(line);
+		scene->camera = new_camera(line + i);
 	else if (type == EMPTY_LINE)
 		return ;
 	else if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
@@ -92,16 +94,13 @@ int	check_map()
 	if (!strcmp_rt(vars()->map_file, "rt"))
 	{
 		write(1, "That file is not a .rt file\n", 29);
-		ft_close(vars());
+		return(-1);
 	}
 	else
 	{
 		fd = open(vars()->map_file, O_RDONLY);
 		if (fd == -1)
-		{
 			write(1, "That file is not in the repository.\n", 37);
-			ft_close (vars);
-		}
 		//check_empty(vars, get_next_line(fd));
 		return (fd);
 	}

@@ -56,6 +56,7 @@ struct s_raytracer{
 
 struct s_ray_thread
 {
+	bool running;
 	pthread_t	*thread;
 	pthread_mutex_t th_mut;
     t_raytracer rt;

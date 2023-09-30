@@ -1,5 +1,31 @@
 #include "../includes/minirt.h"
 
+static t_object *Aclosest_intersection(t_raytracer *rt)
+{
+	t_object *obj;
+	t_object *tmp;
+
+	tmp = vars()->scene->object;
+	obj = NULL;
+	rt->closest_t = INT_MAX;
+	while (tmp)
+	{	
+        rt->t = tmp->intersect(rt, tmp); //get t1 and t2
+		if ((rt->t.t1 >= 1.0f && rt->t.t1 <= INT_MAX) && rt->t.t1 < rt->closest_t) 
+		{
+            rt->closest_t = rt->t.t1;
+            obj = tmp;
+        }
+        if ((rt->t.t2 >=  1.0f && rt->t.t2 <= INT_MAX) && rt->t.t2 < rt->closest_t) 
+		{
+            rt->closest_t = rt->t.t2;
+            obj = tmp;
+        }
+		tmp = tmp->next;
+    }
+	return obj;
+}
+
 int shadow_light(t_scene *scene, t_raytracer *rt)
 {
 	t_object *obj;
@@ -8,7 +34,7 @@ int shadow_light(t_scene *scene, t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->rl.P;
 	newRT.D = rt->rl.L;
-	obj = closest_intersection(&newRT);
+	obj = Aclosest_intersection(&newRT);
 	return (obj != NULL);
 }
 

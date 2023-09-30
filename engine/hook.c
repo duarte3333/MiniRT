@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/21 23:33:49 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:54:56 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,23 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 
 int	ft_close(t_vars *vars)
 {
-	if (vars->win)
-		mlx_destroy_window(vars->mlx, vars->win);
+
+	ft_join_threads(vars);
 	if (vars->img.img)
 		mlx_destroy_image(vars->mlx, vars->img.img);
-	//mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
+	if (vars->win)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		vars->win = NULL;
+	}
+	if (vars->mlx)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+	}
+	if (vars->color)
+		free_array(vars->color);
+	free_objects(vars->scene);
 	exit(0);
 }
 
@@ -64,7 +75,7 @@ static void camera_move(int keycode)
 }
 
 int	ft_key(int keycode)
-{
+{	
 	if (keycode == XK_Escape)
 	{
 		mlx_destroy_window(vars()->mlx, vars()->win);

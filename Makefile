@@ -15,6 +15,7 @@ SRCS = Aux/pixel_put.c \
 	   Aux/ft_isspace.c \
 	   Aux/ft_lists.c \
 	   Aux/color.c \
+	   Aux/free.c \
 	   objects/object.c \
 	   objects/plane.c \
 	   objects/sphere.c \
