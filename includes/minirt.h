@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/30 20:41:20 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/30 21:11:46 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,8 +263,8 @@ void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 void    	raytracer_threads(t_ray_thread *thread);
 void		raytracer(t_scene *scene);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
-int 		new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recursion_depth);
-t_object 	*closest_intersection(t_raytracer *rt);
+int 		new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recursion_depth, float limit);
+t_object 	*closest_intersection(t_raytracer *rt, t_vector limits);
 bool 		inside(float t, float t_min, float t_max);
 void 		choose_normal(t_raytracer* rt, t_object *obj);
 t_vector 	reflected_ray(t_vector R, t_vector N);

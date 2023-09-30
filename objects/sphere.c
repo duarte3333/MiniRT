@@ -6,6 +6,7 @@ Ray equation: P = O + t(V - O)*/
 static t_values intersect(t_raytracer *rt, t_sphere *this)
 {
 	t_values local;
+	
 	rt->CO = vector_subtract(rt->O, this->vector);
 	rt->a  = dot(rt->D, rt->D);
 	rt->b = 2.0f*dot(rt->CO, rt->D);

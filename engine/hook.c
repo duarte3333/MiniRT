@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/27 16:54:56 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/09/30 21:17:51 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_object *mouse_trace_ray(t_vars *vars ,t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->O;
 	newRT.D = rt->D;
-	newRT.closest_obj = closest_intersection(&newRT);
+	newRT.closest_obj = closest_intersection(&newRT, (t_vector){0.01f, INT_MAX, 0});
     if (!(newRT.closest_obj))
        return NULL;
 	light_prepare(&newRT, newRT.closest_obj);

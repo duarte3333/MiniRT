@@ -1,32 +1,7 @@
 #include "../includes/minirt.h"
 
-static t_object *Aclosest_intersection(t_raytracer *rt)
-{
-	t_object *obj;
-	t_object *tmp;
 
-	tmp = vars()->scene->object;
-	obj = NULL;
-	rt->closest_t = INT_MAX;
-	while (tmp)
-	{	
-        rt->t = tmp->intersect(rt, tmp); //get t1 and t2
-		if ((rt->t.t1 >= 1.0f && rt->t.t1 <= INT_MAX) && rt->t.t1 < rt->closest_t) 
-		{
-            rt->closest_t = rt->t.t1;
-            obj = tmp;
-        }
-        if ((rt->t.t2 >=  1.0f && rt->t.t2 <= INT_MAX) && rt->t.t2 < rt->closest_t) 
-		{
-            rt->closest_t = rt->t.t2;
-            obj = tmp;
-        }
-		tmp = tmp->next;
-    }
-	return obj;
-}
-
-int shadow_light(t_scene *scene, t_raytracer *rt)
+int shadow_light(t_scene *scene, t_raytracer *rt, t_vector light_vec)
 {
 	t_object *obj;
 	t_raytracer newRT;
@@ -34,7 +9,9 @@ int shadow_light(t_scene *scene, t_raytracer *rt)
 	newRT = *(rt);
 	newRT.O = rt->rl.P;
 	newRT.D = rt->rl.L;
-	obj = Aclosest_intersection(&newRT);
+	obj = closest_intersection(&newRT, (t_vector){0.01f, 1, 0});
+/* 	if (obj)
+		printf("color: %i\n", obj->color.g); */
 	return (obj != NULL);
 }
 
@@ -87,7 +64,7 @@ float *compute_light(t_raytracer *rt)
 				rt->rl.L = vector_subtract(tmp->vector, rt->rl.P);
 			else if(tmp->type == DIRECTIONAL)
 				rt->rl.L = tmp->vector;
-			if (shadow_light(vars()->scene, rt))
+			if (shadow_light(vars()->scene, rt, tmp->vector))
 			{
 				tmp = tmp->next;
 			 	continue;

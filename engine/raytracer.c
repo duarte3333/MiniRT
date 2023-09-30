@@ -14,7 +14,12 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 	rt->rl.V = vector_mult_const((rt->D), -1);
 }
 
-t_object *closest_intersection(t_raytracer *rt)
+void print_vector(t_vector P)
+{
+	printf(" x: %f , y: %f, z: %f\n", P.x, P.y, P.z);
+}
+
+t_object *closest_intersection(t_raytracer *rt, t_vector limits)
 {
 	t_object *obj;
 	t_object *tmp;
@@ -25,12 +30,27 @@ t_object *closest_intersection(t_raytracer *rt)
 	while (tmp)
 	{	
         rt->t = tmp->intersect(rt, tmp); //get t1 and t2
-		if ((rt->t.t1 >= 0.001f && rt->t.t1 <= INT_MAX) && rt->t.t1 < rt->closest_t) 
+		if ((rt->t.t1 >= limits.x && rt->t.t1 <= limits.y) && rt->t.t1 < rt->closest_t) 
 		{
+/* 			if (limits.y != INT_MAX && tmp->color.g == 0)
+			{
+				printf("direction ");
+				print_vector(rt->D);
+				printf("origin ");
+				print_vector(rt->O);
+				printf("pila ");
+				print_vector(tmp->vector);
+				printf("green %i, t1: %f, t2: %f,\n", tmp->color.g, rt->t.t1, rt->t.t2);
+			} */
+/* 			if (limits.y != INT_MAX)
+			{
+				printf("oi %f\n", rt->t.t1);
+				printf("limit %f\n", limits.y);
+			} */
             rt->closest_t = rt->t.t1;
             obj = tmp;
         }
-        if ((rt->t.t2 >=  0.001f && rt->t.t2 <= INT_MAX) && rt->t.t2 < rt->closest_t) 
+        if ((rt->t.t2 >= limits.x && rt->t.t2 <= limits.y) && rt->t.t2 < rt->closest_t) 
 		{
             rt->closest_t = rt->t.t2;
             obj = tmp;
@@ -40,14 +60,14 @@ t_object *closest_intersection(t_raytracer *rt)
 	return obj;
 }
 
-int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recursion_depth)
+int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recursion_depth, float limit)
 {
 	float	 r;
 	t_object *obj;
 	t_vector R;
 
 	obj = NULL;
-	obj = closest_intersection(&rt);
+	obj = closest_intersection(&rt, vector(limit, INT_MAX, 0));
     if (!(obj) || (last_obj && obj == last_obj))
        return BLACK;
 	light_prepare(&rt, obj);
@@ -59,7 +79,7 @@ int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recurs
 	rt.rl.R = reflected_ray(vector_mult_const(rt.D, -1), rt.rl.N);
 	rt.O = vector_add(rt.rl.P, vector_mult_const(rt.rl.R, 0.01f));
 	rt.D = rt.rl.R;
-	rt.reflected_color = new_trace_ray(obj, scene, rt, recursion_depth - 1);
+	rt.reflected_color = new_trace_ray(obj, scene, rt, recursion_depth - 1, 0.01f);
 	return(color_sum_int(color_mult_int(rt.local_color, (1 - r)), color_mult_int(rt.reflected_color, r)));
 	//return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
@@ -70,7 +90,7 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 	float d = 1;
 
 	cam = vars()->scene->camera;
-	rt->D = vector(x*(1.0f/WIDTH)*(HEIGHT/WIDTH) , -y*(1.0f/HEIGHT)*(2.0f*tan(cam->fov / 2.0f)), d);
+	//rt->D = vector(x*(1.0f/WIDTH)*(HEIGHT/WIDTH) , -y*(1.0f/HEIGHT)*(2.0f*tan(cam->fov / 2.0f)), d);
 	rt->D = vector(x*(1.0f/WIDTH), -y*(1.0f/HEIGHT), d);
 	rotation_x(&rt->D, cam->theta);
 	rotation_y(&rt->D, cam->phi);
@@ -95,7 +115,7 @@ void    raytracer_threads(t_ray_thread *threads)
             threads->rt.closest_obj = NULL;
 			canvas_to_viewport(&threads->rt, s.x, s.y);
 			threads->color[s.sy++ * threads->delta + s.sx] = \
-                new_trace_ray(NULL, vars()->scene, threads->rt, 1);
+                new_trace_ray(NULL, vars()->scene, threads->rt, 1, 1.0f);
 		}
         //usleep(50);
         s.sx++;
