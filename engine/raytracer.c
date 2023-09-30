@@ -40,29 +40,27 @@ t_object *closest_intersection(t_raytracer *rt)
 	return obj;
 }
 
-int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_raytracer *rt, int recursion_depth)
+int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recursion_depth)
 {
 	float	 r;
 	t_object *obj;
 	t_vector R;
-	t_raytracer newRT = *(rt);
 
 	obj = NULL;
-	newRT.O = O;
-	newRT.D = D;
-	obj = closest_intersection(&newRT);
+	obj = closest_intersection(&rt);
     if (!(obj) || (last_obj && obj == last_obj))
        return BLACK;
-	light_prepare(&newRT, obj);
+	light_prepare(&rt, obj);
 	//newRT.local_color = get_rgb(obj->color.r, obj->color.g, obj->color.b);
-	newRT.local_color = color_multiply(obj->color, compute_light(&newRT));
+	rt.local_color = color_multiply(obj->color, compute_light(&rt));
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0.001f)
-		return newRT.local_color;
-	newRT.rl.R = reflected_ray(vector_mult_const(newRT.D, -1), newRT.rl.N);
-	newRT.reflected_color = new_trace_ray(obj, vector_add(newRT.rl.P, \
-		vector_mult_const(newRT.rl.R, 0.01f)), newRT.rl.R, scene, rt, recursion_depth - 1);
-	return(color_sum_int(color_mult_int(newRT.local_color, (1 - r)), color_mult_int(newRT.reflected_color, r)));
+		return rt.local_color;
+	rt.rl.R = reflected_ray(vector_mult_const(rt.D, -1), rt.rl.N);
+	rt.O = vector_add(rt.rl.P, vector_mult_const(rt.rl.R, 0.01f));
+	rt.D = rt.rl.R;
+	rt.reflected_color = new_trace_ray(obj, scene, rt, recursion_depth - 1);
+	return(color_sum_int(color_mult_int(rt.local_color, (1 - r)), color_mult_int(rt.reflected_color, r)));
 	//return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
 
@@ -97,7 +95,7 @@ void    raytracer_threads(t_ray_thread *threads)
             threads->rt.closest_obj = NULL;
 			canvas_to_viewport(&threads->rt, s.x, s.y);
 			threads->color[s.sy++ * threads->delta + s.sx] = \
-                new_trace_ray(NULL, threads->rt.O, threads->rt.D, vars()->scene, &threads->rt, 1);
+                new_trace_ray(NULL, vars()->scene, threads->rt, 1);
 		}
         //usleep(50);
         s.sx++;
