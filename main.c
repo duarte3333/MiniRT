@@ -35,8 +35,8 @@ static int create_scene(char *arg)
 	fd = check_map();
 	if (fd == -1)
 	{
-		printf("Error openning the file!");
-		return 0;
+		free(head);
+		return (0);
 	}
 	vars()->last = head;
 	if (!test_syntax(arg))
@@ -56,7 +56,7 @@ static int create_scene(char *arg)
 		head->prev = end_scene;
 	} 
 	end_scene = head;
-	return 1;
+	return (1);
 }
 
 static void init_creations()
@@ -80,7 +80,7 @@ int	main(int ac, char **av)
 		init_creations();
 		i = 0;
 		while (av[++i])
-		{			
+		{		
 			if (!create_scene(av[i]))
 				printf("Bad Map: %s\n", av[i]);
 		}

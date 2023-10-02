@@ -54,8 +54,6 @@ int	ft_close(t_vars *vars)
 		mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
-	if (vars->color)
-		free_array(vars->color);
 	free_objects(vars->scene);
 	exit(0);
 }
@@ -75,12 +73,10 @@ static void camera_move(int keycode)
 }
 
 int	ft_key(int keycode)
-{	
+{
 	if (keycode == XK_Escape)
 	{
-		mlx_destroy_window(vars()->mlx, vars()->win);
-		free(vars()->mlx);
-		exit(0);
+		ft_close(vars());
 	}
 	if (vars()->scene->select)
 	{

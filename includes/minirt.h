@@ -97,7 +97,6 @@ struct	s_vars {
 	int		n_threads;
 	t_ray_thread *threads;
 	pthread_mutex_t mut;
-	int		**color;
 	int		count;
 	new_objects new_objects[15];
 	
