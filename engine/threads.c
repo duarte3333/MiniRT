@@ -3,30 +3,33 @@
 void    *routine(void *arg)
 {
     t_ray_thread *thread;
-    bool n;
+    bool run;
+    bool status;
 
     thread = (t_ray_thread*)arg;
     thread->running = true;
 
     while (1)
     {
-        usleep(20);
+        usleep(500);
         pthread_mutex_lock(&thread->th_mut);
-        n = thread->running;
+        run = thread->running;
+        status = thread->work;
         pthread_mutex_unlock(&thread->th_mut);
-        if (!n)
+        if (!run)
             break ;
-        pthread_mutex_unlock(&thread->th_mut);
+        if (!status)
+        {
+            usleep(500);
+            continue;
+        }
         raytracer_threads(thread);
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-     
-        /* if (pthread_join(thread->thread, NULL))
-        {
-            printf("Error joining threads\n");
-            return (-1);
-        } */
+        pthread_mutex_lock(&thread->th_mut);
+        thread->work = false;
+        pthread_mutex_unlock(&thread->th_mut);
     }
     return (NULL);
 }
@@ -38,6 +41,7 @@ static void create_chunks(t_ray_thread *thread, int i)
 
    rest =  (int)WIDTH % (vars()->n_threads);
    thread[i].index = i;
+   thread[i].work  = true;
    if ((i == vars()->n_threads - 1) && rest != 0)
    {
        thread[i].x_i = thread[i - 1].x_f;

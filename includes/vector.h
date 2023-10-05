@@ -10,6 +10,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <pthread.h>
+# include <math.h>
 
 
 # include "../minilibx/mlx.h"

@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:20 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/20 16:27:17 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:11:01 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,58 @@ int	create_trgb(int t, t_color color)
 
 int	get_rgb(int r, int g, int b)
 {
+	if (r > 255)
+		r = 255;
+	if (r < 0)
+		r = 0;
+	if (g > 255)
+		g = 255;
+	if (g < 0)
+		g = 0;
+	if (b > 255)
+		b = 255;
+	if (b < 0)
+		b = 0;
 	return (r << 16 | g << 8 | b);
+
 }
 
 /* Recebe o inteiro e depois da right shift para
 levar os ter 8 bits do r, g ou b para o mais a 
 direita possivel. O &255 assegura que nao existe 
 overflow de cores.*/
+
+float random_number(unsigned int* seed)
+{
+	*seed = *seed * 747796405 + 2891336453;
+    unsigned long result = ((*seed >> ((*seed >> 28) + 4)) ^ *seed) * 277803737;
+    return result / (float)UINT_MAX;
+}
+
+float generate()
+{
+	struct timeval tv;
+	
+	gettimeofday(&tv,  NULL);
+	float nb1 = random_number(&tv.tv_usec) * 70.0f - 30.f;
+	float nb2 = random_number(&tv.tv_usec) * 70.0f - 30.f;
+	// gettimeofday(&tv,  NULL);
+	// srand(tv.tv_usec);
+	// float nb1 = rand() % 100;
+	// float nb2 = rand() % 100;
+	return nb1 - nb2;
+}
+
 int	color_multiply(t_color color, float *brightness)
 {
 	int fcolor;
-	
-	fcolor = get_rgb(color.r, color.g, color.b);
-	color.r = (fcolor >> 16 & 255) * brightness[0];
+	//float a = (float)generate();
+	fcolor = get_rgb(color.r + (float)generate()*0.7,  color.g + (float)generate()*0.5, color.b + (float)generate()*0.5);
+	//fcolor = get_rgb(color.r ,  color.g , color.b );
+	color.r = (fcolor >> 16) * brightness[0];
 	color.g = (fcolor >> 8 & 255) * brightness[1];
 	color.b = (fcolor & 255) * brightness[2];
+	//printf("red %d, green %d, blue %d\n",color.r, color.g, color.b);
 	return (get_rgb(color.r , color.g, color.b));
 }
 

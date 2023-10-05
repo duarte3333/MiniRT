@@ -121,7 +121,7 @@ int	main(int ac, char **av)
 //Fazer phong model DONE
 //Fazer luzes com varias cores DONE
 //Fazer checkboard - 
-//Fazer texturas -
+//Fazer texturas DONE
 //
 //Reflections
 //Mudar mapa em tempo real DONE

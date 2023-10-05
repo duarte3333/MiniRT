@@ -6,11 +6,24 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/30 21:17:51 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:07:26 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
+void threads_update()
+{
+	int i;
+
+	i = -1;
+	while (++i < vars()->n_threads)
+    {
+	    pthread_mutex_lock(&vars()->threads[i].th_mut);
+	    vars()->threads[i].work = true;
+	    pthread_mutex_unlock(&vars()->threads[i].th_mut);
+    }
+}
 
 static t_object *mouse_trace_ray(t_vars *vars ,t_raytracer *rt)
 {
@@ -35,6 +48,7 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 		scene->select->vector.z +=  ((button == 5) - (button == 4)) * 0.05;
 	else 
 		scene->camera->vector.z +=  ((button == 4) - (button == 5)) * 0.05;
+	//threads_update();
 	return 0;
 }
 
@@ -76,6 +90,8 @@ static void camera_move(int keycode)
 
 int	ft_key(int keycode)
 {	
+
+	threads_update();
 	if (keycode == XK_Escape)
 	{
 		mlx_destroy_window(vars()->mlx, vars()->win);
@@ -107,13 +123,16 @@ int ft_mouse_down(int button, int x, int y)
 	t_raytracer rt;
 	x -= WIDTH_2;
 	y -= HEIGHT_2;
+	int i = -1;
 
+	threads_update();
 	if ((button == 5) || (button == 4))
-		return (ft_mouse_scroll(button, x, y, vars()->scene));
+		return (ft_mouse_scroll(button, x, y, vars()->scene));	
 	if (vars()->scene->select && button == 3)
 	{
 		vars()->scene->select->vector.x = ((float)(x))*(1.5f/WIDTH_2);
 		vars()->scene->select->vector.y = -((float)(y))*(1.5f/HEIGHT_2);
+		//threads_update();
 		return (0);
 	}
 	rt.O = vars()->scene->camera->vector;	
@@ -121,3 +140,4 @@ int ft_mouse_down(int button, int x, int y)
 	vars()->scene->select = mouse_trace_ray(vars, &rt); //get color
 	return 0;
 }
+

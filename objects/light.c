@@ -9,7 +9,8 @@ int shadow_light(t_scene *scene, t_raytracer *rt, t_vector light_vec)
 	newRT = *(rt);
 	newRT.O = rt->rl.P;
 	newRT.D = rt->rl.L;
-	obj = closest_intersection(&newRT, (t_vector){0.01f, 1, 0});
+	obj = closest_intersection(&newRT, (t_vector){0.01f, \
+	1, 0});
 /* 	if (obj)
 		printf("color: %i\n", obj->color.g); */
 	return (obj != NULL);
