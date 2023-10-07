@@ -35,7 +35,7 @@ void    *routine(void *arg)
 }
 
 
-static void create_chunks(t_ray_thread *thread, int i)
+static void create_chunks(int i)
 {
    int rest;
 
@@ -44,19 +44,19 @@ static void create_chunks(t_ray_thread *thread, int i)
    thread[i].work  = true;
    if ((i == vars()->n_threads - 1) && rest != 0)
    {
-       thread[i].x_i = thread[i - 1].x_f;
-       thread[i].delta = (int)WIDTH - (vars()->n_threads - 1)* \
-            ((int)WIDTH/vars()->n_threads);
-       thread[i].x_f =  thread[i].delta + thread[i].x_i;
-       thread[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * thread[i].delta);
+        vars()->threads[i].x_i = vars()->threads[i - 1].x_f;
+        vars()->threads[i].delta = (int)WIDTH - (vars()->n_threads - 1)* \
+             ((int)WIDTH/vars()->n_threads);
+        vars()->threads[i].x_f =  vars()->threads[i].delta + vars()->threads[i].x_i;
+        vars()->threads[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * vars()->threads[i].delta);
    }
    else
    {
-        thread[i].delta = (int)(WIDTH / vars()->n_threads);
-        thread[i].x_i = -WIDTH_2 + i*thread[i].delta;
+        vars()->threads[i].delta = (int)(WIDTH / vars()->n_threads);
+        vars()->threads[i].x_i = -WIDTH_2 + i * vars()->threads[i].delta;
         if (i < vars()->n_threads)
-            thread[i].x_f = -WIDTH_2 + (i+1)*thread[i].delta;
-        thread[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
+            vars()->threads[i].x_f = -WIDTH_2 + (i+1) * vars()->threads[i].delta;
+        vars()->threads[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
    }
 }
 
@@ -75,7 +75,10 @@ int	ft_join_threads(t_vars *vars)
 			printf("Error joining thread\n");
 			return (-1);
 		}
+        free(vars->threads[i].color);
+		pthread_mutex_destroy(&vars->threads[i].th_mut);
 	}
+    free(vars->threads);
 	return (0);
 }
 
@@ -91,7 +94,7 @@ int ft_init_threads()
     i = -1;
     while (++i < vars()->n_threads)
     {
-        create_chunks(threads, i);
+        create_chunks(i);
         pthread_mutex_init(&vars()->threads[i].th_mut, NULL);
         if (pthread_create(&(vars()->threads[i].thread), NULL, \
         &routine, (void *)(&threads[i])) != 0)

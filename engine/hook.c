@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/05 14:07:26 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/07 15:59:14 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int	ft_close(t_vars *vars)
 		mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
-	if (vars->color)
-		free_array(vars->color);
 	free_objects(vars->scene);
 	exit(0);
 }
@@ -94,9 +92,7 @@ int	ft_key(int keycode)
 	threads_update();
 	if (keycode == XK_Escape)
 	{
-		mlx_destroy_window(vars()->mlx, vars()->win);
-		free(vars()->mlx);
-		exit(0);
+		ft_close(vars());
 	}
 	if (vars()->scene->select)
 	{
