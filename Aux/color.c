@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:41:20 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/05 14:11:01 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:26:17 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	color_multiply(t_color color, float *brightness)
 {
 	int fcolor;
 	//float a = (float)generate();
-	fcolor = get_rgb(color.r + (float)generate()*0.7,  color.g + (float)generate()*0.5, color.b + (float)generate()*0.5);
-	//fcolor = get_rgb(color.r ,  color.g , color.b );
+	//fcolor = get_rgb(color.r + (float)generate()*0.7,  color.g + (float)generate()*0.5, color.b + (float)generate()*0.5);
+	fcolor = get_rgb(color.r ,  color.g , color.b );
 	color.r = (fcolor >> 16) * brightness[0];
 	color.g = (fcolor >> 8 & 255) * brightness[1];
 	color.b = (fcolor & 255) * brightness[2];
