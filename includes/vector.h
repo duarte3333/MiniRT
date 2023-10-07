@@ -26,7 +26,6 @@ struct s_vector
 };
 
 //Vector
-t_vector 	vector(float x, float y, float z);
 t_vector 	vector_subtract(t_vector vec, t_vector vec2);
 t_vector 	vector_add(t_vector vec, t_vector vec2);
 t_vector 	vector_multiply(t_vector vec, t_vector vec2);

@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/07 22:05:36 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/07 22:11:05 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void translate(int keycode)
 	vars()->scene->select->vector.z +=  ((keycode == 'z') - (keycode == 'x')) * 0.05;	
 }
 
+/* This function after update the angles, update the direction */
 static void rotate(int keycode)
 {
 	vars()->scene->select->theta +=  ((keycode == 'i') - (keycode == 'k')) * 0.001;
@@ -57,7 +58,6 @@ static void rotate(int keycode)
 
 int	ft_key(int keycode)
 {	
-
 	//threads_update();
 	if (keycode == XK_Escape)
 	{

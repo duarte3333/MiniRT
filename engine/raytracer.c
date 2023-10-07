@@ -47,7 +47,7 @@ int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recurs
 	t_vector R;
 
 	obj = NULL;
-	obj = closest_intersection(&rt, vector(limit, INT_MAX, 0));
+	obj = closest_intersection(&rt, (t_vector){limit, INT_MAX, 0});
     if (!(obj) || (last_obj && obj == last_obj))
        return BLACK;
 	light_prepare(&rt, obj);
@@ -74,11 +74,9 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
     aspect_ratio = (float)WIDTH / (float)HEIGHT;
     fov_radians = cam->fov * (M_PI / 180.0f);
 	d = (1.0f / tan(fov_radians / 2.0f));
-    rt->D = vector(x * (1.0f / WIDTH) * aspect_ratio, -y * (1.0f / HEIGHT), d);
-	//cam->rotate(rt, cam, X_theta_1)
-	rotation_x(&rt->D, cam->theta);
-	rotation_y(&rt->D, cam->phi);
-	rotation_z(&rt->D, cam->qsi);
+    rt->D = (t_vector){x * (1.0f / WIDTH) * aspect_ratio, -y * (1.0f / HEIGHT), d};
+	cam->rotate(&rt->D, cam);
+
 }
 
 void    raytracer_threads(t_ray_thread *threads)
@@ -98,7 +96,7 @@ void    raytracer_threads(t_ray_thread *threads)
             threads->rt.closest_obj = NULL;
 			canvas_to_viewport(&threads->rt, s.x, s.y);
 			threads->color[s.sy++ * threads->delta + s.sx] = \
-                new_trace_ray(NULL, vars()->scene, threads->rt, 1, 1.0f);
+                new_trace_ray(NULL, vars()->scene, threads->rt, 0, 1.0f);
 		}
         //usleep(50);
         s.sx++;

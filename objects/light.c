@@ -20,7 +20,7 @@ void specular_light(t_object *tmp, t_scene *scene, t_raytracer *rt)
 {
 	if (rt->rl.s)
 	{
-		rt->rl.aux = vector(2*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L));
+		rt->rl.aux = (t_vector){2*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L)};
 		rt->rl.R = vector_subtract(vector_multiply(rt->rl.N, rt->rl.aux), rt->rl.L);
 		rt->rl.r_dot_v = dot(rt->rl.R, rt->rl.V);
 		if(rt->rl.r_dot_v > 0.001f) 
@@ -84,21 +84,14 @@ float *compute_light(t_raytracer *rt)
 	return rt->rl.i;
 }
 
-static void rotate(t_cone *this)
-{
-    rotation_x(&this->direction, this->theta);
-	rotation_y(&this->direction, this->phi);
-	rotation_z(&this->direction, this->qsi);
-}
-
-
 t_object *new_light(char *line, t_type type)
 {
 	t_light *new_light;
 
+	// if (!check_light())
+	//  	return NULL;
 	new_light = new_object(sizeof(t_light));
 	new_light->type = type;
-	new_light->rotate = rotate;
 	if (new_light->type != AMBIENT)
 	{
 		new_light->vector.x = ft_atof(&line);

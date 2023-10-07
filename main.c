@@ -21,6 +21,7 @@ static void init_window(t_vars *vars)
 	mlx_hook(vars->win, 17, 0, ft_close, vars);
 	mlx_hook(vars->win, 2, 1L<<0, ft_key, NULL);
 	mlx_hook(vars->win, 4, 1L<<2, ft_mouse_down, NULL);
+	//mlx_hook(vars->win, 5, 1L<<3, ft_mouse_up, vars);
 }
 
 static int create_scene(char *arg)
