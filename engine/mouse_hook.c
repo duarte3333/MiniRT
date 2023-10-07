@@ -23,7 +23,7 @@ static t_object *mouse_trace_ray(t_vars *vars ,t_raytracer *rt)
     if (!(newRT.closest_obj))
        return NULL;
 	light_prepare(&newRT, newRT.closest_obj);
-	newRT.local_color = color_multiply(newRT.closest_obj->color, compute_light(&newRT));
+	newRT.local_color = color_multiply(newRT.closest_obj->color, compute_light(&newRT), newRT.closest_obj->intensity);
 	return (newRT.closest_obj);
 }
 

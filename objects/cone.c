@@ -16,7 +16,6 @@ static t_values intersect(t_raytracer *rt, t_cone *this)
     float    value;
 
     this->tmp = vector_mult_const(this->direction, this->height);
-    this->direction = vector_div_const(this->tmp, module(this->tmp));
     this->m = pow(this->radius / this->height, 2);
     rt->CO = vector_subtract(rt->O, this->vector);
     rt->a = dot(rt->D, rt->D) - this->m * pow(dot(rt->D, this->direction), 2) - pow(dot(rt->D, this->direction), 2);
@@ -56,6 +55,7 @@ t_object* new_cone(char *line)
     cone->direction.x = ft_atof(&line);
     cone->direction.y = ft_atof(&line);
     cone->direction.z = ft_atof(&line);
+    cone->direction = vector_div_const(cone->direction, module(cone->direction));
     cone->height = ft_atof(&line);
     cone->radius = ft_atof(&line);
     cone->color.r = (int)ft_atof(&line);
@@ -63,6 +63,7 @@ t_object* new_cone(char *line)
     cone->color.b = (int)ft_atof(&line);
     cone->specular = (int)ft_atof(&line);
 	cone->refletive = ft_atof(&line);
+	cone->intensity = ft_atof(&line);
     cone->theta = 0.0f;
 	cone->phi = 0.0f;
 	cone->qsi = 0.0f;

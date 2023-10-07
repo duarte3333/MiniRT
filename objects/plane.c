@@ -48,6 +48,7 @@ t_object* new_plane(char *line)
     plane->color.b = (int)ft_atof(&line);
 	plane->specular = (int)ft_atof(&line);
 	plane->refletive = ft_atof(&line);
+	plane->intensity = ft_atof(&line);
 	plane->theta = 0.0f;
 	plane->phi = 0.0f;
 	plane->qsi = 0.0f;

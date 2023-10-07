@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/07 22:11:05 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/07 23:12:32 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static void translate(int keycode)
 {
 	vars()->scene->select->vector.y +=  ((keycode == XK_Up) - (keycode == XK_Down)) * 0.05;
 	vars()->scene->select->vector.x +=  ((keycode == XK_Right) - (keycode == XK_Left)) * 0.05;
-	vars()->scene->select->vector.z +=  ((keycode == 'z') - (keycode == 'x')) * 0.05;	
+	vars()->scene->select->vector.z +=  ((keycode == XK_z) - (keycode == XK_x)) * 0.05;	
 }
 
 /* This function after update the angles, update the direction */
 static void rotate(int keycode)
 {
-	vars()->scene->select->theta +=  ((keycode == 'i') - (keycode == 'k')) * 0.001;
-	vars()->scene->select->phi +=  ((keycode == 'j') - (keycode == 'l')) * 0.001;
-	vars()->scene->select->qsi +=  ((keycode == 'u') - (keycode == 'o')) * 0.001;
+	vars()->scene->select->theta +=  ((keycode == XK_i) - (keycode == XK_k)) * 0.01;
+	vars()->scene->select->phi +=  ((keycode == XK_j) - (keycode == XK_l)) * 0.01;
+	vars()->scene->select->qsi +=  ((keycode == XK_u) - (keycode == XK_o)) * 0.01;
 	vars()->scene->select->rotate(vars()->scene->select);
 }
 

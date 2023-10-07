@@ -52,7 +52,7 @@ int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recurs
        return BLACK;
 	light_prepare(&rt, obj);
 	//newRT.local_color = get_rgb(obj->color.r, obj->color.g, obj->color.b);
-	rt.local_color = color_multiply(obj->color, compute_light(&rt));
+	rt.local_color = color_multiply(obj->color, compute_light(&rt), obj->intensity);
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0.001f)
 		return rt.local_color;

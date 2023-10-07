@@ -39,12 +39,12 @@ static int create_scene(char *arg)
 		return (0);
 	}
 	vars()->last = head;
-	if (!test_syntax(arg))
-	{
-		free(head);
-		close(fd);
-		return (0);
-	}
+	// if (!test_syntax(arg))
+	// {
+	// 	free(head);
+	// 	close(fd);
+	// 	return (0);
+	// }
 	while (map_loading(head, fd))
 		;
 	close(fd);
