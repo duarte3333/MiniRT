@@ -1,6 +1,13 @@
 #include "../includes/minirt.h"
 
 
+static void rotate(t_cone *this)
+{
+    rotation_x(&this->direction, this->theta);
+	rotation_y(&this->direction, this->phi);
+	rotation_z(&this->direction, this->qsi);
+}
+
 /* Esta funcao recebe uma esfera e um raio retorna 
 os pixels onde intersetam.
 Ray equation: P = O + t(V - O)*/
@@ -28,6 +35,7 @@ t_object* new_plane(char *line)
 
 	plane = new_object(sizeof(t_plane));
 	plane->intersect = intersect;
+	plane->rotate = rotate;
 	plane->type = PLANE;
 	plane->vector.x = ft_atof(&line);
 	plane->vector.y = ft_atof(&line);
@@ -40,5 +48,8 @@ t_object* new_plane(char *line)
     plane->color.b = (int)ft_atof(&line);
 	plane->specular = (int)ft_atof(&line);
 	plane->refletive = ft_atof(&line);
+	plane->theta = 0.0f;
+	plane->phi = 0.0f;
+	plane->qsi = 0.0f;
 	return ((t_object *)plane);
 }

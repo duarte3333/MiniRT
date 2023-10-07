@@ -16,7 +16,8 @@
 		"system_error": "c",
 		"type_traits": "c",
 		"variant": "c",
-		"raytracer.h": "c"
+		"raytracer.h": "c",
+		"math.h": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }

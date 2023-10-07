@@ -21,7 +21,6 @@ static void init_window(t_vars *vars)
 	mlx_hook(vars->win, 17, 0, ft_close, vars);
 	mlx_hook(vars->win, 2, 1L<<0, ft_key, NULL);
 	mlx_hook(vars->win, 4, 1L<<2, ft_mouse_down, NULL);
-	//mlx_hook(vars->win, 5, 1L<<3, ft_mouse_up, vars);
 }
 
 static int create_scene(char *arg)
@@ -87,8 +86,8 @@ int	main(int ac, char **av)
 		if (vars()->scene == NULL)
 			return (0);
 		init_window(vars());
-		//vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
-		vars()->n_threads = 1;
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 10;
+		//vars()->n_threads = 1;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
@@ -109,10 +108,10 @@ int	main(int ac, char **av)
 
 //Meter check syntax
 
-//Problema do planes -
-//Como meter FOV -
-//Resolver problema plano -
-//Ver rotacoes camara -
+//Problema do planes - DONE
+//Como meter FOV - DONE
+//Resolver problema plano - DONE
+//Ver rotacoes camara - DONE
 //Ver bases do cone e cilindro -
 //Rotacoes cilindro e do cone -
 

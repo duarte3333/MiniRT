@@ -84,14 +84,21 @@ float *compute_light(t_raytracer *rt)
 	return rt->rl.i;
 }
 
+static void rotate(t_cone *this)
+{
+    rotation_x(&this->direction, this->theta);
+	rotation_y(&this->direction, this->phi);
+	rotation_z(&this->direction, this->qsi);
+}
+
+
 t_object *new_light(char *line, t_type type)
 {
 	t_light *new_light;
 
-	// if (!check_light())
-	//  	return NULL;
 	new_light = new_object(sizeof(t_light));
 	new_light->type = type;
+	new_light->rotate = rotate;
 	if (new_light->type != AMBIENT)
 	{
 		new_light->vector.x = ft_atof(&line);
@@ -102,5 +109,8 @@ t_object *new_light(char *line, t_type type)
     new_light->color.r = (int)ft_atof(&line);
     new_light->color.g = (int)ft_atof(&line);
     new_light->color.b = (int)ft_atof(&line);
+	new_light->theta = 0.0f;
+	new_light->phi = 0.0f;
+	new_light->qsi = 0.0f;
 	return ((t_object *)new_light);
 }

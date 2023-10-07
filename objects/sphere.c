@@ -3,6 +3,7 @@
 /* Esta funcao recebe uma esfera e um raio retorna 
 os pixels onde intersetam.
 Ray equation: P = O + t(V - O)*/
+
 static t_values intersect(t_raytracer *rt, t_sphere *this)
 {
 	t_values local;

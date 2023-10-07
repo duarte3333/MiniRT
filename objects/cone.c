@@ -1,5 +1,14 @@
 #include "../includes/minirt.h"
 
+
+static void rotate(t_cone *this)
+{
+    rotation_x(&this->direction, this->theta);
+	rotation_y(&this->direction, this->phi);
+	rotation_z(&this->direction, this->qsi);
+}
+
+
 static t_values intersect(t_raytracer *rt, t_cone *this)
 {
     t_values local;
@@ -39,6 +48,7 @@ t_object* new_cone(char *line)
 
     cone = new_object(sizeof(t_cone));
     cone->intersect = intersect;
+    cone->rotate = rotate;
     cone->type = CONE;
     cone->vector.x = ft_atof(&line);
     cone->vector.y = ft_atof(&line);
@@ -53,7 +63,9 @@ t_object* new_cone(char *line)
     cone->color.b = (int)ft_atof(&line);
     cone->specular = (int)ft_atof(&line);
 	cone->refletive = ft_atof(&line);
-
+    cone->theta = 0.0f;
+	cone->phi = 0.0f;
+	cone->qsi = 0.0f;
 	return ((t_object *)cone);
 }
 

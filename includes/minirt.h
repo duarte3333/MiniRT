@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/30 21:11:46 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/07 22:02:46 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ struct 	s_object {
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
+	float theta;
+	float phi;
+	float qsi;
 };
 
 struct 	s_camera {
@@ -130,11 +133,11 @@ struct 	s_camera {
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
-	//
-	t_vector direction;
 	float theta;
 	float phi;
 	float qsi;
+	//
+	t_vector direction;
 	float fov;
 };
 
@@ -150,6 +153,9 @@ struct 	s_light {
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
+	float theta;
+	float phi;
+	float qsi;
 	//
 };
 
@@ -165,6 +171,9 @@ struct 	s_plane {
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
+	float theta;
+	float phi;
+	float qsi;
 	//
 	t_vector vector;
 };
@@ -181,6 +190,9 @@ struct 	s_sphere {
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
+	float theta;
+	float phi;
+	float qsi;
 	//
 	float diameter;
 };
@@ -197,13 +209,12 @@ struct 	s_cylinder{
 	void (*resize)(int ratio);	
 	float height;
 	float  intensity;
-	//
-	t_vector axis;
-	float diameter;
 	float theta;
 	float phi;
 	float qsi;
-
+	//
+	t_vector axis;
+	float diameter;
 };
 
 struct s_cone
@@ -215,12 +226,15 @@ struct s_cone
 	int specular;
 	float refletive;
 	t_values (*intersect)();
+	void (*rotate)();
 	void (*move)(int x, int y);
 	void (*resize)(int ratio);
 	float height;
 	float  intensity;
-	//
 	float theta;
+	float phi;
+	float qsi;
+	//
 	t_vector base;
 	t_vector direction;
 	t_vector tmp;
@@ -235,9 +249,9 @@ int		test_syntax(char *str);
 
 //Hook's
 int			ft_key(int keycode);
-int 		ft_mouse_up(int button, int x, int y);
 int 		ft_mouse_down(int button, int x, int y);
 int			ft_close(t_vars *vars);
+void 		threads_update();
 
 //Objects
 void* 		new_object(int size);

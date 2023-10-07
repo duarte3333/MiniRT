@@ -28,7 +28,10 @@ SRCS = Aux/pixel_put.c \
 	   engine/hook.c \
 	   engine/aux_ray.c \
 	   engine/raytracer.c \
+	   engine/aux_hook.c \
+	   engine/mouse_hook.c \
 	   engine/threads.c \
+	   engine/rotations.c \
 	   engine/paint.c \
 	   main.c 
 

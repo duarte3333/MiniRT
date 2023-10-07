@@ -14,11 +14,6 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 	rt->rl.V = vector_mult_const((rt->D), -1);
 }
 
-void print_vector(t_vector P)
-{
-	printf(" x: %f , y: %f, z: %f\n", P.x, P.y, P.z);
-}
-
 t_object *closest_intersection(t_raytracer *rt, t_vector limits)
 {
 	t_object *obj;
@@ -30,23 +25,8 @@ t_object *closest_intersection(t_raytracer *rt, t_vector limits)
 	while (tmp)
 	{	
         rt->t = tmp->intersect(rt, tmp); //get t1 and t2
-		// if (limits.y != INT_MAX && tmp->color.g == 0)
-		// {
-		// 	printf("direction ");
-		// 	print_vector(rt->D);
-		// 	printf("origin ");
-		// 	print_vector(rt->O);
-		// 	printf("pila ");
-		// 	print_vector(tmp->vector);
-		// 	printf("green %i, t1: %f, t2: %f,\n", tmp->color.g, rt->t.t1, rt->t.t2);
-		// }
 		if ((rt->t.t1 >= limits.x && rt->t.t1 <= limits.y) && rt->t.t1 < rt->closest_t) 
 		{
-/* 			if (limits.y != INT_MAX)
-			{
-				printf("oi %f\n", rt->t.t1);
-				printf("limit %f\n", limits.y);
-			} */
             rt->closest_t = rt->t.t1;
             obj = tmp;
         }
@@ -81,36 +61,25 @@ int new_trace_ray(t_object *last_obj, t_scene *scene ,t_raytracer rt, int recurs
 	rt.D = rt.rl.R;
 	rt.reflected_color = new_trace_ray(obj, scene, rt, recursion_depth - 1, 0.01f);
 	return(color_sum_int(color_mult_int(rt.local_color, (1 - r)), color_mult_int(rt.reflected_color, r)));
-	//return (color_mult_int(newRT.local_color, (1 - r)) + color_mult_int(newRT.reflected_color, r));
 }
 
 void canvas_to_viewport(t_raytracer *rt, float x, float y)
 {
 	t_camera *cam;
-	float d = 1;
+	float d;
+	float aspect_ratio;
+	float fov_radians;
 
 	cam = vars()->scene->camera;
-    // Calculate the direction vector
-    //rt->D = vector(x*(1.0f/WIDTH)*2*tan(cam->fov / 2.0 * M_PI / 180.0), -y*(1.0f/HEIGHT)*(HEIGHT/WIDTH), d);
-        // Convert x and y to the viewport coordinates
-    float viewport_x = x * (1.0f / WIDTH);
-    float viewport_y = -y * (1.0f / HEIGHT);
-    float aspect_ratio = (float)WIDTH / (float)HEIGHT;
-
-    float fov_radians = cam->fov * (M_PI / 180.0f);
+    aspect_ratio = (float)WIDTH / (float)HEIGHT;
+    fov_radians = cam->fov * (M_PI / 180.0f);
 	d = (1.0f / tan(fov_radians / 2.0f));
-    // Calculate the half-height and half-width at the focal plane
-
-    // Calculate the direction vector
-    //rt->D = vector(viewport_x * 2.0f * half_width, viewport_y * 2.0f * half_height, d);
     rt->D = vector(x * (1.0f / WIDTH) * aspect_ratio, -y * (1.0f / HEIGHT), d);
-    
-	//rt->D = vector(x*(1.0f/WIDTH), -y*(1.0f/HEIGHT), d);
+	//cam->rotate(rt, cam, X_theta_1)
 	rotation_x(&rt->D, cam->theta);
 	rotation_y(&rt->D, cam->phi);
 	rotation_z(&rt->D, cam->qsi);
 }
-
 
 void    raytracer_threads(t_ray_thread *threads)
 {

@@ -67,16 +67,10 @@ static t_values check_width(t_cylinder *this, t_raytracer *rt, t_values t)
 	return t;
 }
 
-static void rotate(t_cylinder *this, t_rotation rotation)
+static void rotate(t_cylinder *this)
 {
-	float increment;
-
-	increment = 0.05;
-	this->theta *= ((rotation == X_theta_1) - (rotation == X_theta_2))*increment;
-	rotation_x(&this->axis, this->theta);
-	this->phi *= ((rotation == Y_phi_1) - (rotation == Y_phi_2))*increment;
+    rotation_x(&this->axis, this->theta);
 	rotation_y(&this->axis, this->phi);
-	this->qsi *= ((rotation == Z_qsi_1) - (rotation == Z_qsi_2))*increment;
 	rotation_z(&this->axis, this->qsi);
 }
 
