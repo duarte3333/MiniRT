@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 01:57:24 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 02:15:20 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	ft_key(int keycode)
 		vars()->menu = 0;
 	if (keycode == XK_m && menu == 0)
 		vars()->menu = 1;
+	// if (keycode == XK_r)
+	// 	vars()->scene->select_light = vars()->scene->light;
 	if (keycode == XK_t)
 	{
 		if (!vars()->scene->select_light || !vars()->scene->select_light->next)

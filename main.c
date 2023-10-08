@@ -133,5 +133,7 @@ int	main(int ac, char **av)
 //Situacao de threads nao esta bem
 
 //CASA
+//Meter mapas fixes a dar DONE
 //Ver bases do cone e cilindro -
-//Meter mapas fixes a dar 
+//Direcao da camera -
+//Direcao pos rotacao -

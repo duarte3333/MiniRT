@@ -69,12 +69,19 @@ void canvas_to_viewport(t_raytracer *rt, float x, float y)
 	float d;
 	float aspect_ratio;
 	float fov_radians;
+	t_vector direction;
 
 	cam = vars()->scene->camera;
+	direction = cam->direction;
     aspect_ratio = (float)WIDTH / (float)HEIGHT;
     fov_radians = cam->fov * (M_PI / 180.0f);
 	d = (1.0f / tan(fov_radians / 2.0f));
-    rt->D = (t_vector){x * (1.0f / WIDTH) * aspect_ratio, -y * (1.0f / HEIGHT), d};
+	rt->D = direction;
+	rt->D.x += x * (1.0f / WIDTH) * aspect_ratio;
+    rt->D.y -= y * (1.0f / HEIGHT);
+    rt->D.z = d; 
+    // rt->D = (t_vector){x * (1.0f / WIDTH) * aspect_ratio, \
+	// 					  - y * (1.0f / HEIGHT),  d};
 	cam->rotate(&rt->D, cam);
 
 }
