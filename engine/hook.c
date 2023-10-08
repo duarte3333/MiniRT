@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 17:09:44 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:32:31 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void camera_move(int keycode)
 	if (keycode == XK_c || keycode == XK_v)
 	 	vars()->scene->camera->qsi += ((keycode == XK_c) - (keycode == XK_v)) * 0.01;
 }
-
 
 static void translate(int keycode)
 {
