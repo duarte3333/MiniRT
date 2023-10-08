@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/07 23:12:32 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:57:24 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void camera_move(int keycode)
 	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
 	if (keycode == XK_3 || keycode == XK_4)
 	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
+	if (keycode == XK_c || keycode == XK_v)
+	 	vars()->scene->camera->qsi += ((keycode == XK_c) - (keycode == XK_v)) * 0.01;
 }
 
 // static void lights_move(int keycode)
@@ -56,13 +58,46 @@ static void rotate(int keycode)
 	vars()->scene->select->rotate(vars()->scene->select);
 }
 
+static void translate_light(int keycode)
+{
+	vars()->scene->select_light->vector.y +=  ((keycode == XK_Up) - (keycode == XK_Down)) * 0.1;
+	vars()->scene->select_light->vector.x +=  ((keycode == XK_Right) - (keycode == XK_Left)) * 0.1;
+	vars()->scene->select_light->vector.z +=  ((keycode == XK_z) - (keycode == XK_x)) * 0.1;	
+}
+
+
+static void rotate_light(int keycode)
+{
+	vars()->scene->select_light->theta +=  ((keycode == XK_i) - (keycode == XK_k)) * 0.01;
+	vars()->scene->select_light->phi +=  ((keycode == XK_j) - (keycode == XK_l)) * 0.01;
+	vars()->scene->select_light->qsi +=  ((keycode == XK_u) - (keycode == XK_o)) * 0.01;
+	vars()->scene->select_light->rotate(vars()->scene->select_light);
+}
+
 int	ft_key(int keycode)
 {	
+	int menu;
 	//threads_update();
 	if (keycode == XK_Escape)
-	{
 		ft_close(vars());
+	menu = vars()->menu;
+	if (keycode == XK_m && menu == 1)
+		vars()->menu = 0;
+	if (keycode == XK_m && menu == 0)
+		vars()->menu = 1;
+	if (keycode == XK_t)
+	{
+		if (!vars()->scene->select_light || !vars()->scene->select_light->next)
+			vars()->scene->select_light = vars()->scene->light;
+		else if (vars()->scene->select_light->next)
+			vars()->scene->select_light = vars()->scene->select_light->next;
 	}
+	if (!vars()->scene->select && vars()->scene->select_light)
+	{
+		translate_light(keycode);
+		rotate_light(keycode);
+	}
+	
 	if (vars()->scene->select)
 	{
 		translate(keycode);

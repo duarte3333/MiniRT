@@ -9,6 +9,7 @@ t_vars *vars()
 static void init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
+	vars->menu = 0;
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->img.img)
@@ -31,8 +32,8 @@ static int create_scene(char *arg)
 	t_scene *head;
 
 	head = ft_calloc(sizeof(t_scene), 1);
-	vars()->map_file = arg;
-	fd = check_map();
+	head->map_file = arg;
+	fd = check_map(arg);
 	if (fd == -1)
 	{
 		free(head);
@@ -87,8 +88,8 @@ int	main(int ac, char **av)
 		if (vars()->scene == NULL)
 			return (0);
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 10;
-		//vars()->n_threads = 1;
+		//vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 10;
+		vars()->n_threads = 1;
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
@@ -113,8 +114,6 @@ int	main(int ac, char **av)
 //Como meter FOV - DONE
 //Resolver problema plano - DONE
 //Ver rotacoes camara - DONE
-//Ver bases do cone e cilindro -
-//Rotacoes cilindro e do cone -
 
 //BONUS
 //Fazer cone DONE
@@ -122,11 +121,13 @@ int	main(int ac, char **av)
 //Fazer luzes com varias cores DONE
 //Fazer checkboard - 
 //Fazer texturas DONE
-//
-//Reflections
+//Reflections DONE
 //Mudar mapa em tempo real DONE
 //Fazer menu - 
 
 //Tester mapas falhados
 //Leaks
 //Folha de avaliacao
+
+//Rotacoes cilindro e do cone 
+//Ver bases do cone e cilindro -

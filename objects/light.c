@@ -84,6 +84,17 @@ float *compute_light(t_raytracer *rt)
 	return rt->rl.i;
 }
 
+
+static void rotate(t_cylinder *this)
+{
+	if (this->type != AMBIENT)
+	{
+	    rotation_x(&this->vector, this->theta);
+		rotation_y(&this->vector, this->phi);
+		rotation_z(&this->vector, this->qsi);
+	}
+}
+
 t_object *new_light(char *line, t_type type)
 {
 	t_light *new_light;
@@ -92,6 +103,7 @@ t_object *new_light(char *line, t_type type)
 	//  	return NULL;
 	new_light = new_object(sizeof(t_light));
 	new_light->type = type;
+	new_light->rotate = rotate;
 	if (new_light->type != AMBIENT)
 	{
 		new_light->vector.x = ft_atof(&line);

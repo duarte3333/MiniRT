@@ -85,20 +85,20 @@ int	check_empty(t_vars *vars, char *line)
 }
 
 /* Verifica todas as possibilidades para que o mapa pode falhar */
-int	check_map()
+int	check_map(char *map)
 {
 	int	fd;
 	int i;
 
 	i = 0;
-	if (!strcmp_rt(vars()->map_file, "rt"))
+	if (!strcmp_rt(map, "rt"))
 	{
 		write(1, "That file is not a .rt file\n", 29);
 		return(-1);
 	}
 	else
 	{
-		fd = open(vars()->map_file, O_RDONLY);
+		fd = open(map, O_RDONLY);
 		if (fd == -1)
 			write(1, "That file is not in the repository.\n", 37);
 		//check_empty(vars, get_next_line(fd));

@@ -2,7 +2,7 @@ NAME = miniRT
 
 CC = cc
 
-CFLAGS = -O1 -Wall -Wextra -pthread#-fsanitize=address -g#-Werror -fsanitize=address -g
+CFLAGS = -O1 -Wall -Wextra -pthread #-fsanitize=address -g#-Werror -fsanitize=address -g
 
 SRCS = Aux/pixel_put.c \
 	   Aux/vector.c \
@@ -25,6 +25,7 @@ SRCS = Aux/pixel_put.c \
 	   objects/cone.c \
 	   parse/parse.c \
 	   parse/syntax.c \
+	   engine/menu.c \
 	   engine/hook.c \
 	   engine/aux_ray.c \
 	   engine/raytracer.c \

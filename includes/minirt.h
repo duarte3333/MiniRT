@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/10/07 23:16:05 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:27:17 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,12 @@ struct s_scene{
 	t_object *object;
 	t_object *light;
 	t_object *select;
+	t_object *select_light;
     t_object *end;
     t_object *end_light;
 	t_scene  *next;
 	t_scene  *prev;
+	char 	 *map_file;
 	int	 	 f;
 	bool 	 syntax;
 };
@@ -92,14 +94,13 @@ struct	s_vars {
 	t_data	 img;
 	t_scene	 *scene;
 	t_scene  *last;
-	char 	 *map_file;
 	//
 	int		n_threads;
 	t_ray_thread *threads;
 	pthread_mutex_t mut;
 	int		count;
 	new_objects new_objects[15];
-	
+	int 	menu;
 	//
 	t_ray_thread *rt_var;
 };
@@ -303,6 +304,7 @@ void    light_add_back(t_scene *scene, t_type type, char *line);
 void 	free_objects(t_scene *head);
 void	free_array(char **arr);
 
-
+//Menu
+void ft_menu(void);
 
 #endif

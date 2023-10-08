@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:42:49 by duarte33          #+#    #+#             */
-/*   Updated: 2023/09/21 14:44:05 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:18:58 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void paint()
 	pthread_mutex_unlock(&vars()->mut);
 	//usleep(5);
 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
-
+	if (vars()->menu == 0)
+		ft_menu();
 }
