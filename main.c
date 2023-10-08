@@ -107,9 +107,7 @@ int	main(int ac, char **av)
 //Corrigir SEGV no parsing DONE
 //Problem de overflow das cores DONE
 //Otimizar last do vars -
-
-//Meter check syntax
-
+//Meter check syntax - DONE
 //Problema do planes - DONE
 //Como meter FOV - DONE
 //Resolver problema plano - DONE
@@ -123,11 +121,17 @@ int	main(int ac, char **av)
 //Fazer texturas DONE
 //Reflections DONE
 //Mudar mapa em tempo real DONE
-//Fazer menu - 
+//Fazer menu DONE 
 
+//REVISAO FINAL
 //Tester mapas falhados
 //Leaks
 //Folha de avaliacao
 
-//Rotacoes cilindro e do cone 
+//ON SCHOOL
+//Rotacoes cilindro e do cone incorretas
+//Situacao de threads nao esta bem
+
+//CASA
 //Ver bases do cone e cilindro -
+//Meter mapas fixes a dar 

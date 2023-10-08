@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 01:56:47 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:59:16 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ void	ft_part_one()
 		"scrool up to zoom out");
 	mlx_string_put(vars()->mlx, vars()->win, 50, 325, 0xAFA9A9, \
 		"Camera:");
-	mlx_string_put(vars()->mlx, vars()->win, 50, 350, 0xAFA9A9, \
-	"1 - go up with camera");
-	mlx_string_put(vars()->mlx, vars()->win, 50, 375, 0xAFA9A9, \
-	"2 - go down with camera");
-	mlx_string_put(vars()->mlx, vars()->win, 50, 400, 0xAFA9A9, \
-		"q / e - rotate camera along y axis");
-	mlx_string_put(vars()->mlx, vars()->win, 50, 425, 0xAFA9A9, \
-		"3 / 4 - rotate camera along x axis");
-	mlx_string_put(vars()->mlx, vars()->win, 50, 450, 0xAFA9A9, \
-		"c / v - rotate camera along z axis");
 }
 
 char *choose_light()
@@ -65,6 +55,16 @@ char *choose_light()
 void	ft_menu()
 {
 	ft_part_one();
+	mlx_string_put(vars()->mlx, vars()->win, 50, 350, 0xAFA9A9, \
+	"1 - go up with camera");
+	mlx_string_put(vars()->mlx, vars()->win, 50, 375, 0xAFA9A9, \
+	"2 - go down with camera");
+	mlx_string_put(vars()->mlx, vars()->win, 50, 400, 0xAFA9A9, \
+		"q / e - rotate camera along y axis");
+	mlx_string_put(vars()->mlx, vars()->win, 50, 425, 0xAFA9A9, \
+		"3 / 4 - rotate camera along x axis");
+	mlx_string_put(vars()->mlx, vars()->win, 50, 450, 0xAFA9A9, \
+		"c / v - rotate camera along z axis");
 	mlx_string_put(vars()->mlx, vars()->win, WIDTH - 150, \
 		20, 0xAFA9A9, "MAP NAME");
 	mlx_string_put(vars()->mlx, vars()->win, WIDTH - 150, \
