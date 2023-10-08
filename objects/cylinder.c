@@ -126,6 +126,7 @@ t_object* new_cylinder(char* line)
 	cylinder->specular = (int)ft_atof(&line);
 	cylinder->refletive = ft_atof(&line);
 	cylinder->intensity = ft_atof(&line);
+	cylinder->checkerboard = (int)ft_atof(&line);
 	cylinder->theta = 0.0f;
 	cylinder->phi = 0.0f;
 	cylinder->qsi = 0.0f;

@@ -40,6 +40,7 @@ t_object* new_sphere(char *line)
 	sphere->specular = (int)ft_atof(&line);
 	sphere->refletive = ft_atof(&line);
 	sphere->intensity = ft_atof(&line);
+	sphere->checkerboard = (int)ft_atof(&line);
 	sphere->next = NULL;
 	return ((t_object *)sphere);
 }

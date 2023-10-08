@@ -64,6 +64,7 @@ t_object* new_cone(char *line)
     cone->specular = (int)ft_atof(&line);
 	cone->refletive = ft_atof(&line);
 	cone->intensity = ft_atof(&line);
+    cone->checkerboard = (int)ft_atof(&line);
     cone->theta = 0.0f;
 	cone->phi = 0.0f;
 	cone->qsi = 0.0f;

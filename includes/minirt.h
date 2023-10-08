@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/10/08 01:27:17 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:25:15 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ struct 	s_object {
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 };
 
 struct 	s_camera {
@@ -137,6 +138,7 @@ struct 	s_camera {
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 	t_vector direction;
 	float fov;
@@ -157,6 +159,7 @@ struct 	s_light {
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 };
 
@@ -175,6 +178,7 @@ struct 	s_plane {
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 	t_vector vector;
 };
@@ -194,6 +198,7 @@ struct 	s_sphere {
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 	float diameter;
 };
@@ -213,6 +218,7 @@ struct 	s_cylinder{
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 	t_vector axis;
 	float diameter;
@@ -235,6 +241,7 @@ struct s_cone
 	float theta;
 	float phi;
 	float qsi;
+	int checkerboard;
 	//
 	t_vector base;
 	t_vector direction;

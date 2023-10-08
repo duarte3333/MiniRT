@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 02:15:20 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:09:44 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ static void camera_move(int keycode)
 	 	vars()->scene->camera->qsi += ((keycode == XK_c) - (keycode == XK_v)) * 0.01;
 }
 
-// static void lights_move(int keycode)
-// {
-// 	if (keycode == XK_w || keycode == XK_s)
-// 		vars()->scene->camera->vector.z += ((keycode == XK_w) - (keycode == XK_s))*0.05;
-// 	if (keycode == XK_a || keycode == XK_d)
-// 		vars()->scene->camera->vector.x += ((keycode == XK_d) - (keycode == XK_a))*0.05;
-// 	if (keycode == XK_1 || keycode == XK_2)
-// 		vars()->scene->camera->vector.y += ((keycode == XK_1) - (keycode == XK_2)) * 0.05;
-// 	if (keycode == XK_q || keycode == XK_e)
-// 	 	vars()->scene->camera->phi += ((keycode == XK_e) - (keycode == XK_q)) * 0.01;
-// 	if (keycode == XK_3 || keycode == XK_4)
-// 	 	vars()->scene->camera->theta += ((keycode == XK_3) - (keycode == XK_4)) * 0.01;
-// }
 
 static void translate(int keycode)
 {
@@ -66,13 +53,13 @@ static void translate_light(int keycode)
 }
 
 
-static void rotate_light(int keycode)
-{
-	vars()->scene->select_light->theta +=  ((keycode == XK_i) - (keycode == XK_k)) * 0.01;
-	vars()->scene->select_light->phi +=  ((keycode == XK_j) - (keycode == XK_l)) * 0.01;
-	vars()->scene->select_light->qsi +=  ((keycode == XK_u) - (keycode == XK_o)) * 0.01;
-	vars()->scene->select_light->rotate(vars()->scene->select_light);
-}
+// static void rotate_light(int keycode)
+// {
+// 	vars()->scene->select_light->theta +=  ((keycode == XK_i) - (keycode == XK_k)) * 0.01;
+// 	vars()->scene->select_light->phi +=  ((keycode == XK_j) - (keycode == XK_l)) * 0.01;
+// 	vars()->scene->select_light->qsi +=  ((keycode == XK_u) - (keycode == XK_o)) * 0.01;
+// 	vars()->scene->select_light->rotate(vars()->scene->select_light);
+// }
 
 int	ft_key(int keycode)
 {	
@@ -95,10 +82,7 @@ int	ft_key(int keycode)
 			vars()->scene->select_light = vars()->scene->select_light->next;
 	}
 	if (!vars()->scene->select && vars()->scene->select_light)
-	{
 		translate_light(keycode);
-		rotate_light(keycode);
-	}
 	
 	if (vars()->scene->select)
 	{

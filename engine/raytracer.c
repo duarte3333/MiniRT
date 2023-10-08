@@ -14,6 +14,21 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 	rt->rl.V = vector_mult_const((rt->D), -1);
 }
 
+void checkerboard(t_raytracer *rt, t_object *obj)
+{
+	t_vector intersection_point = vector_add(rt->O, vector_mult_const(rt->D, rt->closest_t));
+
+	int checkered_value = ((int)floor(intersection_point.x) +
+						   (int)floor(intersection_point.y) +
+						   (int)floor(intersection_point.z)) %
+						  2;
+	if (checkered_value == 0)
+		obj->color = (t_color){0, 0, 0}; // Black
+	else
+		obj->color = (t_color){255, 255, 255}; // White
+	return obj;
+}
+
 t_object *closest_intersection(t_raytracer *rt, t_vector limits)
 {
 	t_object *obj;
@@ -37,6 +52,8 @@ t_object *closest_intersection(t_raytracer *rt, t_vector limits)
         }
 		tmp = tmp->next;
     }
+	if (obj && obj->checkerboard == 6)
+		checkerboard(rt, obj);
 	return obj;
 }
 
