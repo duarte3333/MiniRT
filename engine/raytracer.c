@@ -26,7 +26,7 @@ void checkerboard(t_raytracer *rt, t_object *obj)
 		obj->color = (t_color){0, 0, 0}; // Black
 	else
 		obj->color = (t_color){255, 255, 255}; // White
-	return obj;
+	//return obj;
 }
 
 t_object *closest_intersection(t_raytracer *rt, t_vector limits)
