@@ -33,7 +33,7 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 		scene->select->vector.z +=  ((button == 5) - (button == 4)) * 0.05;
 	else 
 		scene->camera->vector.z +=  ((button == 4) - (button == 5)) * 0.05;
-	//threads_update();
+	threads_update();
 	return 0;
 }
 
@@ -51,12 +51,12 @@ int ft_mouse_down(int button, int x, int y)
 	{
 		vars()->scene->select->vector.x = ((float)(x))*(1.5f/WIDTH_2);
 		vars()->scene->select->vector.y = -((float)(y))*(1.5f/HEIGHT_2);
-		//threads_update();
+		threads_update();
 		return (0);
 	}
 	rt.O = vars()->scene->camera->vector;	
 	canvas_to_viewport(&rt, x, y); //get D
 	vars()->scene->select = mouse_trace_ray(vars, &rt); //get color
-	//threads_update();
+	threads_update();
 	return 0;
 }

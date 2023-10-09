@@ -1,35 +1,48 @@
 #include "../includes/minirt.h"
 
+int get_now()
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+
 void    *routine(void *arg)
 {
     t_ray_thread *thread;
-    bool n;
+    bool run;
+    bool status;
 
     thread = (t_ray_thread*)arg;
     thread->running = true;
 
     while (1)
     {
-        usleep(20);
+        //usleep(500);
         pthread_mutex_lock(&thread->th_mut);
-        n = thread->running;
+        run = thread->running;
+        status = thread->work;
         pthread_mutex_unlock(&thread->th_mut);
-        if (!n)
+        if (!run)
             break ;
-        pthread_mutex_unlock(&thread->th_mut);
+        if (!status)
+        {
+            continue;
+        }
+        int now = get_now();
         raytracer_threads(thread);
+        printf("thread %d took %dms\n", thread->index, get_now() - now);
         pthread_mutex_lock(&vars()->mut);
         vars()->count++;
         pthread_mutex_unlock(&vars()->mut);
-     
-        /* if (pthread_join(thread->thread, NULL))
-        {
-            printf("Error joining threads\n");
-            return (-1);
-        } */
+        pthread_mutex_lock(&thread->th_mut);
+        thread->work = false;
+        pthread_mutex_unlock(&thread->th_mut);
+        printf("thread %d finished working in %dms\n", thread->index, get_now() - now);
     }
     return (NULL);
 }
+
 
 
 static void create_chunks(int i)
@@ -38,6 +51,7 @@ static void create_chunks(int i)
 
    rest =  (int)WIDTH % (vars()->n_threads);
    vars()->threads[i].index = i;
+   vars()->threads[i].work  = true;
    if ((i == vars()->n_threads - 1) && rest != 0)
    {
         vars()->threads[i].x_i = vars()->threads[i - 1].x_f;

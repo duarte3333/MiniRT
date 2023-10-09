@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:39:30 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 18:32:31 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:12:50 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_key(int keycode)
 		vars()->scene = vars()->scene->next;
 	if (keycode == XK_9 && vars()->scene->prev)
 		vars()->scene = vars()->scene->prev;
-	//threads_update();
+	threads_update();
 	return (0);
 }
 

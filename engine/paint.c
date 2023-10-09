@@ -6,12 +6,12 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 18:42:49 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/08 01:18:58 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:35:13 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
-
+int last_render = 0;
 static void paint_chunk(t_ray_thread *thread)
 {
 	t_chunk s;
@@ -31,10 +31,12 @@ static void paint_chunk(t_ray_thread *thread)
 	//usleep(50);
 	pthread_mutex_unlock(&thread->th_mut);
 }
+int get_now();
 
 void paint()
 {
 	int	n;
+	
 
 	pthread_mutex_lock(&vars()->mut);
     if (vars()->count != vars()->n_threads)
@@ -43,10 +45,12 @@ void paint()
 		return ;
 	}
 	vars()->count = 0;
+	pthread_mutex_unlock(&vars()->mut);
+	printf("rendering a frame with %dms..\n", get_now() - last_render);
+	last_render = get_now();
 	n = -1;
 	while (++n < vars()->n_threads)
 		paint_chunk(&vars()->threads[n]);
-	pthread_mutex_unlock(&vars()->mut);
 	//usleep(5);
 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
 	if (vars()->menu == 0)
