@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:17:06 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/11 00:20:31 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:14:23 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_values	intersect(t_raytracer *rt, t_cone *this)
 	t_vector	p;
 	float		value;
 
-	this->tmp = vector_mult_const(this->direction, this->height);
+	this->tmp = vector_mult_const(this->direction, 2);
 	this->m = pow(this->radius / this->height, 2);
 	calculate_coefficients(rt, this);
 	rt->discriminant = rt->b * rt->b - 4.0f * rt->a * rt->c;

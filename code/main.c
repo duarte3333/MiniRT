@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:27:57 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/11 00:46:49 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 01:58:51 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	main(int ac, char **av)
 //Fazer cone DONE
 //Fazer phong model DONE
 //Fazer luzes com varias cores DONE
-//Fazer checkboard - 
+//Fazer checkboard DONE 
 //Fazer texturas DONE
 //Reflections DONE
 //Mudar mapa em tempo real DONE
@@ -143,7 +143,7 @@ int	main(int ac, char **av)
 //REVISAO FINAL
 //Rotacao cone meh
 //Tester mapas falhados
-//Leaks
+//Leaks e data races
 //Folha de avaliacao
 //AMANHA
 //Check syntax checking - 

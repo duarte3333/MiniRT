@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 20:44:42 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/11 00:50:29 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 01:57:56 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,15 @@ int	new_trace_ray(t_object *last_obj, t_raytracer rt, \
 {
 	float		r;
 	t_object	*obj;
+	t_color		oi;
 
 	obj = NULL;
 	obj = closest_intersection(&rt, (t_vector){limit, INT_MAX, 0});
 	if (!(obj) || (last_obj && obj == last_obj))
 		return (BLACK);
 	light_prepare(&rt, obj);
+	if (obj->checkerboard == 6)
+		obj->color = checkerboard(&rt, obj);
 	rt.local_color = color_multiply(obj->color, \
 		compute_light(&rt), obj->intensity);
 	r = obj->refletive;

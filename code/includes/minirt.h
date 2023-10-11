@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/10/10 23:50:48 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:48:49 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ struct	s_cylinder{
 	int			checkerboard;
 	t_vector	axis;
 	float		diameter;
+	t_plane		*up_cap;
+	t_plane		*down_cap;
 };
 
 struct s_cone
@@ -270,7 +272,7 @@ t_object	*closest_intersection(t_raytracer *rt, t_vector limits);
 bool		inside(float t, float t_min, float t_max);
 void		choose_normal(t_raytracer *rt, t_object *obj);
 t_vector	reflected_ray(t_vector R, t_vector N);
-t_object	*checkerboard(t_raytracer *rt, t_object *obj);
+t_color		checkerboard(t_raytracer *rt, t_object *obj);
 
 //Threads
 int			ft_init_threads(void);
