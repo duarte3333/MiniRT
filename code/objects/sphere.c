@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:59:31 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 19:00:51 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:24:46 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static t_values	intersect(t_raytracer *rt, t_sphere *this)
 {
 	t_values	local;
 
-	rt->CO = vector_subtract(rt->O, this->vector);
-	rt->a = dot(rt->D, rt->D);
-	rt->b = 2.0f * dot(rt->CO, rt->D);
-	rt->c = dot(rt->CO, rt->CO) - \
+	rt->co = vector_subtract(rt->o, this->vector);
+	rt->a = dot(rt->d, rt->d);
+	rt->b = 2.0f * dot(rt->co, rt->d);
+	rt->c = dot(rt->co, rt->co) - \
 		(this->diameter / 2.0f) * (this->diameter / 2.0f);
 	rt->discriminant = rt->b * rt->b - 4.0f * (rt->a) * (rt->c);
 	if (rt->discriminant < 0.0001f)

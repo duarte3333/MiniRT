@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/10/10 19:23:44 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 23:50:48 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ struct	s_light {
 
 struct	s_plane {
 	t_object	*next;
-	t_vector	direction;
+	t_vector	vector;
 	t_type		type;
 	t_color		color;
 	int			specular;
@@ -160,7 +160,7 @@ struct	s_plane {
 	float		phi;
 	float		qsi;
 	int			checkerboard;
-	t_vector	vector;
+	t_vector	direction;
 };
 
 struct	s_sphere {
@@ -272,7 +272,6 @@ void		choose_normal(t_raytracer *rt, t_object *obj);
 t_vector	reflected_ray(t_vector R, t_vector N);
 t_object	*checkerboard(t_raytracer *rt, t_object *obj);
 
-
 //Threads
 int			ft_init_threads(void);
 int			ft_join_threads(t_vars *vars);
@@ -297,12 +296,5 @@ void		free_array(char **arr);
 
 //Menu
 void		ft_menu(void);
-
-
-
-
-
-
-
 
 #endif

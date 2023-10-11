@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:53:57 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 19:28:00 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:23:42 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 # include <fcntl.h>
 # include <pthread.h>
 
-
-# include "../minilibx/mlx.h"
+# include "../../minilibx/mlx.h"
 # include "X11/X.h"
 # include "X11/keysym.h"
 

@@ -17,7 +17,8 @@
 		"type_traits": "c",
 		"variant": "c",
 		"raytracer.h": "c",
-		"math.h": "c"
+		"math.h": "c",
+		"random": "c"
 	},
 	"C_Cpp.dimInactiveRegions": false
 }

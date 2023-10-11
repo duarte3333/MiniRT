@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:27:57 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 18:56:05 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 00:46:49 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,13 @@ static void	init_window(t_vars *vars)
 	mlx_hook(vars->win, 4, 1L << 2, ft_mouse_down, NULL);
 }
 
-static int create_scene(char *arg)
+	// if (!test_syntax(arg))
+	// {
+	// 	free(head);
+	// 	close(fd);
+	// 	return (0);
+	// } acima head
+static int	create_scene(char *arg)
 {
 	int				fd;
 	static t_scene	*end_scene;
@@ -51,12 +57,6 @@ static int create_scene(char *arg)
 		return (0);
 	}
 	vars()->last = head;
-	// if (!test_syntax(arg))
-	// {
-	// 	free(head);
-	// 	close(fd);
-	// 	return (0);
-	// }
 	while (map_loading(head, fd))
 		;
 	close(fd);
@@ -101,7 +101,6 @@ int	main(int ac, char **av)
 			return (0);
 		init_window(vars());
 		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
-		//vars()->n_threads = 1;
 		if (ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
@@ -124,6 +123,11 @@ int	main(int ac, char **av)
 //Como meter FOV - DONE
 //Resolver problema plano - DONE
 //Ver rotacoes camara - DONE
+//Direcao da camera DONE
+//Direcao pos rotacao DONE
+//Meter mapas fixes a dar DONE
+//Situacao de threads nao esta bem DONE
+//Rotacoes cilindro e do cone incorretas DONE
 
 //BONUS
 //Fazer cone DONE
@@ -134,18 +138,16 @@ int	main(int ac, char **av)
 //Reflections DONE
 //Mudar mapa em tempo real DONE
 //Fazer menu DONE 
+//Multi-threading DONE
 
 //REVISAO FINAL
+//Rotacao cone meh
 //Tester mapas falhados
 //Leaks
 //Folha de avaliacao
-
-//ON SCHOOL
-//Rotacoes cilindro e do cone incorretas 
-//Situacao de threads nao esta bem DONE
+//AMANHA
+//Check syntax checking - 
+//norm check pc's
 
 //CASA
-//Meter mapas fixes a dar DONE
 //Ver bases do cone e cilindro -
-//Direcao da camera DONE
-//Direcao pos rotacao DONE

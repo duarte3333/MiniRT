@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:45:21 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 15:46:51 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:23:27 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ struct s_chunk
 };
 
 struct s_raylight{
-	t_vector	P;
-	t_vector	N;
-	t_vector	L;
+	t_vector	p;
+	t_vector	n;
+	t_vector	l;
 	float		n_dot_l;
-	t_vector	R;
-	t_vector	V;
+	t_vector	r;
+	t_vector	v;
 	t_vector	aux;
 	float		s;
 	float		r_dot_v;
@@ -51,9 +51,9 @@ struct s_raytracer{
 	float		b;
 	float		c;
 	float		discriminant;
-	t_vector	CO;
-	t_vector	O;
-	t_vector	D;
+	t_vector	co;
+	t_vector	o;
+	t_vector	d;
 	t_values	t;
 	t_raylight	rl;
 	t_object	*closest_obj;

@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:17:06 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 18:58:12 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 00:20:31 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,23 @@ static void	rotate(t_cone *this)
 	rotation_x(&this->direction, this->theta);
 	rotation_y(&this->direction, this->phi);
 	rotation_z(&this->direction, this->qsi);
+	this->theta = 0.0f;
+	this->phi = 0.0f;
+	this->qsi = 0.0f;
 }
 
 static void	calculate_coefficients(t_raytracer *rt, t_cone *this)
 {
-	rt->CO = vector_subtract(rt->O, this->vector);
-	rt->a = dot(rt->D, rt->D) - this->m * \
-		pow(dot(rt->D, this->direction), 2) - \
-		pow(dot(rt->D, this->direction), 2);
-	rt->b = 2 * (dot(rt->D, rt->CO) - this->m * \
-		dot(rt->D, this->direction) * dot(rt->CO, this->direction) \
-		- dot(rt->D, this->direction) * dot(rt->CO, this->direction));
-	rt->c = dot(rt->CO, rt->CO) - this->m * \
-		pow(dot(rt->CO, this->direction), 2) - \
-		pow(dot(rt->CO, this->direction), 2);
+	rt->co = vector_subtract(rt->o, this->vector);
+	rt->a = dot(rt->d, rt->d) - this->m * \
+		pow(dot(rt->d, this->direction), 2) - \
+		pow(dot(rt->d, this->direction), 2);
+	rt->b = 2 * (dot(rt->d, rt->co) - this->m * \
+		dot(rt->d, this->direction) * dot(rt->co, this->direction) \
+		- dot(rt->d, this->direction) * dot(rt->co, this->direction));
+	rt->c = dot(rt->co, rt->co) - this->m * \
+		pow(dot(rt->co, this->direction), 2) - \
+		pow(dot(rt->co, this->direction), 2);
 }
 
 static t_values	intersect(t_raytracer *rt, t_cone *this)
@@ -51,11 +54,11 @@ static t_values	intersect(t_raytracer *rt, t_cone *this)
 	}
 	local.t1 = ((-rt->b + sqrt(rt->discriminant)) / (2.0f * rt->a));
 	local.t2 = ((-rt->b - sqrt(rt->discriminant)) / (2.0f * rt->a));
-	p = vector_add(rt->O, vector_mult_const(rt->D, local.t1));
+	p = vector_add(rt->o, vector_mult_const(rt->d, local.t1));
 	value = dot(vector_subtract(p, this->vector), this->direction);
 	if (value < 0.001f || value > module(this->tmp))
 		local.t1 = INT_MAX;
-	p = vector_add(rt->O, vector_mult_const(rt->D, local.t2));
+	p = vector_add(rt->o, vector_mult_const(rt->d, local.t2));
 	value = dot(vector_subtract(p, this->vector), this->direction);
 	if (value < 0.001f || value > module(this->tmp))
 		local.t2 = INT_MAX;

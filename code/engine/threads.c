@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 20:58:53 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 18:15:42 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:21:24 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	create_chunks(int i)
 			* ((int)WIDTH / vars()->n_threads);
 		vars()->threads[i].x_f = vars()->threads[i].delta + \
 			vars()->threads[i].x_i;
-		vars()->threads[i].color = ft_calloc(sizeof(int), \
-			(int)(HEIGHT) * vars()->threads[i].delta);
+		vars()->threads[i].color = ft_calloc(sizeof(int), (int)(HEIGHT) \
+				* vars()->threads[i].delta);
 	}
 	else
 	{
@@ -65,7 +65,7 @@ static void	create_chunks(int i)
 		if (i < vars()->n_threads - 1)
 			vars()->threads[i].x_f = -WIDTH_2 + \
 				(i + 1) * vars()->threads[i].delta;
-		vars()->threads[i].color = ft_calloc(sizeof(int),\
+		vars()->threads[i].color = ft_calloc(sizeof(int), \
 			(int)(HEIGHT) * (int)WIDTH / vars()->n_threads);
 	}
 }

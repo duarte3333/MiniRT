@@ -4,37 +4,45 @@ CC = cc
 
 CFLAGS = -O1 -Wall -Wextra -pthread #-fsanitize=address -g#-Werror -fsanitize=address -g
 
-SRCS = Aux/pixel_put.c \
-	   Aux/vector.c \
-	   Aux/ft_calloc.c \
-	   Aux/ft_strlen.c \
-	   Aux/get_next_line.c \
-	   Aux/ft_isdigit.c \
-	   Aux/strcmp_rt.c \
-	   Aux/ft_atof.c \
-	   Aux/ft_isspace.c \
-	   Aux/ft_lists.c \
-	   Aux/color.c \
-	   Aux/free.c \
-	   objects/object.c \
-	   objects/plane.c \
-	   objects/sphere.c \
-	   objects/cylinder.c \
-	   objects/light.c \
-	   objects/camera.c \
-	   objects/cone.c \
-	   parse/parse.c \
-	   parse/syntax.c \
-	   engine/menu.c \
-	   engine/hook.c \
-	   engine/aux_ray.c \
-	   engine/raytracer.c \
-	   engine/aux_hook.c \
-	   engine/mouse_hook.c \
-	   engine/threads.c \
-	   engine/rotations.c \
-	   engine/paint.c \
-	   main.c 
+SRCS = code/Aux/pixel_put.c \
+	   code/Aux/vector.c \
+	   code/Aux/vector2.c \
+	   code/Aux/ft_calloc.c \
+	   code/Aux/ft_strlen.c \
+	   code/Aux/get_next_line.c \
+	   code/Aux/ft_isdigit.c \
+	   code/Aux/strcmp_rt.c \
+	   code/Aux/ft_atof.c \
+	   code/Aux/ft_isspace.c \
+	   code/Aux/ft_lists.c \
+	   code/Aux/color.c \
+	   code/Aux/color2.c \
+	   code/Aux/free.c \
+	   code/objects/object.c \
+	   code/objects/plane.c \
+	   code/objects/light_obj.c \
+	   code/objects/sphere.c \
+	   code/objects/cylinder.c \
+	   code/objects/camera.c \
+	   code/objects/cone.c \
+	   code/parse/parse.c \
+	   code/parse/parse2.c \
+	   code/parse/syntax.c \
+	   code/parse/syntax2.c \
+	   code/parse/syntax3.c \
+	   code/engine/light.c \
+	   code/engine/light2.c \
+	   code/engine/menu.c \
+	   code/engine/hook.c \
+	   code/engine/aux_ray.c \
+	   code/engine/raytracer.c \
+	   code/engine/aux_hook.c \
+	   code/engine/mouse_hook.c \
+	   code/engine/threads.c \
+	   code/engine/rotations.c \
+	   code/engine/paint.c \
+	   code/engine/checkerboard.c \
+	   code/main.c 
 
 OBJS	= ${SRCS:.c=.o}
 

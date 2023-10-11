@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:58:14 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 17:58:16 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:31:22 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_object	*mouse_trace_ray(t_raytracer *rt)
 	t_raytracer	new_rt;
 
 	new_rt = *(rt);
-	new_rt.O = rt->O;
-	new_rt.D = rt->D;
+	new_rt.o = rt->o;
+	new_rt.d = rt->d;
 	new_rt.closest_obj = closest_intersection(&new_rt, \
 		(t_vector){0.01f, INT_MAX, 0});
 	if (!(new_rt.closest_obj))
@@ -82,7 +82,7 @@ int	ft_mouse_down(int button, int x, int y)
 		threads_update();
 		return (0);
 	}
-	rt.O = vars()->scene->camera->vector;
+	rt.o = vars()->scene->camera->vector;
 	canvas_to_viewport(&rt, x, y);
 	vars()->scene->select = mouse_trace_ray(&rt);
 	threads_update();

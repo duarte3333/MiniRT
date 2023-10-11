@@ -6,7 +6,7 @@
 /*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 20:44:42 by duarte33          #+#    #+#             */
-/*   Updated: 2023/10/10 17:59:01 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/10/11 00:50:29 by duarte33         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	new_trace_ray(t_object *last_obj, t_raytracer rt, \
 	r = obj->refletive;
 	if (recursion_depth <= 0 || r <= 0.001f)
 		return (rt.local_color);
-	rt.rl.R = reflected_ray(vector_mult_const(rt.D, -1), rt.rl.N);
-	rt.O = vector_add(rt.rl.P, vector_mult_const(rt.rl.R, 0.01f));
-	rt.D = rt.rl.R;
+	rt.rl.r = reflected_ray(vector_mult_const(rt.d, -1), rt.rl.n);
+	rt.o = vector_add(rt.rl.p, vector_mult_const(rt.rl.r, 0.01f));
+	rt.d = rt.rl.r;
 	rt.reflected_color = new_trace_ray(obj, \
 		rt, recursion_depth - 1, 0.01f);
 	return (color_mult_int(rt.local_color, (1 - r)) + \
@@ -78,11 +78,11 @@ void	canvas_to_viewport(t_raytracer *rt, float x, float y)
 	aspect_ratio = (float)WIDTH / (float)HEIGHT;
 	fov_radians = cam->fov * (M_PI / 180.0f);
 	d = (1.0f / tan(fov_radians / 2.0f));
-	rt->D = direction;
-	rt->D.x += x * (1.0f / WIDTH) * aspect_ratio;
-	rt->D.y -= y * (1.0f / HEIGHT);
-	rt->D.z = d;
-	cam->rotate(&rt->D, cam);
+	rt->d = direction;
+	rt->d.x += x * (1.0f / WIDTH) * aspect_ratio;
+	rt->d.y -= y * (1.0f / HEIGHT);
+	rt->d.z = d;
+	cam->rotate(&rt->d, cam);
 }
 // // rt->D = (t_vector){x * (1.0f / WIDTH) * aspect_ratio,
 // // 					  - y * (1.0f / HEIGHT),  d};	
@@ -92,7 +92,7 @@ void	raytracer_threads(t_ray_thread *threads)
 	t_chunk	s;
 
 	pthread_mutex_lock(&threads->th_mut);
-	threads->rt.O = vars()->scene->camera->vector;
+	threads->rt.o = vars()->scene->camera->vector;
 	s.sx = 0;
 	s.x = threads->x_i - 1;
 	while (++s.x < threads->x_f)
