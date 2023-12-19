@@ -1,5 +1,12 @@
 # MiniRT
 
+### Brief Descriptions
+In completing the MiniRT project, I implemented a fully functional ray tracer from the ground. The project requires to create a scene parser, handle various geometric shapes, determine ray-object intersections, and implement advanced shading models including shadows, reflection, and refraction. I also had the opportunity to incorporate additional features like texture mapping or bump mapping. Through this process, I gained practical insights into computer graphics, rendering techniques, and optimization.
+
+<p align="center">
+  <img src="https://github.com/duarte3333/MiniRT/assets/76222459/16a8a3a8-58c8-47e5-8323-831a16d0fdcb" alt="Image Description" style="width: 70%;">
+</p>
+
 ### Coordinate System
 
 Standard system:
@@ -52,7 +59,7 @@ which means that 1 pixel = 0.001 world units.
 ### Ray Equation
 
 <p align="center">
-  <img src="https://github.com/duarte3333/MiniRT/assets/76222459/9d65c832-14d5-4792-aee2-c01d00ac45a6" alt="Image Description" style="width: 30%;">
+  <img src="https://github.com/duarte3333/MiniRT/assets/76222459/9d65c832-14d5-4792-aee2-c01d00ac45a6" alt="Image Description" style="width: 60%;">
 </p>
 
 <p align="center">
