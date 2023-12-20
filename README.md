@@ -59,7 +59,7 @@ which means that 1 pixel = 0.001 world units.
 ### Ray Equation
 
 <p align="center">
-  <img src="https://github.com/duarte3333/MiniRT/assets/76222459/9d65c832-14d5-4792-aee2-c01d00ac45a6" alt="Image Description" style="width: 60%;">
+  <img src="https://github.com/duarte3333/MiniRT/assets/76222459/9d65c832-14d5-4792-aee2-c01d00ac45a6" alt="Image Description" style="width: 30%;">
 </p>
 
 <p align="center">
