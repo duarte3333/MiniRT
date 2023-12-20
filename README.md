@@ -1,6 +1,6 @@
 # MiniRT
 
-### Brief Descriptions
+### Introduction
 In completing the MiniRT project, I implemented a fully functional ray tracer from the ground. The project requires to create a scene parser, handle various geometric shapes, determine ray-object intersections, and implement advanced shading models including shadows and reflection. I also had the opportunity to incorporate additional features like texture mapping, bump mapping and multi-thread rendering. Through this process, I gained practical insights into computer graphics, rendering techniques, and optimization.
 
 <p align="center">
